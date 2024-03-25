@@ -1,0 +1,35 @@
+{% extends "base_generic_visitante.html" %}
+
+{% block content %}
+{% load static %}
+  <div id="fondo">
+    <div class="contenedor_principal">
+      <div id="segundo_contenedor" class="letra_texto">
+        <h1 class="letra_titulos">¿Qué es el sistema Aeneta?</h1>
+        <p >El Sistema Aeneta es un repositorio digital desarrollado por estudiantes del Instituto Politécnico Nacional (IPN) que almacena trabajos terminales y académicos de la institución. Este sistema está diseñado para facilitar la búsqueda y el acceso a una amplia gama de documentos académicos, incluyendo tesis, proyectos de investigación, artículos y otros trabajos realizados por estudiantes y profesores del IPN.</p>
+        <div style="text-align: center;">
+          <img src="{% static 'image/home/IPN-Logo.png' %}" alt="Logo IPN" style="width: 550px; height: 300px;">
+        </div>        
+        <hr class="lineaDivisoria">
+        <h1 class="letra_titulos">¿Por qué se creó el Sistema Aeneta?</h1>
+        <p>El principal motivo detrás de la creación del Sistema Aeneta fue optimizar y mejorar el proceso de búsqueda de documentos académicos dentro de la comunidad del IPN. Antes de su implementación, la búsqueda de estos recursos podía ser un proceso lento y tedioso, con documentos dispersos en diferentes facultades, bibliotecas o incluso en formatos no digitales, dificultando su acceso y consulta.</p>
+        <div style="text-align: center;">
+          <img src="{% static 'image/home/creacion.gif' %}" alt="Logo IPN" style="width: 700px; height: 400px;">
+          <img src="{% static 'image/home/creacion_2_1.gif' %}" alt="Logo IPN" style="width: 600px; height: 400px;">
+        </div> 
+        <hr class="lineaDivisoria">
+        <h1 class="letra_titulos">Beneficios de su implementación</h1>
+        <div>
+          <ul>
+            <li>Mejora en la búsqueda de documentos: El Sistema Aeneta integra un motor de búsqueda avanzado que permite a los usuarios encontrar rápidamente los documentos que necesitan, utilizando diversos criterios de búsqueda como palabras clave, autor, título, área de estudio, entre otros.</li>
+            <li>Acceso facilitado a referencias académicas: Estudiantes, investigadores y profesores pueden acceder fácilmente a trabajos previos que sirvan como referencia para sus propias investigaciones, proyectos o para profundizar en sus áreas de interés.</li>
+            <li>Preservación digital: Al digitalizar y almacenar documentos académicos, el Sistema Aeneta contribuye a la preservación del conocimiento generado dentro del IPN, asegurando que este sea accesible para futuras generaciones.</li>
+            <li>Fomento de la colaboración y el intercambio académico: Al hacer públicos los trabajos terminales y académicos, se promueve la colaboración y el intercambio de ideas y conocimientos entre los miembros de la comunidad universitaria y el público en general.</li>
+            <li>Optimización de recursos: Reduciendo la necesidad de espacios físicos para el almacenamiento de documentos y facilitando el acceso remoto, el Sistema Aeneta contribuye a una gestión más eficiente de los recursos del IPN.</li>
+          </ul>
+        </div>
+        <p>El Sistema Aeneta representa un avance significativo en la manera en que la comunidad del IPN accede y gestiona los documentos académicos, ofreciendo un sistema organizado, accesible y fácil de usar que beneficia tanto a los productores como a los consumidores de conocimiento académico.</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

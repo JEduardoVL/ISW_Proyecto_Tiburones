@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load static %}  <!-- Carga las etiquetas para archivos estáticos -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Verificación{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
+</head>
+<body>
+    {% block content %}
+    <!-- Contenido predeterminado o vacío, sobreescrito por plantillas extendidas -->
+    {% endblock %}
+</body>
+</html>

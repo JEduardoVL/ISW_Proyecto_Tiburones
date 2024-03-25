@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Visitantes</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+</head>
+<body>
+    <div id="nombre_sistema" class="header-flex-container">
+        <a href="{% url 'visitante:home' %}">
+            <span>Repositorio Aeneta</span>
+        </a>
+        <a id="iniciar" href="{% url 'usuarios:login' %}">Iniciar sesión</a>
+      </div>
+      <nav class="nav_bar" aria-label="Navegación principal">
+        <a class="nav-link" href="{% url 'visitante:buscar' %}">Realizar búsqueda</a>
+        <a class="nav-link" href="{% url 'visitante:como_buscar' %}" >¿Cómo buscar?</a>
+        <a class="nav-link" href="{% url 'visitante:preguntas_frecuentes' %}" >Preguntas frecuentes</a>
+        <a class="nav-link" href="{% url 'visitante:contactanos' %}" >Contáctanos</a>
+      </nav>
+    {% block content %}
+   
+    {% endblock %}
+    <footer>
+        <p>Aeneta - Tiburones 2024 ©</p>
+    </footer>
+</body>
+</html>

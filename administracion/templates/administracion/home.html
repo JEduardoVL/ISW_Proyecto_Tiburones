@@ -1,0 +1,15 @@
+
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+  <h1>Bienvenido a la página de Administradores :D</h1>
+  <p>Datos del Administrador:</p>
+  <p>Nombre:{{ nombre_administrador }}</p>
+  <p>Apelldio:{{ apellido_administrador }}</p>
+  <p>Departamento:{{ departamento_administrador }}</p>
+  <p>Cargo:{{ cargo_administrador }}</p>
+  <p>Correo:{{ correo_administrador }}</p>
+  <hr>
+  <p>Todo lo visible para un Administrador.</p>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+
+{% extends "base_generic_docente.html" %}
+
+{% block content %}
+  <h1>Bienvenido a la pag. de Docentes</h1>
+  <p>Datos del docente:</p>
+  <p>Nombre:{{ nombre_docente }}</p>
+  <p>Apelldio:{{ apellido_docente }}</p>
+  <p>Especialidad:{{ especialidad_docente }}</p>
+  <p>Departamento:{{ departamento_docente}}</p>
+  <p>Correo:{{ correo_docente }}</p>
+  <hr>
+  <p>Todo lo visible para un docente.</p>
+  <hr>
+  <form action="{% url 'docente:docente-logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+{% endblock %}

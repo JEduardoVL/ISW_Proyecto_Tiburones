@@ -1,0 +1,14 @@
+{% extends "base_generic_alumnos.html" %}
+
+{% block content %}
+  <h1>Bienvenido a la página de Alumnos :D</h1>
+  <p>Datos del alumno:</p>
+  <p>Nombre:{{ nombre_alumno }}</p>
+  <p>Apelldio:{{ apellido_alumno }}</p>
+  <p>Boleta:{{ boleta_alumno }}</p>
+  <p>Programa academido:{{ programa_academico }}</p>
+  <p>Estatus (Activo/Egresado):{{ estatus_alumno }}</p>
+  <p>Correo:{{ correo_alumno }}</p>
+  <hr>
+  <p>Todo lo visible para un alumno.</p>
+{% endblock %}

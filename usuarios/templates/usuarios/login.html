@@ -1,0 +1,21 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="login-container">  
+  <div class="login-form">
+    <h1>Login</h1>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" name="username" class="form-control" placeholder="Usuario">
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" class="form-control" placeholder="Contraseña">
+      </div>
+      <button type="submit" class="button">Ingresar</button>
+    </form>
+    <p class="sign-up-link">¿No tienes cuenta?  <a href="{% url 'visitante:home' %}">Ingresar como invitado</a></p>
+    <p class="sign-up-link">Quitar  <a href="{% url 'usuarios:signup' %}">Formulario</a></p>
+  </div>
+</div>
+{% endblock %}
