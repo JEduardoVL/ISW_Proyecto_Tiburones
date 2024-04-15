@@ -6,14 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Visitantes</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda.css' %}}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/contact_form.css' %}">
-    
+
+     <style>
+        .search{
+            align-items: center;
+            justify-content: end;
+            display: flex;
+            background: transparent;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            padding:0 15px;
+            margin: 0 auto;
+        }
+        .search input{
+            flex: 1;
+            max-width: 300px;
+            width: 50%;
+            min-width: 70px;
+            height: 30px;
+            border: 3px solid #156082;
+            outline: 0;
+            border-radius: 10px;
+            font-size: 15px;
+            padding-left: 10px;
+        }
+
+        .search img{
+            padding-left: 10px;
+            min-width: 30px;
+            width: 100%;
+            max-width: 30px;
+        }
+    </style>
 </head>
 <body>
+
     <div id="nombre_sistema" class="header-flex-container">
         <a href="{% url 'visitante:home' %}">
             <span>Repositorio Aeneta</span>
         </a>
+            <div class="search" >
+                <input type="text" placeholder="Buscar..." />
+                <a href="{% url 'visitante:buscar' %}">
+                    <img src="{% static 'image/busqueda/1486164756-113_79715.png' %}"\>
+                </a>
+        </div>
         <a id="iniciar" href="{% url 'usuarios:login' %}">Iniciar sesión</a>
       </div>
       <nav class="nav_bar" aria-label="Navegación principal">
@@ -23,7 +63,7 @@
         <a class="nav-link" href="{% url 'visitante:contactanos' %}" >Contáctanos</a>
       </nav>
     {% block content %}
-   
+
     {% endblock %}
     <footer>
         <p>Aeneta - Tiburones 2024 ©</p>
