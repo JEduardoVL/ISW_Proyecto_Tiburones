@@ -1,23 +1,44 @@
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.contrib import messages
+from django.conf import settings
+from .mixins import AdminRequiredMixin
 
-class AdministracionHomeView(LoginRequiredMixin, TemplateView):
+
+# Todo lo necesario para la administracion de titulación
+class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
+    template_name = 'administracion/titulacion/registrar_formas_titulacion.html'
+class AdministracionTitulacionCalendario(AdminRequiredMixin,TemplateView):
+    template_name = 'administracion/titulacion/calendario_titulacion.html'
+class AdministracionTitulacionConvocatorias(AdminRequiredMixin,TemplateView):
+    template_name = 'administracion/titulacion/convocatorias_titulacion.html'
+
+# Todo lo necesario para el manejo de las cuentas
+
+class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/cuentas/administrar_cuentas.html'
+class AdministracionCreacionCuentas(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/cuentas/crear_cuentas.html'
+
+# Alumnos
+class AdministracionAlumnos(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/alumnos.html'
+
+
+class AdministracionHomeView(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/home.html'
 
+class AdministracionSubirDoc(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/subir_documento.html'
 
-    def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_administrador:
-            messages.error(request, 'No tienes permiso para ver esta página.')
-            return redirect('nombre_de_la_url_por_defecto')
-        return super(AdministracionHomeView, self).get(request, *args, **kwargs)
+class AdministracionTitulacion(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/titulacion.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(AdministracionHomeView, self).get_context_data(**kwargs)
-        context['nombre_administrador'] = self.request.user.nombre
-        context['apellido_administrador'] = self.request.user.apellido
-        context['departamento_administrador'] = self.request.user.departamento_admin
-        context['cargo_administrador'] = self.request.user.cargo
-        context['correo_administrador'] = self.request.user.correo_electronico
-        return context
+
+class AdministracionConvocatorias(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/convocatorias.html'
+
+class AdministracionSeminarios(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/seminarios.html'
+
+class AdministracionInformacion(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/informacion.html'
+

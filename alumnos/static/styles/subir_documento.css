@@ -1,0 +1,66 @@
+.contenedor_principal {
+    position: relative;
+    margin:  auto;
+    width: 85%;
+    z-index: 2;
+    padding: 10px;
+  }
+
+  .letra_titulos{
+    font-family: monospace; 
+    color: #6b1640;
+    font-size: 35px;
+    text-align: center;
+  }
+  
+  
+  .letra_texto {
+    font-family: sans-serif;
+    color: black; /* Cambia el color de la letra a blanco */
+    font-size: 20px;
+    text-align: justify;
+  }
+
+.contenedor_formulario{
+    margin: auto;
+    width: 50%;
+}
+
+  
+form {
+    display: grid;
+    grid-gap: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+select,
+textarea {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    width: auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}

@@ -1,15 +1,46 @@
-<!-- base_generic.html -->
-
 <!DOCTYPE html>
+{%load static %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Docentes</title>
-    <!-- Aquí puedes incluir archivos CSS o JS, etc. -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/base_docentes.css' %}">
 </head>
 <body>
+    <div id="nombre_sistema" class="header-flex-container">
+        <a href="{% url 'docente:home' %}">
+            <span>Aeneta - Docentes</span>
+        </a>
+        <div class="docente-info">
+            {% if nombre_docente %}
+                <!-- Menú desplegable para el administrador -->
+                <div class="dropdown">
+                    <button class="dropbtn">{{ nombre_docente }} {{ apellido_docente }}</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('view-profile-form').submit();">Ver datos</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
+                    </div>
+                </div>
+                <form id="logout-form" action="{% url 'docente:docente-logout' %}" method="post" style="display:none;">
+                    {% csrf_token %}
+                </form>
+                <form id="view-profile-form" action="#" method="get" style="display:none;">
+                    <!--no es necesario enviar datos al hacer clic en "Ver datos" -->
+                </form>
+            {% endif %}
+        </div>
+    </div>
+      <nav class="nav_bar" aria-label="Navegación principal">
+        <a class="nav-link" href="{% url 'docente:buscar' %}">Buscar</a>
+        <a class="nav-link" href="{% url 'docente:mis_trabajos' %}">Mis trabajos</a>
+        <a class="nav-link" href="{% url 'docente:preguntas_frecuentes' %}" >Preguntas frecuentes</a>
+      </nav>
     {% block content %}
     <!-- El contenido específico de cada página irá aquí -->
     {% endblock %}
+    <footer>
+        <p>Docentes - Aeneta - Tiburones 2024 ©</p>
+    </footer>
 </body>
 </html>

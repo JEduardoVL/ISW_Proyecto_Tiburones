@@ -1,0 +1,68 @@
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.image-container {
+  flex-basis: 10%;
+  text-align: center; /* Center the image if it's smaller than the container */
+}
+
+.contact-container {
+  background: white;
+  max-width: 500px;
+  margin: 30px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex-basis: 50%;
+}
+  
+  .contact-container h2 {
+    color: #333;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .input-group input,
+  .input-group textarea {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background: #fff;
+  }
+  
+  .input-group input:focus,
+  .input-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #156082;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #333;
+  }
+  
+  .input-group input:placeholder-shown + label,
+  .input-group textarea:placeholder-shown + label {
+    visibility: hidden;
+  }
+  

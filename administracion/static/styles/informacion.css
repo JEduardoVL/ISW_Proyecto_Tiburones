@@ -1,0 +1,15 @@
+#contenedor_datos{
+    background-color: #fff;
+    border-radius: 5%;
+}
+
+#informacion{
+    width: 90%;
+    padding: 10px;
+}
+
+.letra_datos{
+    font-family: monospace; 
+    color: #333333;
+    font-size: 25px;
+  }

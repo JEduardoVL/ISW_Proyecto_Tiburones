@@ -1,0 +1,23 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+<div id="fondo">
+ <div class="contenedor_principal">
+    <div id="contenedor_datos">
+        <h1 class="letra_titulos">Datos del administrador.</h1>
+            <div id="informacion" class="letra_datos" >
+                <p>Nombre: {{ nombre_administrador }}</p>
+                <p>Apellido:{{ apellido_administrador }}</p>
+                <p>Departamento:{{ departamento_administrador }}</p>
+                <p>Cargo:{{ cargo_administrador }}</p>
+                <p>Correo:{{ correo_administrador }}</p>
+            </div>
+        <hr class="lineaDivisoria">
+            <div class="letra_datos">
+                <p>Editar datos</p>
+            </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}

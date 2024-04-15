@@ -1,0 +1,56 @@
+{% extends "base_generic_alumnos.html" %}
+
+{% block content %}
+<div id="fondo">
+    <div class="contenedor_principal letra_texto" >
+        <h1 class="letra_titulos"> Subir documentos</h1>
+        <p>Para subir un documento al repositorio es necesario llenar el siguiente formulario. </p>
+        
+         <!-- Bloque para mostrar mensajes -->
+         {% if messages %}
+         <div class="messages">
+             {% for message in messages %}
+                 <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+             {% endfor %}
+         </div>
+         {% endif %}
+
+        <div class="contenedor_formulario">
+            <form id="formularioDocumento" method="post" action="" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <label for="nombreDocumento">Nombre del documento:</label>
+                <input type="text" id="nombreDocumento" name="nombreDocumento" required>
+            
+                <label for="resumen">Resumen:</label>
+                <textarea id="resumen" name="resumen" required></textarea>
+            
+                <label for="nombreAutor">Nombre del autor:</label>
+                <input type="text" id="nombreAutor" name="nombreAutor" required>
+            
+                <label for="sinodales">Sinodales:</label>
+                <input type="text" id="sinodales" name="sinodales" required>
+            
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="tesis">Tesis</option>
+                    <option value="trabajo terminal">Trabajo Terminal</option>
+                    <option value="otro">Otro</option>
+                </select>
+            
+                <label for="fechaElaboracion">Fecha de elaboración:</label>
+                <input type="date" id="fechaElaboracion" name="fechaElaboracion" required>
+            
+                <label for="convocatoriaTitulacion">Convocatoria de titulación:</label>
+                <input type="text" id="convocatoriaTitulacion" name="convocatoriaTitulacion" required>
+            
+                <label for="documento">Subir documento:</label>
+                <input type="file" id="documento" name="documento" accept=".pdf" required>
+            
+                <input type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

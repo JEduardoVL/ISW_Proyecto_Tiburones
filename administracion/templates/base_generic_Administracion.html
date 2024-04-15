@@ -1,15 +1,72 @@
-<!-- base_generic.html -->
-
 <!DOCTYPE html>
+{%load static %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Administración</title>
-    <!-- Aquí puedes incluir archivos CSS o JS, etc. -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home_administracion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/subirDoc.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/informacion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/nav_bar.css' %}">
 </head>
 <body>
+    <div id="nombre_sistema" class="header-flex-container">
+        <a href="{% url 'administracion:home' %}">
+            <span>Aeneta - Administración</span>
+        </a>
+        <div class="admin-info">
+            {% if nombre_administrador %}
+                <!-- Menú desplegable para el administrador -->
+                <div class="dropdown_base">
+                    <button class="dropbtn_base">{{ nombre_administrador }} {{ apellido_administrador }}</button>
+                    <div class="dropdown-content_base">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('view-profile-form').submit();">Ver datos</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
+                    </div>
+                </div>
+                <form id="logout-form" action="{% url 'administracion:admin-logout' %}" method="post" style="display:none;">
+                    {% csrf_token %}
+                </form>
+                <form id="view-profile-form" action="{% url 'administracion:informacion' %}" method="get" style="display:none;">
+                    <!--no es necesario enviar datos al hacer clic en "Ver datos" -->
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <nav class="nav_bar" aria-label="Navegación principal">
+        <a class="nav-link" href="{% url 'administracion:subir_documento' %}">Subir documentos</a>
+
+        <!-- Menú desplegable para Titulación -->
+        <div class="dropdown">
+            <a class="nav-link">Titulación</a>
+            <div class="dropdown-content">
+                <a href="{% url 'administracion:registrar_formas_de_titulacion' %}">Registrar formas de titulación</a>
+                <a href="{% url 'administracion:calendario_titulacion' %}">Calendarios de titulación</a>
+                <a href="{% url 'administracion:convocatorias_titulacion' %}">Convocatorias de titulación</a>
+            </div>
+        </div>
+
+        <!-- Menú desplegable para Alumnos -->
+        <a class="nav-link" href="{% url 'administracion:alumnos' %}">Alumnos</a>
+        
+        <!-- Menú desplegable para Titulación -->
+        <div class="dropdown">
+            <a class="nav-link">Cuentas</a>
+            <div class="dropdown-content">
+                <a href="{% url 'administracion:administrar_cuentas' %}">Administrar cuentas</a>
+                <a href="{% url 'administracion:crear_cuentas' %}">Crear cuentas</a>
+            </div>
+        </div>
+        <a class="nav-link" href="{% url 'administracion:seminarios' %}">Seminarios</a>
+    </nav>
+    
     {% block content %}
     <!-- El contenido específico de cada página irá aquí -->
     {% endblock %}
+    <footer>
+        <p>Administración - Aeneta - Tiburones 2024 ©</p>
+    </footer>
 </body>
 </html>

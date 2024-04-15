@@ -1,7 +1,41 @@
-#fondo {
-  position: relative;
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Oculta el desbordamiento horizontal */
+  box-sizing: border-box; /* Incluye padding y border en el ancho del elemento */
 }
 
+.header-flex-container,
+#fondo,
+footer {
+  width: 100%;
+  max-width: 100%; /* Esto previene que se exceda el ancho del viewport */
+  box-sizing: border-box; /* Calcula el padding y border dentro del ancho */
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; /* Altura mínima del viewport */
+  display: flex;
+  flex-direction: column;
+}
+
+.header-flex-container,
+#fondo,
+footer {
+  width: 100%; /* Asegura que estos elementos usen todo el ancho disponible */
+}
+
+#fondo {
+  position: relative;
+  flex: 1; /* El contenido se expande para llenar el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido del #fondo verticalmente si es necesario */
+}
 #fondo::before {
   content: '';
   background-image: url('/static/image/fondos/Fondo.jpg');
@@ -65,7 +99,7 @@
   align-items: center;
   padding: 1rem;
   background-color: #fff; 
-  border-top: 3px solid #156082; /* Línea de color azul en el borde superior */
+  border-top: 7px solid #156082; /* Línea de color azul en el borde superior */
   font-family: 'Malgun Gothic Semilight', sans-serif; 
 }
 
@@ -102,23 +136,23 @@
 
 .nav_bar {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-evenly;
+ 
   position: sticky; 
   top: 0; /* Se ajusta para que la barra se pegue en la parte superior cuando se haga scroll */
   background: #333333;
-  padding: 0.5rem 1rem;
+  padding: .5rem .5rem;
   z-index: 1029; /* Asegura que la barra de navegación se muestre sobre otros elementos */
 }
 
 .nav-link {
   color: white;
   text-decoration: none;
-  margin-left: 20px;
-  padding: 0.5rem 6rem;
+  padding: 0.5rem 0; /* Ajusta el padding vertical si es necesario, pero elimina el horizontal */
   font-size: 1.2rem;
   transition: opacity 0.3s;
 }
+
 
 .nav-link:hover, .nav-link[aria-current="page"] {
   opacity: 0.1;
@@ -137,10 +171,10 @@
   background-color: #156082; /* Cambia el color de la línea */
 }
 
-
 footer {
-  text-align: center;
-  padding: 1px;
-  background-color: #333;
+  background: #333;
   color: white;
+  text-align: center;
+  height: 40px;
+  width: 100%;
 }

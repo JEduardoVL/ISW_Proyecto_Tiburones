@@ -72,6 +72,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'administracion.context_processors.admin_info',
+                'alumnos.context_processors.alumno_info',
+                'docente.context_processors.docente_info',
             ],
         },
     },
@@ -127,6 +130,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Redirección correcta para "accounts/login"
+LOGIN_URL = 'usuarios:login'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -137,3 +143,13 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 # Se configura para que el usuario cierre sesion y sea redirigido al login
 LOGOUT_REDIRECT_URL = 'login'
+
+# Configuración para enviar correos para contacto
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'aeneta.re@gmail.com'
+EMAIL_HOST_PASSWORD = 'bmvmjepeydocjile'
+EMAIL_USE_TLS = True
