@@ -6,12 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Docentes</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/base_docentes.css' %}">
+    <style>
+         .search-form{
+             width: 800px;
+             background: transparent;
+             justify-content: center;
+             padding-right: 10px;
+             padding-left: 10px;
+         }
+
+
+        .search{
+            justify-content: end;
+            display: flex;
+            background: transparent;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+        .search input{
+            flex: 1;
+            max-width: 300px;
+            width: 50%;
+            min-width: 70px;
+            height: 30px;
+            border: 3px solid #3d0b60;
+            outline: 0;
+            border-radius: 10px;
+            font-size: 15px;
+            padding-left: 10px;
+        }
+
+        .search img{
+            padding-left: 10px;
+            min-width: 30px;
+            width: 100%;
+            max-width: 30px;
+        }
+    </style>
+
 </head>
 <body>
     <div id="nombre_sistema" class="header-flex-container">
         <a href="{% url 'docente:home' %}">
             <span>Aeneta - Docentes</span>
         </a>
+         <form action="{% url 'docente:buscar' %}"method="get" class="search-form">
+            <div class="search" >
+                <input type="text" name="busqueda" placeholder="Buscar..." />
+                <a href="{% url 'docente:buscar' %}" methods="GET">
+                    <img src="{% static 'image/busqueda/1486164756-113_79715.png' %}"\>
+                </a>
+            </div>
+        </form>
         <div class="docente-info">
             {% if nombre_docente %}
                 <!-- Menú desplegable para el administrador -->

@@ -10,15 +10,21 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/contact_form.css' %}">
 
      <style>
+         .search-form{
+             width: 800px;
+             background: transparent;
+             justify-content: center;
+             padding-right: 10px;
+             padding-left: 10px;
+         }
+
+
         .search{
-            align-items: center;
             justify-content: end;
             display: flex;
             background: transparent;
             width: 100%;
-            max-width: 900px;
             box-sizing: border-box;
-            padding:0 15px;
             margin: 0 auto;
         }
         .search input{
@@ -48,12 +54,15 @@
         <a href="{% url 'visitante:home' %}">
             <span>Repositorio Aeneta</span>
         </a>
+        <form action="{% url 'visitante:buscar' %}"method="get" class="search-form">
             <div class="search" >
-                <input type="text" placeholder="Buscar..." />
-                <a href="{% url 'visitante:buscar' %}">
+                <input type="text" name="busqueda" placeholder="Buscar..." />
+                <a href="{% url 'visitante:buscar' %}" methods="GET">
                     <img src="{% static 'image/busqueda/1486164756-113_79715.png' %}"\>
                 </a>
-        </div>
+            </div>
+        </form>
+
         <a id="iniciar" href="{% url 'usuarios:login' %}">Iniciar sesión</a>
       </div>
       <nav class="nav_bar" aria-label="Navegación principal">

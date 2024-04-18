@@ -6,14 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Alumnos</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/base_alumnos.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/subir_documento.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/nav_bar_alumnos.css' %}">
+    <link rel='stylesheet' type=" text/css " href="{% static 'styles/subir_documento.css' %}"> /*Error*/
+
+    <style>
+         .search-form{
+             width: 800px;
+             background: transparent;
+             justify-content: center;
+             padding-right: 10px;
+             padding-left: 10px;
+         }
+
+
+        .search{
+            justify-content: end;
+            display: flex;
+            background: transparent;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+        .search input{
+            flex: 1;
+            max-width: 300px;
+            width: 50%;
+            min-width: 70px;
+            height: 30px;
+            border: 3px solid #6b1640;
+            outline: 0;
+            border-radius: 10px;
+            font-size: 15px;
+            padding-left: 10px;
+        }
+
+        .search img{
+            padding-left: 10px;
+            min-width: 30px;
+            width: 100%;
+            max-width: 30px;
+        }
+    </style>
 </head>
 <body>
     <div id="nombre_sistema" class="header-flex-container">
         <a href="{% url 'alumnos:home' %}">
             <span>Aeneta - Alumnos</span>
         </a>
+        <form action="{% url 'alumnos:buscar' %}"method="get" class="search-form">
+            <div class="search" >
+                <input type="text" name="busqueda" placeholder="Buscar..." />
+                <a href="{% url 'alumnos:buscar' %}" methods="GET">
+                    <img src="{% static 'image/busqueda/1486164756-113_79715.png' %}"\>
+                </a>
+            </div>
+        </form>
         <div class="alumno-info">
             {% if nombre_alumno %}
                 <!-- Menú desplegable para el Alumno -->

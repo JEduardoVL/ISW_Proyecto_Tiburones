@@ -7,13 +7,13 @@
   }
 
   .letra_titulos{
-    font-family: monospace; 
+    font-family: monospace;
     color: #6b1640;
     font-size: 35px;
     text-align: center;
   }
-  
-  
+
+
   .letra_texto {
     font-family: sans-serif;
     color: black; /* Cambia el color de la letra a blanco */
@@ -26,7 +26,7 @@
     width: 50%;
 }
 
-  
+
 form {
     display: grid;
     grid-gap: 10px;
