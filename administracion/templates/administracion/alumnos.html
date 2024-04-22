@@ -1,7 +1,41 @@
 {% extends "base_generic_Administracion.html" %}
 
 {% block content %}
-  <div id="fondo">
-    <h1>Todo para el manejo de los alumnos</h1>
-  </div>
+<div id="fondo">
+    <div class="contenedor_principal_a letra_texto">
+        <h1 class="letra_titulos">Control de alumnos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo Electrónico</th>
+                    <th>Programa Académico</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th> <!-- Nueva columna para acciones -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in alumnos %}
+                <tr>
+                    <td>{{ alumno.matricula }}</td>
+                    <td>{{ alumno.nombre }}</td>
+                    <td>{{ alumno.apellido }}</td>
+                    <td>{{ alumno.correo_electronico }}</td>
+                    <td>{{ alumno.programa_academico }}</td>
+                    <td>{{ alumno.get_estatus_display }}</td>
+                    <td>
+                        <i class="fas fa-edit"></i> <!-- Icono editar -->
+                        <i class="fas fa-trash-alt"></i> <!-- Icono eliminar -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
 {% endblock %}

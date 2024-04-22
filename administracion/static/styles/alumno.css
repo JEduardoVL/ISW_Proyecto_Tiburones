@@ -1,0 +1,44 @@
+.contenedor_principal_a {
+    margin: auto;
+    width: 85%;
+    padding: 10px;
+    background-color: white;
+    border-radius: 3%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+table th, table td {
+    border: 1px solid #777777;
+    padding: 10px;
+    text-align: center; /* Centra el contenido de las celdas */
+}
+
+thead th {
+    background-color: #9A5933;
+    color: #fff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ecccbb;
+}
+
+.status-circle {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.Activo .status-circle {
+    background-color: green;
+}
+
+.Egresado .status-circle {
+    background-color: gray;
+}

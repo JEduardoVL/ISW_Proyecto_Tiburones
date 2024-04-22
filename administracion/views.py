@@ -1,7 +1,10 @@
 from django.views.generic import TemplateView
-from django.conf import settings
+from django.shortcuts import render, redirect
+from usuarios.models import CustomUser
 from .mixins import AdminRequiredMixin
-
+from usuarios.forms import CustomUserCreationForm
+from django.contrib.auth.decorators import permission_required
+from django.contrib import messages
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -15,12 +18,34 @@ class AdministracionTitulacionConvocatorias(AdminRequiredMixin,TemplateView):
 
 class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/cuentas/administrar_cuentas.html'
-class AdministracionCreacionCuentas(AdminRequiredMixin, TemplateView):
-    template_name = 'administracion/cuentas/crear_cuentas.html'
+'''class AdministracionCreacionCuentas(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/cuentas/crear_cuentas.html' '''
+
+#@permission_required('usuarios.add_customuser', raise_exception=True)  # Asegúrate de tener este permiso.
+def create_user(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'La cuenta de usuario ha sido creada con éxito.')
+            return redirect('administracion:cuentas/crear_cuentas.html')  # Reemplaza con la URL adecuada.
+        else:
+            messages.error(request, 'Por favor corrija los errores en el formulario.')
+    else:
+        form = CustomUserCreationForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'administracion/cuentas/crear_cuentas.html', context)
 
 # Alumnos
 class AdministracionAlumnos(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/alumnos.html'
+    # para ver las cuentas de los alumnos en tablas
+def alumnos_view(request):
+    alumnos = CustomUser.objects.filter(is_alumno=True)
+    return render(request, 'Administracion/alumnos.html', {'alumnos': alumnos})
 
 
 class AdministracionHomeView(AdminRequiredMixin, TemplateView):

@@ -2,6 +2,56 @@
 
 {% block content %}
   <div id="fondo">
-    <h1>Todo para la creacion de cuentas</h1>
+    <h2>Sign up</h2>
+    <form method="post" id="signupForm" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {{ form.nombre.label_tag }} {{ form.nombre }}
+      {{ form.apellido.label_tag }} {{ form.apellido }}
+      {{ form.correo_electronico.label_tag }} {{ form.correo_electronico }}
+
+      {{ form.username.label_tag }} {{ form.username }} {{ form.username.errors }}
+      {{ form.password1.label_tag }} {{ form.password1 }} {{ form.password1.errors }}
+      {{ form.password2.label_tag }} {{ form.password2 }} {{ form.password2.errors }}
+
+      {{ form.user_type.label_tag }} {{ form.user_type }}
+
+      <!-- Campos para Alumnos -->
+      <div id="alumnoFields" style="display: none;">
+        {{ form.matricula.label_tag }} {{ form.matricula }}
+        {{ form.programa_academico.label_tag }} {{ form.programa_academico }}
+        {{ form.estatus.label_tag }} {{ form.estatus }}
+      </div>
+
+      <!-- Campos para Docentes -->
+      <div id="docenteFields" style="display: none;">
+        {{ form.especialidad.label_tag }} {{ form.especialidad }}
+        {{ form.departamento_docente.label_tag }} {{ form.departamento_docente }}
+      </div>
+
+      <!-- Campos para Administrativos -->
+      <div id="administrativoFields" style="display: none;">
+        {{ form.cargo.label_tag }} {{ form.cargo }}
+        {{ form.departamento_admin.label_tag }} {{ form.departamento_admin }}
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
   </div>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      const userTypeFields = document.querySelectorAll('input[name="user_type"]');
+      
+      userTypeFields.forEach(function(userTypeField) {
+        userTypeField.addEventListener('change', function (e) {
+          const selectedType = e.target.value;
+          document.getElementById('alumnoFields').style.display = selectedType === 'is_alumno' ? 'block' : 'none';
+          document.getElementById('docenteFields').style.display = selectedType === 'is_docente' ? 'block' : 'none';
+          document.getElementById('administrativoFields').style.display = selectedType === 'is_administrador' ? 'block' : 'none';
+        });
+      });
+    });
+  </script>
 {% endblock %}
+
