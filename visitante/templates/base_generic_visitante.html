@@ -6,47 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Visitantes</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda.css' %}}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/contact_form.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_formulario.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_simple.css' %}">
+     <!-- Importación del script JavaScript -->
+     <script src="{% static 'scripts/formulario_busqueda_avanzada.js' %}"></script>
 
-     <style>
-         .search-form{
-             width: 800px;
-             background: transparent;
-             justify-content: center;
-             padding-right: 10px;
-             padding-left: 10px;
-         }
-
-
-        .search{
-            justify-content: end;
-            display: flex;
-            background: transparent;
-            width: 100%;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
-        .search input{
-            flex: 1;
-            max-width: 300px;
-            width: 50%;
-            min-width: 70px;
-            height: 30px;
-            border: 3px solid #156082;
-            outline: 0;
-            border-radius: 10px;
-            font-size: 15px;
-            padding-left: 10px;
-        }
-
-        .search img{
-            padding-left: 10px;
-            min-width: 30px;
-            width: 100%;
-            max-width: 30px;
-        }
-    </style>
+    <!--Icono de busqueda, es mejor ponerlos asi para que no sea tan pesado el proyecto-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
 
@@ -57,9 +25,9 @@
         <form action="{% url 'visitante:buscar' %}"method="get" class="search-form">
             <div class="search" >
                 <input type="text" name="busqueda" placeholder="Buscar..." />
-                <a href="{% url 'visitante:buscar' %}" methods="GET">
-                    <img src="{% static 'image/busqueda/1486164756-113_79715.png' %}"\>
-                </a>
+                <button onclick="showTable()" class="search-button_n">
+                    <i class="fas fa-search"></i>
+                  </button>
             </div>
         </form>
 

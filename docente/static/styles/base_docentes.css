@@ -1,297 +1,180 @@
 html {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Oculta el desbordamiento horizontal */
-    box-sizing: border-box; /* Incluye padding y border en el ancho del elemento */
-  }
-  
-  .header-flex-container,
-  #fondo,
-  footer {
-    width: 100%;
-    max-width: 100%; /* Esto previene que se exceda el ancho del viewport */
-    box-sizing: border-box; /* Calcula el padding y border dentro del ancho */
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh; /* Altura mínima del viewport */
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .header-flex-container,
-  #fondo,
-  footer {
-    width: 100%; /* Asegura que estos elementos usen todo el ancho disponible */
-  }
-  
-  #fondo {
-    position: relative;
-    flex: 1; /* El contenido se expande para llenar el espacio disponible */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centra el contenido del #fondo verticalmente si es necesario */
-  }
-  
-  
-    #fondo::before {
-      content: '';
-      background-image: url('/static/image_docentes/fondo_docente.jpg');
-      opacity: 0.2; /* Establece la opacidad */
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      position: absolute;
-      z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
-    }
-    
-    #iniciar {
-      background-color: #3d0b60;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none; /* Elimina el subrayado de los enlaces */
-      transition: background-color 0.3s, color 0.3s; /* Suaviza la transición de colores */
-      display: inline-block; /* Permite aplicar padding y centrado */
-      border-radius: 5px; /* Opcional: añade bordes redondeados */
-    }
-  
-    #nombre {
-      background-color: #3d0b60;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none; /* Elimina el subrayado de los enlaces */
-      transition: background-color 0.3s, color 0.3s; /* Suaviza la transición de colores */
-      display: inline-block; /* Permite aplicar padding y centrado */
-      border-radius: 5px; /* Opcional: añade bordes redondeados */
-    }
-  
-    
-    #iniciar:hover {
-      background-color: white;
-      color: #3d0b60;
-    }
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Oculta el desbordamiento horizontal */
+  box-sizing: border-box; /* Incluye padding y border en el ancho del elemento */
+}
 
-    .header-flex-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      /* Otros estilos aquí */
-  }
-  
-  .docente-info {
-      display: flex;
-      align-items: center;
-      gap: 10px; /* Ajusta el espacio entre el nombre y el botón como necesites */
-      font-family: monospace; 
-      color: #3d0b60;
-      font-size: 20px;
-  }
-  
-  /* Estilos para el menú desplegable */
-  .dropdown {
-      position: relative;
-      display: inline-block;
-      z-index: 1030; /* Asegura que el contenedor del menú desplegable esté sobre la barra de navegación */
-    }
-    
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1030; /* Igual al z-index del .dropdown para mantener consistencia */
-    }
-    
-    
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-    
-    .dropdown-content a:hover {background-color: #f1f1f1;}
-    
-    .dropdown:hover .dropdown-content {display: block;}
-    
-    .dropbtn {
-      background-color: #3d0b60;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .dropbtn:hover, .dropbtn:focus {
-      background-color: #3d0b60;
-    }
-    
-    
-    .contenedor_principal{
-      position: relative;
-      margin:  auto;
-      width: 85%;
-      z-index: 2;
-      padding: 10px;
-    }
-    
-    .letra_titulos{
-      font-family: monospace; 
-      color: #3d0b60;
-      font-size: 35px;
-      text-align: center;
-    }
-    
-    .letra_preguntas{
-      font-family: monospace; 
-      color: #3d0b60;
-      font-size: 30px;
-      padding: 30px;
-    }
-    
-    .letra_texto {
-      font-family: sans-serif;
-      color: black; /* Cambia el color de la letra a blanco */
-      font-size: 20px;
-      text-align: justify;
-    }
-    
-    
-    .header-flex-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      background-color: #fff; 
-      border-top: 7px solid #3d0b60; /* Línea de color azul en el borde superior */
-      font-family: 'Malgun Gothic Semilight', sans-serif; 
-    }
-    
-    .header-flex-container span {
-      font-size: 3rem; /*tamaño de la fuente */
-      color: #3d0b60; /*color de la fuente */
-      font-weight: 300; 
-    }
-    
-    
-    .header-flex-container button {
-      background-color: #3d0b60; /* Color de fondo del botón */
-      color: white; /* Color del texto del botón */
-      border: none; 
-      padding: 10px 20px; /*relleno para cambiar el tamaño del botón */
-      text-transform: uppercase; /*texto a mayúsculas */
-      font-weight: bold; 
-      cursor: pointer; /* Cambia el cursor a una mano cuando pasas sobre el botón */
-      border-radius: 5px; /* Añade bordes redondeados al botón */
-    }
-    
-    /* Añade estilos para cuando se pasa el mouse sobre el botón */
-    .header-flex-container button:hover {
-      background-color: white; /* Color de fondo del botón al pasar el mouse */
-      color: #3d0b60;
-    }
-    
-    .header-flex-container a,
-    .header-flex-container a:visited {
-      text-decoration: none;
-      color: inherit;
-    }
-    
-    
-    .nav_bar {
-      display: flex;
-      justify-content: space-evenly;
-     
-      position: sticky; 
-      top: 0; /* Se ajusta para que la barra se pegue en la parte superior cuando se haga scroll */
-      background: #333333;
-      padding: .5rem .5rem;
-      z-index: 1029; /* Asegura que la barra de navegación se muestre sobre otros elementos */
-    }
-    
-    .nav-link {
-      color: white;
-      text-decoration: none;
-      padding: 0.5rem 0; /* Ajusta el padding vertical si es necesario, pero elimina el horizontal */
-      font-size: 1.2rem;
-      transition: opacity 0.3s;
-    }
-    
-    .nav-link:hover, .nav-link[aria-current="page"] {
-      opacity: 0.1;
-    }
-    
-    .margin-top-custom {
-      margin-top: 50px; 
-    }
-    
-    .lineaDivisoria {
-      height: 3px; /* Establece la altura de la línea */
-      background-color: #3d0b60; /* Cambia el color de la línea */
-    }
-    .lineaDivisoria_2 {
-      height: 20px; /* Establece la altura de la línea */
-      background-color: #3d0b60; /* Cambia el color de la línea */
-    }
-  
-    .admin-name-logout-container {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-  }
-  
-  .admin-name-logout-container .admin-name {
-      display: inline-block;
-      background-color: #3d0b60;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .admin-name-logout-container .logout-form {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-  }
-  
-  .admin-name-logout-container:hover .admin-name {
-      display: none;
-  }
-  
-  .admin-name-logout-container:hover .logout-form {
-      display: inline-block;
-  }
-  
-  /* Estilos existentes del botón de cerrar sesión para mantener consistencia */
-  .logout-form button {
-      background-color: #3d0b60;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      display: inline-block;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-  }
-  
-  .logout-form button:hover {
-      background-color: white;
-      color: #3d0b60;
-  }
-  
-    
-    footer {
-      background: #333;
-      color: white;
-      text-align: center;
-      height: 40px;
-      width: 100%;
-    }
+.header-flex-container,
+#fondo,
+footer {
+  width: 100%;
+  max-width: 100%; /* Esto previene que se exceda el ancho del viewport */
+  box-sizing: border-box; /* Calcula el padding y border dentro del ancho */
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; /* Altura mínima del viewport */
+  display: flex;
+  flex-direction: column;
+}
+
+.header-flex-container,
+#fondo,
+footer {
+  width: 100%; /* Asegura que estos elementos usen todo el ancho disponible */
+}
+
+#fondo {
+  position: relative;
+  flex: 1; /* El contenido se expande para llenar el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido del #fondo verticalmente si es necesario */
+}
+#fondo::before {
+  content: '';
+  background-image: url('/static/image/fondos/Fondo.jpg');
+  opacity: 0.5; /* Establece la opacidad */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
+}
+
+#iniciar {
+  background-color: #3d0b60;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  transition: background-color 0.3s, color 0.3s; /* Suaviza la transición de colores */
+  display: inline-block; /* Permite aplicar padding y centrado */
+  border-radius: 5px; /* Opcional: añade bordes redondeados */
+}
+
+#iniciar:hover {
+  background-color: white;
+  color: #3d0b60;
+}
+
+.contenedor_principal {
+  position: relative;
+  margin:  auto;
+  width: 85%;
+  z-index: 2;
+  padding: 10px;
+}
+
+.letra_titulos{
+  font-family: monospace;
+  color: #3d0b60;
+  font-size: 35px;
+  text-align: center;
+}
+
+.letra_preguntas{
+  font-family: monospace;
+  color: #3d0b60;
+  font-size: 30px;
+  padding: 30px;
+}
+
+.letra_texto {
+  font-family: sans-serif;
+  color: black; /* Cambia el color de la letra a blanco */
+  font-size: 20px;
+  text-align: justify;
+}
+
+
+.header-flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-top: 7px solid #3d0b60; /* Línea de color azul en el borde superior */
+  font-family: 'Malgun Gothic Semilight', sans-serif;
+}
+
+.header-flex-container span {
+  font-size: 3rem; /*tamaño de la fuente */
+  color: #3d0b60; /*color de la fuente */
+  font-weight: 300;
+}
+
+
+.header-flex-container button {
+  background-color: #3d0b60; /* Color de fondo del botón */
+  color: white; /* Color del texto del botón */
+  border: none;
+  padding: 10px 20px; /*relleno para cambiar el tamaño del botón */
+  text-transform: uppercase; /*texto a mayúsculas */
+  font-weight: bold;
+  cursor: pointer; /* Cambia el cursor a una mano cuando pasas sobre el botón */
+  border-radius: 5px; /* Añade bordes redondeados al botón */
+}
+
+/* Añade estilos para cuando se pasa el mouse sobre el botón */
+.header-flex-container button:hover {
+  background-color: white; /* Color de fondo del botón al pasar el mouse */
+  color: #3d0b60;
+}
+
+.header-flex-container a,
+.header-flex-container a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.nav_bar {
+  display: flex;
+  justify-content: space-evenly;
+
+  position: sticky;
+  top: 0; /* Se ajusta para que la barra se pegue en la parte superior cuando se haga scroll */
+  background: #3d0b60;
+  padding: .5rem .5rem;
+  z-index: 1029; /* Asegura que la barra de navegación se muestre sobre otros elementos */
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 0; /* Ajusta el padding vertical si es necesario, pero elimina el horizontal */
+  font-size: 1.2rem;
+  transition: opacity 0.3s;
+}
+
+
+.nav-link:hover, .nav-link[aria-current="page"] {
+  opacity: 0.1;
+}
+
+.margin-top-custom {
+  margin-top: 50px;
+}
+
+.lineaDivisoria {
+  height: 3px; /* Establece la altura de la línea */
+  background-color: #3d0b60; /* Cambia el color de la línea */
+}
+.lineaDivisoria_2 {
+  height: 20px; /* Establece la altura de la línea */
+  background-color: #3d0b60; /* Cambia el color de la línea */
+}
+
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  height: 40px;
+  width: 100%;
+}

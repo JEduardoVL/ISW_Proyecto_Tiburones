@@ -3,147 +3,118 @@
 {% block content %}
 
   <div id="fondo">
-
-<style>
-
-    h1{
-        color: #6b1640;
-    }
-
-    img{
-          max-width: 180px;
-    }
-
-    table{
-          padding-left: 30px;
-          max-width: 1500px;
-          width: 100%;
-          justify-content: center;
-    }
-
-    th {
-          background-color: #6b1640;
-          color: #f1f1f1;
-    }
-
-    tr,td{
-          color: #6b1640;
-    }
-
-    tr,td,th{
-          border: 1px solid black;
-          min-width: 200px;
-          max-width: 200px;
-          text-align: center;
-          border-spacing: 0;
-          padding: 8px;
-          padding-left: 10px;
-          word-wrap: break-word;
-    }
-
-    .search-2{
-          padding-top: 10px;
-          padding-left: 50px;
-          color: #6b1640;
-    }
-
-  </style>
-
-        <h1>Resultados: </h1>
-         <table>
-         <tr>
-             <th>Titulo: //Titulo Caminos de las personas que comen</th>
-             <th>Titulo: //Titulo Caminos de las personas que comen</th>
-             <th>Titulo: //Titulo Caminos de las personas que comen</th>
-             <th>Titulo: //Titulo Caminos de las personas que comen</th>
-             <th>Titulo: //Titulo Caminos de las personas que comen</th>
-             <th>Titulo: //Titulo Caminos de las personas que comen Caminos de las personas que comen Caminos de las personas que comen</th>
-         </tr>
-         <tr>
-             <td>
-               <a href=""><img src="{% static 'image/busqueda/pngtree-vector-documents-icon-png-image_3876677.jpg' %}" alt=""></a>
-             </td>
-             <td>
-               <a href=""><img src="{% static 'image/busqueda/depositphotos_62706797-stock-illustration-document-flat-circle-icon-with.jpg' %}"></a>
-             </td>
-             <td>
-               <a href=""><img src="{% static 'image/busqueda/istockphoto-1359932120-612x612.jpg' %}"></a>
-             </td>
-             <td>
-               <a href=""><img src="{% static 'image/busqueda/istockphoto-1359932120-612x612.jpg' %}"></a>
-             </td>
-             <td>
-               <a href=""><img src="{% static 'image/busqueda/pngtree-vector-documents-icon-png-image_3876677.jpg' %}"></a>
-             </td>
-             <td>
-               <a href=""><img src="{% static 'image/busqueda/depositphotos_62706797-stock-illustration-document-flat-circle-icon-with.jpg' %}"></a>
-             </td>
-         </tr>
-         <tr>
-             <td>Descripcion: Caminos de las personas que comen</td>
-             <td>Descripcion: Caminos de las personas que comen</td>
-             <td>Descripcion: Caminos de las personas que comen</td>
-             <td>Descripcion: Caminos de las personas que comen</td>
-             <td>Descripcion: Caminos de las personas que comen</td>
-             <td>Descripcion: Caminos de las personas que comen Caminos de las personas que comen</td>
-         </tr>
-     </table>
-
-
-  <a class="search-2" href="#Avanzada">Busqueda avanzada</a>
-  <div class="Avanzada">
-      <div id="Contenedor_formulario" class="flex-container">
-      <div class="contact-container">
-        <h2 id="Avanzada">Busqueda avanzada</h2>
-        <form action="{% url 'visitante:contact' %}" method="post">
-          {% csrf_token %}
-            {% if messages %}
-              {% for message in messages %}
-              <div class="alert alert-success" role="alert" style="border: 1px solid #c3e6cb; background-color: #d4edda;">
-                {{ message }}
-            </div>
-              {% endfor %}
-            {% endif %}
-            <div class="input-group">
-                <label for="titulo"></label><input type="text" id="titulo" name="title" placeholder="Titulo de la obra" required>
-          </div>
-          <div class="input-group">
-              <label for="autor"></label><input type="text" id="autor" name="autor" placeholder="Autor" required>
-          </div>
-          <div class="input-group">
-              <label for="tema"></label><input type="text" id="tema" name="tema" placeholder="Tema" required>
-          </div>
-          <div class="input-group">
-              <label class="text"> Fecha de publicacion:</label>
-              <label for="fecha"></label><input type="date" id="fecha" name="fecha_publicado" placeholder="Fecha de publicacion" required>
-          </div>
-            <div class="input-group" >
-                <form action="#">
-                    <label for="lang">Idioma</label>
-                        <select name="idioma" id="lang">
-                            <option value="Español">Español</option>
-                            <option value="Ingles">Ingles</option>
-                        </select>
-                </form>
-          </div>
-        <div class="input-group" >
-                <form action="#">
-                    <label for="lang">Region</label>
-                        <select name="region" id="lang">
-                            <option value="Mexico">Mexico</option>
-                            <option value="Canada">Canada</option>
-                        </select>
-                </form>
-          </div>
-        <div class="input-group">
-              <label class="text">Sinodal:</label>
-            <label for="sinodal"></label><input type="text" id="sinodal" name="sinodal" placeholder="Sinodales" required>
-          </div>
-
-          <button type="submit">Busqueda avanzada</button>
-        </form>
+    <div class="contenedor_principal_busqueda letra_texto">
+      <p class="letra_titulos">Realiza una busqueda</p>
+      <p class="letra_texto descripcion"> Ingresa en el cuadro de busqueda alguna frase o palabra clave</p>
+      <!-- Barra de busqueda por si aun no buscas nada -->
+      <div class="search-bar-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar...">
+        <button onclick="showTable()" class="search-button_b ">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
+
+    <!-- Resultados de busqueda al precionar el boton-->
+    <div class="contenedor_tabla">
+      <h1 class="letra_titulos">Resultados: </h1>
+      <table>
+      <tr class="letra_tabla_t">
+          <th>Titulo: //Titulo Caminos de las personas que comen</th>
+          <th>Titulo: //Titulo Caminos de las personas que comen</th>
+          <th>Titulo: //Titulo Caminos de las personas que comen</th>
+          <th>Titulo: //Titulo Caminos de las personas que comen</th>
+          <th>Titulo: //Titulo Caminos de las personas que comen</th>
+          <th>Titulo: //Titulo Caminos de las personas que comen Caminos de las personas que comen Caminos de las personas que comen</th>
+      </tr>
+      <tr>
+          <td>
+            <a href=""><img src="{% static 'image/busqueda/pngtree-vector-documents-icon-png-image_3876677.jpg' %}" alt=""></a>
+          </td>
+          <td>
+            <a href=""><img src="{% static 'image/busqueda/depositphotos_62706797-stock-illustration-document-flat-circle-icon-with.jpg' %}"></a>
+          </td>
+          <td>
+            <a href=""><img src="{% static 'image/busqueda/istockphoto-1359932120-612x612.jpg' %}"></a>
+          </td>
+          <td>
+            <a href=""><img src="{% static 'image/busqueda/istockphoto-1359932120-612x612.jpg' %}"></a>
+          </td>
+          <td>
+            <a href=""><img src="{% static 'image/busqueda/pngtree-vector-documents-icon-png-image_3876677.jpg' %}"></a>
+          </td>
+          <td>
+            <a href=""><img src="{% static 'image/busqueda/depositphotos_62706797-stock-illustration-document-flat-circle-icon-with.jpg' %}"></a>
+          </td>
+      </tr>
+      <tr>
+          <td>Descripcion: Caminos de las personas que comen</td>
+          <td>Descripcion: Caminos de las personas que comen</td>
+          <td>Descripcion: Caminos de las personas que comen</td>
+          <td>Descripcion: Caminos de las personas que comen</td>
+          <td>Descripcion: Caminos de las personas que comen</td>
+          <td>Descripcion: Caminos de las personas que comen Caminos de las personas que comen</td>
+      </tr>
+  </table>
+    </div>
+
+
+<p class="search-2"> Busqueda avanzada</p>
+
+<div class="Avanzada">
+   <div id="Contenedor_formulario" class="flex-container">
+   <div class="contact-container">
+     <h2 id="Avanzada">Busqueda avanzada</h2>
+     <form action="{% url 'visitante:contact' %}" method="post">
+       {% csrf_token %}
+         {% if messages %}
+           {% for message in messages %}
+           <div class="alert alert-success" role="alert" style="border: 1px solid #c3e6cb; background-color: #d4edda;">
+             {{ message }}
+         </div>
+           {% endfor %}
+         {% endif %}
+         <div class="input-group">
+             <label for="titulo"></label><input type="text" id="titulo" name="title" placeholder="Titulo de la obra" required>
+       </div>
+       <div class="input-group">
+           <label for="autor"></label><input type="text" id="autor" name="autor" placeholder="Autor" required>
+       </div>
+       <div class="input-group">
+           <label for="tema"></label><input type="text" id="tema" name="tema" placeholder="Tema" required>
+       </div>
+       <div class="input-group">
+           <label class="text"> Fecha de publicacion:</label>
+           <label for="fecha"></label><input type="date" id="fecha" name="fecha_publicado" placeholder="Fecha de publicacion" required>
+       </div>
+         <div class="input-group" >
+             <form action="#">
+                 <label for="lang">Idioma</label>
+                     <select name="idioma" id="lang">
+                         <option value="Español">Español</option>
+                         <option value="Ingles">Ingles</option>
+                     </select>
+             </form>
+       </div>
+     <div class="input-group" >
+             <form action="#">
+                 <label for="lang">Region</label>
+                     <select name="region" id="lang">
+                         <option value="Mexico">Mexico</option>
+                         <option value="Canada">Canada</option>
+                     </select>
+             </form>
+       </div>
+     <div class="input-group">
+           <label class="text">Sinodal:</label>
+         <label for="sinodal"></label><input type="text" id="sinodal" name="sinodal" placeholder="Sinodales" required>
+       </div>
+
+       <button type="submit">Busqueda avanzada</button>
+     </form>
+   </div>
+ </div>
+</div>
     </div>
   </div>
-  </div>
 {% endblock %}
+

@@ -7,46 +7,14 @@
     <title>Página de Alumnos</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/base_alumnos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/nav_bar_alumnos.css' %}">
-    <link rel='stylesheet' type=" text/css " href="{% static 'styles/subir_documento.css' %}"> /*Error*/
+    <link rel ="stylesheet" type="text/css" href="{% static 'styles/barra_busqueda_alumno.css'%}">
+    <! -- <link rel="stylesheet" type="text/css" href="{%  static 'styles/subir_documento.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_simple_alumno.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_avanzada_alumno.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-    <style>
-         .search-form{
-             width: 800px;
-             background: transparent;
-             justify-content: center;
-             padding-right: 10px;
-             padding-left: 10px;
-         }
+    <script src="{% static 'scrips/busqueda_avanzada_alumnos.js' %}"></script>
 
-
-        .search{
-            justify-content: end;
-            display: flex;
-            background: transparent;
-            width: 100%;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
-        .search input{
-            flex: 1;
-            max-width: 300px;
-            width: 50%;
-            min-width: 70px;
-            height: 30px;
-            border: 3px solid #6b1640;
-            outline: 0;
-            border-radius: 10px;
-            font-size: 15px;
-            padding-left: 10px;
-        }
-
-        .search img{
-            padding-left: 10px;
-            min-width: 30px;
-            width: 100%;
-            max-width: 30px;
-        }
-    </style>
 </head>
 <body>
     <div id="nombre_sistema" class="header-flex-container">
@@ -56,13 +24,13 @@
         <form action="{% url 'alumnos:buscar' %}"method="get" class="search-form">
             <div class="search" >
                 <input type="text" name="busqueda" placeholder="Buscar..." />
-                <a href="{% url 'alumnos:buscar' %}" methods="GET">
-                    <img src="{% static 'image/busqueda/1486164756-113_79715.png' %}"\>
-                </a>
+                <button onclick="showTable()" class="search-button_n">
+                    <i class="fas fa-search"></i>
+                  </button>
             </div>
         </form>
         <div class="alumno-info">
-            {% if nombre_alumno %}
+            {%  if nombre_alumno %}
                 <!-- Menú desplegable para el Alumno -->
                 <div class="dropdown">
                     <button class="dropbtn">{{ nombre_alumno }} {{ apellido_alumno }}</button>
