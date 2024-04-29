@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/subir_documento.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/nav_bar_alumnos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/convocatorias_titulacion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/estatus_titulacion.css' %}">
 </head>
 <body>
     <div id="nombre_sistema" class="header-flex-container">
@@ -44,6 +45,7 @@
                 <a href="{% url 'alumnos:formas_titulacion' %}">Formas de titulación</a>
                 <a href="{% url 'alumnos:convocatorias_titulacion' %}">Convocatorias de titulación</a>
                 <a href="{% url 'alumnos:calendario_titulacion' %}">Calendario de titulación</a>
+                <a href="{% url 'alumnos:estatus_titulacion' %}">Estatus de Titulacion</a>
             </div>
         </div>
         <a class="nav-link" href="{% url 'alumnos:subir_documento' %}">Subir documentos</a>

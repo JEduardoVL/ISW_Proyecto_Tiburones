@@ -24,3 +24,5 @@ class AlumnosTitulacionConvocatoria(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/convocatorias_titulacion.html'
 class AlumnosTitulacionForma(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/formas_titulacion.html'
+class AlumnosTitulacionEstatus(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/titulacion/estatus_titulacion.html'
