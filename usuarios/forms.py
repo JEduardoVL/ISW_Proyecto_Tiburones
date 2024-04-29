@@ -7,9 +7,13 @@ class CustomUserCreationForm(UserCreationForm):
     nombre = forms.CharField(max_length=100, required=True)
     apellido = forms.CharField(max_length=100, required=True)
     correo_electronico = forms.EmailField(required=True)
+    username = forms.CharField(label="Nombre de usuario", max_length=150, required=True)  # Cambia la etiqueta aquí
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput, required=True)
+    password2 = forms.CharField(label="Confirmar contraseña", widget=forms.PasswordInput, required=True)
     
     # Añade los campos de radio con las nuevas opciones
     user_type = forms.ChoiceField(
+        label="Tipo de usuario",  # Añadido el label aquí
         choices=[
             ('is_administrador', 'Administrador'), 
             ('is_alumno', 'Alumno'),

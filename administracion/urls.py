@@ -46,6 +46,8 @@ urlpatterns = [
     # cuentas
     path('cuentas/administrar_cuentas/', AdministracionAdminCuentas.as_view(), name='administrar_cuentas'),
     path('cuentas/crear_cuentas/', views.create_user, name='crear_cuentas'),
+    path('cuentas/crear-usuario/', create_user, name='create_user'),  # Define la ruta y un nombre para la URL
+
 
     # alumnos
     path('alumnos/', alumnos_view, name='alumnos'),
