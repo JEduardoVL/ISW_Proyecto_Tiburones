@@ -3,6 +3,7 @@
 from django.urls import path
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
+from . import views
 from .views import (
     AdministracionHomeView,
     AdministracionSubirDoc,
@@ -51,4 +52,8 @@ urlpatterns = [
 
     # alumnos
     path('alumnos/', alumnos_view, name='alumnos'),
+    path('alumnos/<int:id>/get_data/', views.get_alumno_data, name='get_alumno_data'),
+    path('alumnos/<int:id>/update/', views.update_alumno_data, name='update_alumno_data'),
+    path('alumnos/<int:id>/delete/', views.delete_alumno, name='delete_alumno'),
+
 ]
