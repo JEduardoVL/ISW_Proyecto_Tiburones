@@ -1,0 +1,53 @@
+.carousel {
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+  }
+  
+  .carousel__input {
+    display: none;
+  }
+  
+  .carousel__slides {
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .carousel__slide {
+    flex: 0 0 100%;
+  }
+  
+  .carousel__nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .carousel__indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #aaa;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  #contePunto{
+    display: flex;
+    justify-content: space-around;
+}
+#contePunto > a {
+  font-size: 20em;
+  font-style: normal; /* Asegúrate de usar un valor válido aquí */
+  color: #333333; /* Color inicial */
+  text-decoration: none;
+  transition: color 0.5s ease, transform 0.5s ease; /* Define la transición */
+}
+
+#contePunto > a:hover {
+  color: #555555; /* Color al pasar el mouse */
+  transform: scale(1.1); /* Aumenta la escala al pasar el mouse */
+}
+a{
+    text-decoration: none;
+}
