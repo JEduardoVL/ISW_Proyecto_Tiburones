@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: black; /* Fondo negro */
+    background-image: url('/static/image/login_f.png');
 }
 
 /* Estilos para el formulario de inicio de sesión */
@@ -12,7 +12,7 @@
     padding: 2rem;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 10px 20px 15px rgba(0, 0, 0, 0.2);
     width: 300px;
     text-align: center;
 }
@@ -42,7 +42,7 @@
     width: 100%;
     padding: 0.5rem;
     border: none;
-    background-color: #007bff; /* Botón de color azul */
+    background-color: #6b1640; /* Botón de color azul */
     color: white;
     border-radius: 4px;
     cursor: pointer;
@@ -51,7 +51,7 @@
 
 /* Estilos para el enlace de olvido de contraseña y registro */
 .link, .forgot-password {
-    color: #007bff; /* Enlaces de color azul */
+    color: #6b1640; /* Enlaces de color azul */
     text-decoration: none;
     display: inline-block;
     margin-top: 0.5rem;
@@ -63,7 +63,22 @@
 }
 
 .sign-up-link a {
-    color: #007bff; /* Enlaces de color azul */
+    color: #6b1640; /* Enlaces de color azul */
     text-decoration: none;
     font-weight: bold;
 }
+
+
+.letra_titulos{
+    font-family: monospace; 
+    font-size: 35px;
+    text-align: center;
+  }
+  
+
+  .letra_texto {
+    font-family: sans-serif;
+    color: black; /* Cambia el color de la letra a blanco */
+    font-size: 20px;
+    text-align: justify;
+  }
