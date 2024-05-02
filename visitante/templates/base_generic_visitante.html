@@ -6,14 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Visitantes</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/contact_form.css' %}">
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_formulario.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_simple.css' %}">
+     <!-- Importación del script JavaScript -->
+     <script src="{% static 'scripts/formulario_busqueda_avanzada.js' %}"></script>
+
+    <!--Icono de busqueda, es mejor ponerlos asi para que no sea tan pesado el proyecto-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
+
     <div id="nombre_sistema" class="header-flex-container">
         <a href="{% url 'visitante:home' %}">
             <span>Repositorio Aeneta</span>
         </a>
+        <form action="{% url 'visitante:buscar' %}"method="get" class="search-form">
+            <div class="search" >
+                <input type="text" name="busqueda" placeholder="Buscar..." />
+                <button onclick="showTable()" class="search-button_n">
+                    <i class="fas fa-search"></i>
+                  </button>
+            </div>
+        </form>
+
         <a id="iniciar" href="{% url 'usuarios:login' %}">Iniciar sesión</a>
       </div>
       <nav class="nav_bar" aria-label="Navegación principal">
@@ -23,7 +40,7 @@
         <a class="nav-link" href="{% url 'visitante:contactanos' %}" >Contáctanos</a>
       </nav>
     {% block content %}
-   
+
     {% endblock %}
     <footer>
         <p>Aeneta - Tiburones 2024 ©</p>
