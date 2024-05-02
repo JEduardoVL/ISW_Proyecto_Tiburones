@@ -12,7 +12,7 @@ html {
     max-width: 100%; /* Esto previene que se exceda el ancho del viewport */
     box-sizing: border-box; /* Calcula el padding y border dentro del ancho */
   }
-  
+
   body {
     margin: 0;
     padding: 0;
