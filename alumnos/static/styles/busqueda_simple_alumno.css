@@ -1,0 +1,100 @@
+.contenedor_principal_busqueda {
+    position: relative;
+    margin:  auto;
+    width: 85%;
+    z-index: 2;
+    padding: 10px;
+    background-color: white;
+    border-radius: 30px;
+  }
+
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.search-input {
+    width: 70%;
+    padding: 10px;
+    font-size: 15px;
+    border: 3px solid #6b1640;
+    border-radius: 10px ; /* Ajustado para bordes redondeados */
+}
+
+.search-button_b {
+    width: 5%; /* Ajustado para que ocupe el 10% del contenedor */
+    border: none;
+    background: #6b1640; /* Color de fondo para hacerlo visible */
+    color: white;
+    cursor: pointer;
+    font-size: 24px; /* Ajustado para alinear el tamaño de texto con el input */
+    border-radius: 10px; /* Ajustado para bordes redondeados */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra el ícono en el botón */
+}
+
+/* Estilos adicionales para el ícono en el botón */
+.search-button_b i {
+    color: white;
+}
+
+.contenedor_tabla{
+    display: none;
+}
+
+
+
+.letra_tabla_t{
+    font-family: monospace;
+    font-size: 20px;
+  }
+
+  .letra_texto {
+    font-family: sans-serif;
+    color: black;
+    font-size: 18px;
+    text-align: justify;
+  }
+
+  table {
+    width: 100%; /* Usa todo el ancho disponible */
+    overflow-x: auto; /* Permite desplazamiento horizontal si la tabla es demasiado ancha */
+    border-collapse: collapse; /* Elimina el espacio entre las celdas */
+}
+
+th, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: #6b1640;
+    color: #f1f1f1;
+}
+
+td {
+    color: #6b1640;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    th, td {
+        padding: 4px; /* Reduce el padding en pantallas pequeñas */
+        font-size: 14px; /* Reduce el tamaño de la fuente si es necesario */
+    }
+}
+
+@media (max-width: 480px) {
+    th, td {
+        padding: 2px; /* Padding aún más pequeño para pantallas muy pequeñas */
+        font-size: 12px; /* Tamaño de fuente más pequeño */
+    }
+}

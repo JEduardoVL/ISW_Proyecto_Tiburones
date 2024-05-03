@@ -3,6 +3,7 @@
 from django.urls import path
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
+from . import views
 from .views import (
     AdministracionHomeView,
     AdministracionSubirDoc,
@@ -16,11 +17,15 @@ from .views import (
     AdministracionTitulacionRegistrar,
     # cuentas
     AdministracionAdminCuentas,
-    AdministracionCreacionCuentas,
+    
     # alumnos
-    AdministracionAlumnos
+    AdministracionAlumnos,
+    alumnos_view,
+    create_user
 
 )
+from administracion import views
+
 
 app_name = 'administracion'  # Este es el namespace que debe coincidir con el utilizado en 'resolve_url'
 
@@ -41,8 +46,14 @@ urlpatterns = [
     
     # cuentas
     path('cuentas/administrar_cuentas/', AdministracionAdminCuentas.as_view(), name='administrar_cuentas'),
-    path('cuentas/crear_cuentas/', AdministracionCreacionCuentas.as_view(), name='crear_cuentas'),
+    path('cuentas/crear_cuentas/', views.create_user, name='crear_cuentas'),
+    path('cuentas/crear-usuario/', create_user, name='create_user'),  # Define la ruta y un nombre para la URL
+
 
     # alumnos
-    path('alumnos/', AdministracionAlumnos.as_view(), name='alumnos'),
+    path('alumnos/', alumnos_view, name='alumnos'),
+    path('alumnos/<int:id>/get_data/', views.get_alumno_data, name='get_alumno_data'),
+    path('alumnos/<int:id>/update/', views.update_alumno_data, name='update_alumno_data'),
+    path('alumnos/<int:id>/delete/', views.delete_alumno, name='delete_alumno'),
+
 ]

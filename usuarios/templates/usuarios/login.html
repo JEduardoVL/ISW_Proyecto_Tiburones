@@ -1,10 +1,12 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-<div class="login-container">  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<div class="login-container letra_texto">  
   <div class="login-form">
-    <h1>Login</h1>
-    <form method="post" action="{% url 'login' %}">
+    <h1 class="letra_titulos">Login</h1>
+    <form method="post" action="{% url 'login' %}" id="login-form">
       {% csrf_token %}
       <div class="form-group">
         <input type="text" name="username" class="form-control" placeholder="Usuario">
@@ -14,8 +16,41 @@
       </div>
       <button type="submit" class="button">Ingresar</button>
     </form>
-    <p class="sign-up-link">¿No tienes cuenta?  <a href="{% url 'visitante:home' %}">Ingresar como invitado</a></p>
-    <p class="sign-up-link">Quitar  <a href="{% url 'usuarios:signup' %}">Formulario</a></p>
+    <p class="sign-up-link">¿No tienes cuenta? <a href="{% url 'visitante:home' %}">Ingresar como invitado</a></p>
   </div>
 </div>
+
+<script>
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var formData = new FormData(this);
+      fetch(this.action, {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.redirect_url) {
+              Swal.fire({
+                  icon: 'success',
+                  title: '¡Éxito!',
+                  text: 'Ingreso exitoso.',
+                  timer: 2000,
+                  timerProgressBar: true
+              }).then(() => {
+                  window.location.href = data.redirect_url;  // Usar la URL de la respuesta
+              });
+          } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: data.error,
+                  timer: 2000,
+                  timerProgressBar: true
+              });
+          }
+      })
+      .catch(error => console.error('Error:', error));
+  });
+  </script>
 {% endblock %}

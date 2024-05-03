@@ -5,13 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Docentes</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/base_docentes.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_simple_docente.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_avanzada_docente.css' %}">
+    <link rel="stylesheet" type="text/css" href="{%  static 'styles/barra_busqueda_docente.css' %}">
+    <script src="{% static 'scrips/Busqueda_avanzada.js' %}"></script>
+
+
 </head>
 <body>
     <div id="nombre_sistema" class="header-flex-container">
         <a href="{% url 'docente:home' %}">
             <span>Aeneta - Docentes</span>
         </a>
+         <form action="{% url 'docente:buscar' %}"method="get" class="search-form">
+            <div class="search" >
+                <input type="text" name="busqueda" placeholder="Buscar..." />
+                <button onclick="showTable()" class="search-button_n">
+                    <i class="fas fa-search"></i>
+                  </button>
+            </div>
+        </form>
         <div class="docente-info">
             {% if nombre_docente %}
                 <!-- Menú desplegable para el administrador -->

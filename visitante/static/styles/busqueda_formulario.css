@@ -1,0 +1,52 @@
+
+.Avanzada {
+    display: none; /* Oculta el formulario inicialmente */
+}
+
+.search-2 {
+    cursor: pointer; /* Hace que el texto se vea como clickeable */
+    color: blue; /* Opcional: cambia el color para parecer un enlace */
+    text-decoration: underline; /* Opcional: subraya el texto para parecer un enlace */
+}
+         .search-form{
+             width: 800px;
+             background: transparent;
+             justify-content: center;
+             padding-right: 10px;
+             padding-left: 10px;
+         }
+
+
+        .search{
+            justify-content: end;
+            display: flex;
+            background: transparent;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        
+
+        .search input{
+            flex: 1;
+            max-width: 300px;
+            width: 50%;
+            min-width: 70px;
+            height: 30px;
+            border: 3px solid #156082;
+            outline: 0;
+            border-radius: 10px;
+            font-size: 15px;
+            padding-left: 10px;
+        }
+        
+        .search-button_n {
+            display: flex;          /* Habilita flexbox */
+            justify-content: center;/* Centra horizontalmente */
+            align-items: center;    /* Centra verticalmente */
+            padding-left: 5px;
+            min-width: 30px;
+            max-width: 30px;
+        }
+        

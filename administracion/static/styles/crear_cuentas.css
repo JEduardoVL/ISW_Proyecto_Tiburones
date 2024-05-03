@@ -1,0 +1,22 @@
+.contenedor_principal_cc{
+    margin: auto;
+    width: 85%;
+    padding: 10px 10px;
+    border-radius: 3%;
+}
+
+#crear_c{
+    margin: auto;
+    width: 50%;
+}
+
+.btncrear {
+    align-items: center;
+    gap: 20px; /* Ajusta el espacio entre el nombre y el botón como necesites */
+    font-family: monospace; 
+    color: white;
+    background-color: #9A5933;
+    font-size: 30px;
+    border: none;
+    border-radius: 10px;
+}
