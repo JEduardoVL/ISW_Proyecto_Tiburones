@@ -10,18 +10,50 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from .models import FormaTitulacion
+
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
     template_name = 'administracion/titulacion/registrar_formas_titulacion.html'
 class AdministracionTitulacionCalendario(AdminRequiredMixin,TemplateView):
     template_name = 'administracion/titulacion/calendario_titulacion.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['convocatorias'] = FormaTitulacion.objects.all()
+        return context
+
+@require_http_methods(["GET", "POST"])
+def agregar_convocatoria(request):
+    if request.method == 'POST':
+        # Crear una instancia del modelo con los datos del formulario
+        nueva_convocatoria = FormaTitulacion(
+            convocatoria=request.POST['convocatoria'],
+            fecha_inicio=request.POST['fecha_inicio'],
+            fecha_limite_entrega=request.POST['fecha_limite_entrega'],
+            descripcion=request.POST['descripcion'],
+            requisitos=request.POST['requisitos'],
+            documentos_a_entregar=request.POST['documentos_a_entregar'],
+        )
+        nueva_convocatoria.save()  # Guardar la instancia en la base de datos
+        messages.success(request, 'Convocatoria agregada correctamente!')
+        return redirect('administracion:calendario_titulacion')  # Redirigir a una URL específica después de guardar
+
+    # Si no es una solicitud POST, simplemente renderiza el formulario
+    return render(request, 'administracion/titulacion/calendario_titulacion.html')
+
 class AdministracionTitulacionConvocatorias(AdminRequiredMixin,TemplateView):
     template_name = 'administracion/titulacion/convocatorias_titulacion.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['convocatorias'] = FormaTitulacion.objects.all()
+        return context
 
 # Todo lo necesario para el manejo de las cuentas
 
 class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
-    template_name = 'administracion/cuentas/administrar_cuentas.html'
+    template_name = 'administracion/cuentas/administrar_cuentas.html' 
+
+
 
 def create_user(request):
     if request.method == 'POST':

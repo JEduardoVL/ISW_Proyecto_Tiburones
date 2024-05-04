@@ -21,11 +21,10 @@ from .views import (
     # alumnos
     AdministracionAlumnos,
     alumnos_view,
-    create_user
-
+    create_user,
+    agregar_convocatoria,
 )
 from administracion import views
-
 
 app_name = 'administracion'  # Este es el namespace que debe coincidir con el utilizado en 'resolve_url'
 
@@ -42,6 +41,8 @@ urlpatterns = [
     # titulacion
     path('titulacion/registrar_formas_titulacion/', AdministracionTitulacionRegistrar.as_view(), name='registrar_formas_de_titulacion'),
     path('titulacion/calendario_titulacion/', AdministracionTitulacionCalendario.as_view(), name='calendario_titulacion'),
+    path('convocatorias/agregar/', agregar_convocatoria, name='agregar_convocatoria'),
+
     path('titulacion/convocatorias_titulacion/', AdministracionTitulacionConvocatorias.as_view(), name='convocatorias_titulacion'),
     
     # cuentas
