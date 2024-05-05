@@ -11,6 +11,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from .models import FormaTitulacion
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string 
+
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -53,26 +57,38 @@ class AdministracionTitulacionConvocatorias(AdminRequiredMixin,TemplateView):
 class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/cuentas/administrar_cuentas.html' 
 
-
-
 def create_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()  # Guarda el nuevo usuario y recupéralo
+            password = form.cleaned_data.get('password1')  
             message = 'La cuenta de usuario ha sido creada con éxito.'
+            
+            # Renderizar la plantilla HTML con el email y la contraseña del usuario
+            email_content = render_to_string('confirmacion_cuenta.html', {
+                'email': user.correo_electronico,
+                'password': password  # Añadir la contraseña al contexto
+            })
+            
+            # Enviar correo electrónico
+            send_mail(
+                subject='Confirmación de creación de cuenta',
+                message=email_content,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[user.correo_electronico],
+                fail_silently=False,
+                html_message=email_content,  # Envío de HTML
+            )
+            
             return JsonResponse({'status': 'success', 'message': message})
         else:
             message = 'Por favor corrija los errores en el formulario.'
             return JsonResponse({'status': 'error', 'message': message})
     else:
         form = CustomUserCreationForm()
-
     context = {'form': form}
     return render(request, 'administracion/cuentas/crear_cuentas.html', context)
-
-
-
 
 class AdministracionHomeView(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/home.html'
