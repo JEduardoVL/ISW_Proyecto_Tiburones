@@ -201,7 +201,6 @@ def get_user_details(request, user_id):
         'departamento_admin': user.departamento_admin,
     }
     return JsonResponse(user_data)
-
     
 @require_http_methods(["POST"])
 def update_user(request, user_id):
