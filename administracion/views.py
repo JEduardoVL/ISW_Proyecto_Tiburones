@@ -55,7 +55,15 @@ class AdministracionTitulacionConvocatorias(AdminRequiredMixin,TemplateView):
 # Todo lo necesario para el manejo de las cuentas
 
 class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
-    template_name = 'administracion/cuentas/administrar_cuentas.html' 
+    template_name = 'administracion/cuentas/administrar_cuentas.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Recuperar todos los usuarios
+        context['usuarios'] = CustomUser.objects.all()
+        return context 
+    
+
 
 def create_user(request):
     if request.method == 'POST':
@@ -170,3 +178,74 @@ def delete_alumno(request, id):
         return JsonResponse({'status': 'success', 'message': 'Alumno eliminado correctamente'})
     except CustomUser.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Alumno no encontrado'}, status=404)
+    
+# para cuentas generales
+def get_user_details(request, user_id):
+    user = CustomUser.objects.filter(id=user_id).first()
+    if user is None:
+        return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+
+    user_data = {
+        'nombre': user.nombre,
+        'apellido': user.apellido,
+        'correo_electronico': user.correo_electronico,
+        'is_alumno': user.is_alumno,
+        'is_docente': user.is_docente,
+        'is_administrador': user.is_administrador,
+        'matricula': user.matricula,
+        'programa_academico': user.programa_academico,
+        'estatus': user.estatus,
+        'especialidad': user.especialidad,
+        'departamento_docente': user.departamento_docente,
+        'cargo': user.cargo,
+        'departamento_admin': user.departamento_admin,
+    }
+    return JsonResponse(user_data)
+
+    
+@require_http_methods(["POST"])
+def update_user(request, user_id):
+    try:
+        user_data = json.loads(request.body)
+        user = CustomUser.objects.get(id=user_id)
+
+        # Actualizar campos generales
+        user.nombre = user_data.get('nombre', user.nombre)
+        user.apellido = user_data.get('apellido', user.apellido)
+        user.correo_electronico = user_data.get('correo_electronico', user.correo_electronico)
+
+        # Condiciones específicas para Alumno
+        if user.is_alumno:
+            user.matricula = user_data.get('matricula', user.matricula)
+            user.programa_academico = user_data.get('programa_academico', user.programa_academico)
+            user.estatus = user_data.get('estatus', user.estatus)
+
+        # Condiciones específicas para Docente
+        if user.is_docente:
+            user.especialidad = user_data.get('especialidad', user.especialidad)
+            user.departamento_docente = user_data.get('departamento_docente', user.departamento_docente)
+
+        # Condiciones específicas para Administrador
+        if user.is_administrador:
+            user.cargo = user_data.get('cargo', user.cargo)
+            user.departamento_admin = user_data.get('departamento_admin', user.departamento_admin)
+
+        user.save()
+        return JsonResponse({'message': 'Usuario actualizado con éxito'}, status=200)
+    except CustomUser.DoesNotExist:
+        return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+@csrf_exempt
+@require_http_methods(["DELETE"])
+def delete_user(request, user_id):
+    if not request.user.is_authenticated or not request.user.is_administrador:
+        return JsonResponse({'status': 'error', 'message': 'No autorizado'}, status=403)
+
+    try:
+        user = CustomUser.objects.get(id=user_id)
+        user.delete()
+        return JsonResponse({'status': 'success', 'message': 'Usuario eliminado correctamente'})
+    except CustomUser.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Usuario no encontrado'}, status=404)

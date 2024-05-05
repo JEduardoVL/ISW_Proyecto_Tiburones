@@ -1,7 +1,63 @@
 {% extends "base_generic_Administracion.html" %}
-
+{% load static%}
 {% block content %}
   <div id="fondo">
-    <h1>Todo para la Administracion de cuentas</h1>
+    <div class="contenedor_principal letra_texto">
+      <h1 class="letra_titulos">Todo para la Administración de cuentas</h1>
+      <!-- Barra de búsqueda -->
+      <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Buscar en la tabla..." class="letra_texto">
+      <table border="1" id="userTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo Electrónico</th>
+            <th>Rol</th>
+            <th>Detalles Específicos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios %}
+          <tr>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.correo_electronico }}</td>
+            <td>
+              {% if usuario.is_administrador %}
+                Administrador
+              {% elif usuario.is_alumno %}
+                Alumno
+              {% elif usuario.is_docente %}
+                Docente
+              {% else %}
+                No definido
+              {% endif %}
+            </td>
+            <td>
+              {% if usuario.is_alumno %}
+                Matrícula: {{ usuario.matricula }}<br>
+                Programa Académico: {{ usuario.programa_academico }}<br>
+                Estatus: {{ usuario.estatus }}
+              {% elif usuario.is_docente %}
+                Especialidad: {{ usuario.especialidad }}<br>
+                Departamento: {{ usuario.departamento_docente }}
+              {% elif usuario.is_administrador %}
+                Cargo: {{ usuario.cargo }}<br>
+                Departamento: {{ usuario.departamento_admin }}
+              {% endif %}
+            </td>
+            <td>
+              <i class="fas fa-edit" onclick="editarUsuario('{{ usuario.id }}')"></i> <!-- Icono editar -->
+              <i class="fas fa-trash-alt" onclick="deleteUsuario('{{ usuario.id }}')"></i><!-- Icono eliminar -->
+          </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+  <script src="{% static 'scripts/modificar_usuarios.js' %}"></script>
+  <script src="{% static 'scripts/filtro_cuentas.js' %}"></script>
+
 {% endblock %}

@@ -23,6 +23,11 @@ from .views import (
     alumnos_view,
     create_user,
     agregar_convocatoria,
+    get_user_details,
+    get_alumno_data,
+    update_user,
+    delete_user
+    
 )
 from administracion import views
 
@@ -49,8 +54,11 @@ urlpatterns = [
     path('cuentas/administrar_cuentas/', AdministracionAdminCuentas.as_view(), name='administrar_cuentas'),
     path('cuentas/crear_cuentas/', views.create_user, name='crear_cuentas'),
     path('cuentas/crear-usuario/', create_user, name='create_user'),  # Define la ruta y un nombre para la URL
-
-
+    path('cuentas/get-user-details/<int:user_id>/', views.get_user_details, name='get-user-details'),
+    path('cuentas/update-user/<int:user_id>/', views.update_user, name='update-user'),
+    path('cuentas/update-user/<int:user_id>/', update_user, name='update-user'),
+    path('cuentas/<int:user_id>/delete/', views.delete_user, name='delete_user'),
+    
     # alumnos
     path('alumnos/', alumnos_view, name='alumnos'),
     path('alumnos/<int:id>/get_data/', views.get_alumno_data, name='get_alumno_data'),
