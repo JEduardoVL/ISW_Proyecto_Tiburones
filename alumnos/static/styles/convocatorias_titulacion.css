@@ -1,0 +1,30 @@
+.contenedor_principal_c
+{
+    position: relative;
+    margin: auto;
+    width: 85%;
+    z-index: 2;
+    padding: 10px;
+}
+
+.fuente_titulos
+{
+    font-family: monospace; 
+    color: #6b1640;
+    font-size: 35px;
+    text-align: center;
+}
+
+.fuente_principal
+{
+    font-family: sans-serif;
+    color: black; 
+    font-size: 20px;
+    text-align: justify;
+}
+
+.contenedor_form
+{
+    margin: auto;
+    width: 50%;
+}
