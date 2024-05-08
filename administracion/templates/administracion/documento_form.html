@@ -1,0 +1,14 @@
+{% extends "base_generic_Administracion.html" %}
+{% load static %}
+{% block content %}
+<div id="fondo">
+    <div class="contenedor_principal letra_texto">
+        <h1 class="letra_titulos">Completar Información del Documento</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Guardar Documento</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

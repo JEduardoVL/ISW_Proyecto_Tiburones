@@ -7,10 +7,8 @@ class AdminRequiredMixin(LoginRequiredMixin):
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            # Si el usuario no está autenticado, redirige a la página de login.
             return self.handle_no_permission()
-        if not request.user.is_administrador:
-            # Si el usuario no es administrador, muestra un mensaje de error y redirige.
+        if not getattr(request.user, 'is_administrador', False):  # Usar getattr para manejar si el atributo no existe
             messages.error(request, 'No tienes permiso para ver esta página.')
             return redirect('nombre_de_la_url_por_defecto')
         return super().dispatch(request, *args, **kwargs)

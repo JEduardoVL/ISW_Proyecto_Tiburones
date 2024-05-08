@@ -14,7 +14,14 @@ from .models import FormaTitulacion
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string 
-
+from django.views.generic.edit import FormView
+from django import forms
+from django.http import HttpResponseRedirect
+from .utils import upload_pdf
+from django.urls import reverse
+from django.views.generic import FormView
+from .forms import DocumentoForm, FileUploadForm
+from .models import Documento
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -101,8 +108,6 @@ def create_user(request):
 class AdministracionHomeView(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/home.html'
 
-class AdministracionSubirDoc(AdminRequiredMixin, TemplateView):
-    template_name = 'administracion/subir_documento.html'
 
 class AdministracionTitulacion(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/titulacion.html'
@@ -248,3 +253,51 @@ def delete_user(request, user_id):
         return JsonResponse({'status': 'success', 'message': 'Usuario eliminado correctamente'})
     except CustomUser.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Usuario no encontrado'}, status=404)
+    
+
+
+class FileUploadForm(forms.Form):
+    document = forms.FileField()
+
+class AdministracionSubirDoc(AdminRequiredMixin, FormView):
+    template_name = 'administracion/subir_documento.html'
+    form_class = FileUploadForm
+
+    def form_valid(self, form):
+        file = self.request.FILES['document']
+        file_url = upload_pdf(file)
+
+        # Guardar la URL en la sesión para su uso posterior
+        self.request.session['uploaded_file_url'] = file_url
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('administracion:documento_form')
+
+class DocumentoFormView(AdminRequiredMixin, FormView):
+    template_name = 'administracion/documento_form.html'
+    form_class = DocumentoForm
+
+    def form_valid(self, form):
+        documento = form.save(commit=False)
+        documento.url = self.request.session.get('uploaded_file_url')
+        documento.save()
+
+        # Limpiar la URL de la sesión
+        del self.request.session['uploaded_file_url']
+
+        return HttpResponseRedirect(reverse('administracion:home'))
+
+class AdministracionDocumentoFormView(AdminRequiredMixin, FormView):
+    template_name = 'administracion/documento_form.html'
+    form_class = DocumentoForm
+
+    def form_valid(self, form):
+        documento = form.save(commit=False)
+        documento.url = self.request.session.get('uploaded_file_url')
+        documento.save()
+        return HttpResponseRedirect(reverse('administracion:subir_documento'))
+
+class AdministracionDocumentoSuccessView(AdminRequiredMixin, TemplateView):
+    template_name = 'administracion/documento_success.html'
