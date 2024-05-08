@@ -1,0 +1,53 @@
+{% extends "base_generic_alumnos.html" %}
+
+{% block content %}
+    <div id="fondo">
+        <div class="contenedor_principal_c fuente_principal">
+            <h2 class="fuente_titulos"> Registro a Convocatorias de Titulación </h2>
+            <br>
+            <p> Por favor rellene el siguiente formulario para registrarse a una convocatoria de titulacion: </p>
+            <br>
+            <div class="contenedor_form">
+                <form id="formulario_convocatoria_alumno" method="post" action="" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <label for="nombre_Alumno">Nombre del alumno completo:</label>
+                    <input type="text" id="nombre_Alumno" name="nombre_Alumno" required>
+
+                    <label for="numero_Boleta">Boleta:</label>
+                    <input type="text" id="numero_Boleta" name="numero_Boleta" required>
+                
+                    <label for="nombreAutor">Nombre del autor:</label>
+                    <input type="text" id="nombreAutor" name="nombreAutor" required>
+                
+                    <label for="area_Estudio">Area de estudio:</label>
+                    <select id="area_Estudio" name="area_Estudio" required>
+                        <option value="AE1">AE1</option>
+                        <option value="AE2">AE2</option>
+                        <option value="AE3">AE3</option>
+                    </select>
+                
+                    <label for="tipoC">Tipo de titulacion:</label>
+                    <select id="tipoC" name="tipoC" required>
+                        <option value="tesis">Tesis</option>
+                        <option value="trabajo_terminal">Trabajo Terminal</option>
+                        <option value="proyecto_Inv">Proyecto de investigación</option>
+                        <option value="examen_area">Examen de conocimiento por áreas</option>
+                        <option value="creditos_pos">Créditos de posgrado</option>
+                        <option value="seminario">Seminario</option>
+                        <option value="escolaridad">Escolaridad</option>
+                        <option value="memoria_pro">Memoria de experiencia profesional</option>
+                    </select>
+                
+                    <label for="convocatoriaTitulacion">Convocatoria de titulación:</label>
+                    <input type="text" id="convocatoriaTitulacion" name="convocatoriaTitulacion" required>
+                
+                    <input type="submit" value="Enviar">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <p> Prueba commit </p>
+{% endblock %}

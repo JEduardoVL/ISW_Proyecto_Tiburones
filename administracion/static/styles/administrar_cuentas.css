@@ -1,0 +1,8 @@
+#searchInput {
+    width: 50%;
+    display: block;  /* El input se trata como un bloque para aplicar márgenes */
+    margin-top: 20px;  /* Espacio de 20px por encima del input */
+    margin-bottom: 20px;  /* Espacio de 20px por debajo del input */
+    margin-left: auto;  /* Centra horizontalmente */
+    margin-right: auto;  /* Centra horizontalmente */
+}

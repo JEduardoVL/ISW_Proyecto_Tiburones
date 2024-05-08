@@ -10,6 +10,7 @@ from .views import (
     AlumnosTitulacionCalendario,
     AlumnosTitulacionConvocatoria,
     AlumnosTitulacionForma,
+    AlumnosTitulacionEstatus,
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -28,5 +29,7 @@ urlpatterns = [
     path('titulacion/calendario_titulacion/', AlumnosTitulacionCalendario.as_view(), name='calendario_titulacion'),
     path('titulacion/convocatorias_titulacion/', AlumnosTitulacionConvocatoria.as_view(), name='convocatorias_titulacion'),
     path('titulacion/formas_titulacion/', AlumnosTitulacionForma.as_view(), name='formas_titulacion'),
+    path('titulacion/estatus_titulacion/', AlumnosTitulacionEstatus.as_view(), name='estatus_titulacion'),
+    
 ]
 

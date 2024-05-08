@@ -1,54 +1,96 @@
 .carousel {
-    max-width: 800px;
-    margin: auto;
-    position: relative;
-  }
-  
-  .carousel__input {
-    display: none;
-  }
-  
-  .carousel__slides {
-    display: flex;
-    overflow: hidden;
-  }
-  
-  .carousel__slide {
-    flex: 0 0 100%;
-  }
-  
-  .carousel__nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .carousel__indicator {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #aaa;
-    margin: 0 5px;
-    cursor: pointer;
-  }
-  
-  #contePunto{
-    display: flex;
-    justify-content: space-around;
+  max-width: 800px;
+  margin: auto;
+  position: relative;
+}
+
+.carousel__input {
+  display: none;
+}
+
+.carousel__slides {
+  display: flex;
+  overflow: hidden;
+}
+
+.carousel__slide {
+  flex: 0 0 100%;
+}
+
+.carousel__nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.carousel__indicator {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #aaa;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+#contePunto{
+  display: flex;
+  justify-content: space-around;
 }
 
 #contePunto > a {
-  font-size: 20em;
-  font-style: normal; /* Asegúrate de usar un valor válido aquí */
-  color: #333333; /* Color inicial */
-  text-decoration: none;
-  transition: color 0.5s ease, transform 0.5s ease; /* Define la transición */
+font-size: 20em;
+font-style: normal; /* Asegúrate de usar un valor válido aquí */
+color: #333333; /* Color inicial */
+text-decoration: none;
+transition: color 0.5s ease, transform 0.5s ease; /* Define la transición */
 }
 
 #contePunto > a:hover {
-  color: #555555; /* Color al pasar el mouse */
-  transform: scale(1.1); /* Aumenta la escala al pasar el mouse */
+color: #555555; /* Color al pasar el mouse */
+transform: scale(1.1); /* Aumenta la escala al pasar el mouse */
 }
 a{
-    text-decoration: none;
+  text-decoration: none;
+}
+
+.carousel-menu {
+  flex: 1;
+  padding: 10px;
+}
+
+.carousel-menu ul {
+  list-style: none;
+  padding: 0;
+  display: flex; /* Hace que los elementos de la lista se ordenen horizontalmente */
+  flex-wrap: wrap; /* Permite que los elementos de la lista se ajusten según el espacio disponible */
+}
+
+.carousel-menu li {
+  flex: 1; /* Distribuye el espacio horizontalmente entre los elementos de la lista */
+}
+
+.carousel-menu li a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #6b1640;
+  transition: background-color 0.3s;
+  text-align: center; /* Centra el texto de cada enlace en su bloque */
+}
+
+.carousel-menu li a:hover {
+  background-color: #333333;
+  color: white;
+}
+
+.carousel-content {
+  flex: 3;
+  padding: 20px;
+  overflow: auto; 
+}
+.letra_convo {
+  font-family: monospace;
+  color: #6b1640;
+  font-size: 40px;
+  text-align: center; 
 }

@@ -7,11 +7,18 @@
     <title>Página de Alumnos</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/base_alumnos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/nav_bar_alumnos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/convocatorias_titulacion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/estatus_titulacion.css' %}">
     <link rel ="stylesheet" type="text/css" href="{% static 'styles/barra_busqueda_alumno.css'%}">
-    <! -- <link rel="stylesheet" type="text/css" href="{%  static 'styles/subir_documento.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/subir_documento.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_simple_alumno.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_avanzada_alumno.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/formas_titulacion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendario_titulacion.css' %}">
+
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
 
     <script src="{% static 'scrips/busqueda_avanzada_alumnos.js' %}"></script>
 
@@ -21,20 +28,12 @@
         <a href="{% url 'alumnos:home' %}">
             <span>Aeneta - Alumnos</span>
         </a>
-        <form action="{% url 'alumnos:buscar' %}"method="get" class="search-form">
-            <div class="search" >
-                <input type="text" name="busqueda" placeholder="Buscar..." />
-                <button onclick="showTable()" class="search-button_n">
-                    <i class="fas fa-search"></i>
-                  </button>
-            </div>
-        </form>
         <div class="alumno-info">
             {%  if nombre_alumno %}
                 <!-- Menú desplegable para el Alumno -->
-                <div class="dropdown">
-                    <button class="dropbtn">{{ nombre_alumno }} {{ apellido_alumno }}</button>
-                    <div class="dropdown-content">
+                <div class="dropdown_base">
+                    <button class="dropbtn_base">{{ nombre_alumno }} {{ apellido_alumno }}</button>
+                    <div class="dropdown-content_base">
                         <a href="#" onclick="event.preventDefault(); document.getElementById('view-profile-form').submit();">Ver datos</a>
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
                     </div>
@@ -58,6 +57,7 @@
                 <a href="{% url 'alumnos:formas_titulacion' %}">Formas de titulación</a>
                 <a href="{% url 'alumnos:convocatorias_titulacion' %}">Convocatorias de titulación</a>
                 <a href="{% url 'alumnos:calendario_titulacion' %}">Calendario de titulación</a>
+                <a href="{% url 'alumnos:estatus_titulacion' %}">Estatus de Titulacion</a>
             </div>
         </div>
         <a class="nav-link" href="{% url 'alumnos:subir_documento' %}">Subir documentos</a>

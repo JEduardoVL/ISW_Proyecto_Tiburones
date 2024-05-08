@@ -1,6 +1,8 @@
 # alumnos/views.py
 from django.views.generic import TemplateView
 from .mixins import AlumnoRequiredMixin
+# Importamos el modelo
+from administracion.models import FormaTitulacion
 
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
@@ -20,7 +22,14 @@ class AlumnosTitulacion(AlumnoRequiredMixin,TemplateView):
 # Todo para la titulación
 class AlumnosTitulacionCalendario(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/calendario_titulacion.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['convocatorias'] = FormaTitulacion.objects.all()
+        return context
+    
 class AlumnosTitulacionConvocatoria(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/convocatorias_titulacion.html'
 class AlumnosTitulacionForma(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/formas_titulacion.html'
+class AlumnosTitulacionEstatus(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/titulacion/estatus_titulacion.html'
