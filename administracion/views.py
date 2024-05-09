@@ -22,6 +22,7 @@ from django.urls import reverse
 from django.views.generic import FormView
 from .forms import DocumentoForm, FileUploadForm
 from .models import Documento
+from smtplib import SMTPAuthenticationError
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -71,19 +72,19 @@ class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
         return context 
     
 
-
+'''
 def create_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()  # Guarda el nuevo usuario y recupéralo
-            password = form.cleaned_data.get('password1')  
+            password = form.cleaned_data.get('password1')
             message = 'La cuenta de usuario ha sido creada con éxito.'
             
             # Renderizar la plantilla HTML con el email y la contraseña del usuario
             email_content = render_to_string('confirmacion_cuenta.html', {
                 'email': user.correo_electronico,
-                'password': password  # Añadir la contraseña al contexto
+                'password': password
             })
             
             # Enviar correo electrónico
@@ -93,18 +94,49 @@ def create_user(request):
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[user.correo_electronico],
                 fail_silently=False,
-                html_message=email_content,  # Envío de HTML
+                html_message=email_content
             )
             
             return JsonResponse({'status': 'success', 'message': message})
         else:
-            message = 'Por favor corrija los errores en el formulario.'
-            return JsonResponse({'status': 'error', 'message': message})
+            errors = form.errors.as_json()
+            return JsonResponse({'status': 'error', 'message': 'Por favor corrija los errores en el formulario.', 'errors': errors})
     else:
         form = CustomUserCreationForm()
     context = {'form': form}
     return render(request, 'administracion/cuentas/crear_cuentas.html', context)
+'''
+def create_user(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            password = form.cleaned_data.get('password1')
+            message = 'La cuenta de usuario ha sido creada con éxito.'
+            email_content = render_to_string('confirmacion_cuenta.html', {
+                'email': user.correo_electronico,
+                'password': password
+            })
+            try:
+                send_mail(
+                    subject='Confirmación de creación de cuenta',
+                    message=email_content,
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[user.correo_electronico],
+                    fail_silently=False,
+                    html_message=email_content
+                )
+            except SMTPAuthenticationError:
+                message += " Pero no se pudo enviar el correo de confirmación."
 
+            return JsonResponse({'status': 'success', 'message': message})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'status': 'error', 'message': 'Por favor corrija los errores en el formulario.', 'errors': errors})
+    else:
+        form = CustomUserCreationForm()
+        return render(request, 'administracion/cuentas/crear_cuentas.html', {'form': form})
+    
 class AdministracionHomeView(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/home.html'
 

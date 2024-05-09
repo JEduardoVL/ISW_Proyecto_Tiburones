@@ -17,7 +17,7 @@
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="tableBody">
           {% for usuario in usuarios %}
           <tr>
             <td>{{ usuario.nombre }}</td>
@@ -55,9 +55,12 @@
           {% endfor %}
         </tbody>
       </table>
+      <!-- Contenedor de paginación -->
+      <div id="pagination" class="pagination">
+      </div>
     </div>
   </div>
   <script src="{% static 'scripts/modificar_usuarios.js' %}"></script>
   <script src="{% static 'scripts/filtro_cuentas.js' %}"></script>
-
+  <script src="{% static 'scripts/paginacion.js' %}"></script>
 {% endblock %}

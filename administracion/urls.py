@@ -65,6 +65,7 @@ urlpatterns = [
     path('cuentas/update-user/<int:user_id>/', views.update_user, name='update-user'),
     path('cuentas/update-user/<int:user_id>/', update_user, name='update-user'),
     path('cuentas/<int:user_id>/delete/', views.delete_user, name='delete_user'),
+    path('crear_usuario/', views.create_user, name='create_user'),
     
     # alumnos
     path('alumnos/', alumnos_view, name='alumnos'),

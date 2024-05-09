@@ -1,0 +1,26 @@
+#pagination {
+    text-align: center; /* Centra los botones de paginación */
+    margin-top: 10px; /* Espacio arriba de los botones */
+    margin-bottom: 10px; /* Espacio debajo de los botones */
+  }
+  
+  #pagination button {
+    background-color: #9A5933; /* Color café */
+    color: white; /* Texto en color blanco */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 8px 15px; /* Relleno alrededor del texto */
+    margin: 0 5px; /* Margen entre botones */
+    font-size: 16px; /* Tamaño de fuente más grande */
+    cursor: pointer; /* Cursor en forma de mano al pasar el ratón */
+    outline: none; /* Elimina el contorno al enfocar */
+  }
+  
+  #pagination button:hover {
+    background-color: #A0522D; /* Color café más oscuro al pasar el ratón */
+  }
+  
+  #pagination button.active {
+    background-color: #CD853F; /* Color café más claro para la página activa */
+  }
+  
