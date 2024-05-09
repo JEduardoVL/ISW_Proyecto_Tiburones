@@ -15,10 +15,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_avanzada_alumno.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/formas_titulacion.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/calendario_titulacion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/informacion_alumno.css' %}">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
+    <!-- Para las alertas de SweetAlert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{% static 'scrips/busqueda_avanzada_alumnos.js' %}"></script>
 
@@ -34,14 +37,14 @@
                 <div class="dropdown_base">
                     <button class="dropbtn_base">{{ nombre_alumno }} {{ apellido_alumno }}</button>
                     <div class="dropdown-content_base">
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('view-profile-form').submit();">Ver datos</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('view-profile-form_a').submit();">Ver datos</a>
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
                     </div>
                 </div>
                 <form id="logout-form" action="{% url 'alumnos:alumno-logout' %}" method="post" style="display:none;">
                     {% csrf_token %}
                 </form>
-                <form id="view-profile-form" action="#" method="get" style="display:none;">
+                <form id="view-profile-form_a" action="{% url 'alumnos:informacion_alumnos' %}" method="get" style="display:none;">
                     <!--no es necesario enviar datos al hacer clic en "Ver datos" -->
                 </form>
             {% endif %}

@@ -7,21 +7,25 @@
 
 #informacion{
     width: 50%;
-    padding: 10px;
 }
 
 .letra_datos{
     font-family: monospace; 
     color: #333333;
     font-size: 25px;
+    padding: 15px;
   }
+
+.letra_datos p {
+    margin-bottom: 10px;
+}
 
   #info_e {
     text-align: center; /* Alinea el contenido al centro */
   }
   
   #info_e button {
-    background-color: #9A5933; /* Color café */
+    background-color: #3d0b60; 
     color: white; /* Texto en color blanco */
     border: none; /* Sin bordes */
     border-radius: 5px; /* Bordes redondeados */
@@ -29,8 +33,9 @@
     font-size: 26px; /* Tamaño de fuente más grande */
     cursor: pointer; /* Cursor en forma de mano al pasar el ratón */
     outline: none; /* Elimina el contorno al enfocar */
+    width: 50%;
   }
   
   #info_e button:hover {
-    background-color: #CD853F; /* Color café más oscuro al pasar el ratón */
+    background-color: #8d5bb1; 
   }

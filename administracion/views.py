@@ -1,28 +1,32 @@
-from django.views.generic import TemplateView
+# Agrupar importaciones de django
+from django.views.generic import TemplateView, FormView
 from django.shortcuts import render, redirect
-from usuarios.models import CustomUser
-from .mixins import AdminRequiredMixin
-from usuarios.forms import CustomUserCreationForm
-from django.contrib.auth.decorators import permission_required
 from django.contrib import messages
-from django.http import JsonResponse
-import json
+from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from .models import FormaTitulacion
 from django.core.mail import send_mail
 from django.conf import settings
-from django.template.loader import render_to_string 
-from django.views.generic.edit import FormView
-from django import forms
-from django.http import HttpResponseRedirect
-from .utils import upload_pdf
 from django.urls import reverse
-from django.views.generic import FormView
+from django import forms
+from django.template.loader import render_to_string 
+from django.http import JsonResponse
+import json
+
+# Importar módulos específicos
+from usuarios.models import CustomUser
+from usuarios.forms import CustomUserCreationForm
+from .mixins import AdminRequiredMixin
+from .models import FormaTitulacion, Documento
 from .forms import DocumentoForm, FileUploadForm
-from .models import Documento
+from .utils import upload_pdf
+
+# Importar excepciones específicas
 from smtplib import SMTPAuthenticationError
+
+# Importar vistas genéricas personalizadas
+from django.views import View
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -70,42 +74,7 @@ class AdministracionAdminCuentas(AdminRequiredMixin, TemplateView):
         # Recuperar todos los usuarios
         context['usuarios'] = CustomUser.objects.all()
         return context 
-    
 
-'''
-def create_user(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()  # Guarda el nuevo usuario y recupéralo
-            password = form.cleaned_data.get('password1')
-            message = 'La cuenta de usuario ha sido creada con éxito.'
-            
-            # Renderizar la plantilla HTML con el email y la contraseña del usuario
-            email_content = render_to_string('confirmacion_cuenta.html', {
-                'email': user.correo_electronico,
-                'password': password
-            })
-            
-            # Enviar correo electrónico
-            send_mail(
-                subject='Confirmación de creación de cuenta',
-                message=email_content,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[user.correo_electronico],
-                fail_silently=False,
-                html_message=email_content
-            )
-            
-            return JsonResponse({'status': 'success', 'message': message})
-        else:
-            errors = form.errors.as_json()
-            return JsonResponse({'status': 'error', 'message': 'Por favor corrija los errores en el formulario.', 'errors': errors})
-    else:
-        form = CustomUserCreationForm()
-    context = {'form': form}
-    return render(request, 'administracion/cuentas/crear_cuentas.html', context)
-'''
 def create_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -154,6 +123,42 @@ class AdministracionSeminarios(AdminRequiredMixin, TemplateView):
 class AdministracionInformacion(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/informacion.html'
 
+class AdministracionEditarDatosGenerales(View):
+    def post(self, request):
+        try:
+            user_data = json.loads(request.body)
+            user = request.user  # Asegurarse de que es el usuario actual o buscar por ID si necesario
+
+            # Actualizar campos generales del administrador
+            if hasattr(user, 'departamento_admin'):
+                user.departamento_admin = user_data.get('departamento_admin', user.departamento_admin)
+            if hasattr(user, 'cargo'):
+                user.cargo = user_data.get('cargo', user.cargo)
+
+            user.first_name = user_data.get('nombre', user.first_name)
+            user.last_name = user_data.get('apellido', user.last_name)
+            user.email = user_data.get('correo', user.email)
+
+            user.save()
+            return JsonResponse({'status': 'ok', 'message': 'Datos generales del administrador actualizados con éxito'}, status=200)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+class AdministracionCambiarContrasena(View):
+    def post(self, request):
+        user = request.user
+        data = json.loads(request.body)
+        old_password = data.get('old_password', '')
+        new_password = data.get('new_password', '')
+
+        if not user.check_password(old_password):
+            return JsonResponse({'status': 'error', 'message': 'Contraseña antigua incorrecta'}, status=403)
+
+        if new_password:
+            user.set_password(new_password)
+        user.save()
+
+        return JsonResponse({'status': 'ok', 'message': 'Contraseña cambiada con éxito'})
 # Alumnos
 class AdministracionAlumnos(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/alumnos.html'

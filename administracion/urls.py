@@ -19,17 +19,14 @@ from .views import (
     AdministracionAdminCuentas,
     
     # alumnos
-    AdministracionAlumnos,
     alumnos_view,
     create_user,
     agregar_convocatoria,
-    get_user_details,
-    get_alumno_data,
     update_user,
-    delete_user,
     AdministracionDocumentoFormView,  # Asegúrate de crear esta vista
     AdministracionDocumentoSuccessView,  # Vista de confirmación
-    
+    AdministracionCambiarContrasena,
+    AdministracionEditarDatosGenerales
 )
 from administracion import views
 from django.views.decorators.http import require_POST
@@ -40,8 +37,12 @@ app_name = 'administracion'  # Este es el namespace que debe coincidir con el ut
 urlpatterns = [
     path('home/', AdministracionHomeView.as_view(), name='home'),
     path('logout/', require_POST(LogoutView.as_view()), name='admin-logout'),
-
+    
+    # Ver información del administrador, edicion de datos y cambio de contraseña
     path('informacion/', AdministracionInformacion.as_view(), name='informacion'),
+    path('editar_datos_generales/', AdministracionEditarDatosGenerales.as_view(), name='editar_datos_generales'),
+    path('cambiar_contrasena/', AdministracionCambiarContrasena.as_view(), name='cambiar_contrasena'),
+
     path('subir_documento/', AdministracionSubirDoc.as_view(), name='subir_documento'),
      path('titulacion/', AdministracionTitulacion.as_view(), name='titulacion'),
     path('seminarios/', AdministracionSeminarios.as_view(), name='seminarios'),

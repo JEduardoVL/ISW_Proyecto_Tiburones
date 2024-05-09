@@ -1,0 +1,62 @@
+{% extends "base_generic_docente.html" %}
+{% load static%}
+
+{% block content %}
+<div id="fondo">
+    <div class="contenedor_principal">
+        <div id="contenedor_datos">
+            <h1 class="letra_titulos">Datos del Docente</h1>
+            <div id="informacion" class="letra_datos">
+                <p>Nombre:{{ nombre_docente }}</p>
+                <p>Apelldio:{{ apellido_docente }}</p>
+                <p>Especialida:{{ especialidad_docente }}</p>
+                <p>Departamento:{{ departamento_docente }}</p>
+                <p>Correo:{{ correo_docente }}</p>
+            </div>
+            <div class="letra_datos" id="info_e">
+                <button onclick="cambiarContrasena()">Cambiar contraseña</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function cambiarContrasena() {
+    Swal.fire({
+        title: 'Cambiar contraseña',
+        html:
+            '<input id="old_password" type="password" class="swal2-input" placeholder="Contraseña antigua">' +
+            '<input id="new_password" type="password" class="swal2-input" placeholder="Nueva contraseña">',
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            return {
+                old_password: document.getElementById('old_password').value,
+                new_password: document.getElementById('new_password').value
+            };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/docente/cambiar_contrasena/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(result.value)
+            }).then(response => {
+                if (response.ok) {
+                    Swal.fire('Contraseña cambiada', '', 'success').then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire('Error al cambiar la contraseña', '', 'error');
+                }
+            });
+        }
+    });
+}
+
+</script>
+{% endblock %}
