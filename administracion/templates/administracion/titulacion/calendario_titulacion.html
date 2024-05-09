@@ -2,51 +2,53 @@
 
 {% block content %}
   <div id="fondo">
-
-    <h1>Convocatorias Registradas</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Convocatoria</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha Límite de Entrega</th>
-                <th>Descripción</th>
-                <th>Requisitos</th>
-                <th>Documentos a Entregar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for convocatoria in convocatorias %}
-            <tr>
-                <td>{{ convocatoria.convocatoria }}</td>
-                <td>{{ convocatoria.fecha_inicio }}</td>
-                <td>{{ convocatoria.fecha_limite_entrega }}</td>
-                <td>{{ convocatoria.descripcion }}</td>
-                <td>{{ convocatoria.requisitos }}</td>
-                <td>{{ convocatoria.documentos_a_entregar }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h1>Agregar Nueva Convocatoria</h1>
-    <form action="{% url 'administracion:agregar_convocatoria' %}" method="post">
-      {% csrf_token %}
-      <label for="convocatoria">Convocatoria:</label><br>
-      <input type="text" id="convocatoria" name="convocatoria" required><br>
-      <label for="fecha_inicio">Fecha de Inicio:</label><br>
-      <input type="date" id="fecha_inicio" name="fecha_inicio" required><br>
-      <label for="fecha_limite_entrega">Fecha Límite de Entrega:</label><br>
-      <input type="date" id="fecha_limite_entrega" name="fecha_limite_entrega" required><br>
-      <label for="descripcion">Descripción:</label><br>
-      <textarea id="descripcion" name="descripcion" required></textarea><br>
-      <label for="requisitos">Requisitos:</label><br>
-      <textarea id="requisitos" name="requisitos" required></textarea><br>
-      <label for="documentos_a_entregar">Documentos a Entregar:</label><br>
-      <textarea id="documentos_a_entregar" name="documentos_a_entregar" required></textarea><br>
-      <input type="submit" value="Agregar Convocatoria">
-  </form>
-
-
+    <div class="contenedor_principal letra_texto">
+        <h1 class="letra_titulos">Agregar Nueva Convocatoria</h1>
+        <div class="contenedor_formulario">
+            <form action="{% url 'administracion:agregar_convocatoria' %}" method="post">
+                {% csrf_token %}
+                <label for="convocatoria">Convocatoria:</label><br>
+                <input type="text" id="convocatoria" name="convocatoria" required><br>
+                <label for="fecha_inicio">Fecha de Inicio:</label><br>
+                <input type="date" id="fecha_inicio" name="fecha_inicio" required><br>
+                <label for="fecha_limite_entrega">Fecha Límite de Entrega:</label><br>
+                <input type="date" id="fecha_limite_entrega" name="fecha_limite_entrega" required><br>
+                <label for="descripcion">Descripción:</label><br>
+                <textarea id="descripcion" name="descripcion" required></textarea><br>
+                <label for="requisitos">Requisitos:</label><br>
+                <textarea id="requisitos" name="requisitos" required></textarea><br>
+                <label for="documentos_a_entregar">Documentos a Entregar:</label><br>
+                <textarea id="documentos_a_entregar" name="documentos_a_entregar" required></textarea><br>
+                <input type="submit" value="Agregar Convocatoria">
+            </form>
+        </div>
+      <h1>Convocatorias Registradas</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Convocatoria</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha Límite de Entrega</th>
+                    <th>Descripción</th>
+                    <th>Requisitos</th>
+                    <th>Documentos a Entregar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for convocatoria in convocatorias %}
+                <tr>
+                    <td>{{ convocatoria.convocatoria }}</td>
+                    <td>{{ convocatoria.fecha_inicio }}</td>
+                    <td>{{ convocatoria.fecha_limite_entrega }}</td>
+                    <td>{{ convocatoria.descripcion }}</td>
+                    <td>{{ convocatoria.requisitos }}</td>
+                    <td>{{ convocatoria.documentos_a_entregar }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
 
   
   </div>
