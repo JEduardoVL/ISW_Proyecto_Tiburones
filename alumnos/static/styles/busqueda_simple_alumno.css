@@ -1,100 +1,253 @@
-.contenedor_principal_busqueda {
-    position: relative;
-    margin:  auto;
-    width: 85%;
-    z-index: 2;
-    padding: 10px;
-    background-color: white;
-    border-radius: 30px;
+@import url('https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+.body_busqueda {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #f3f3f3;
+  margin: 20px;
+}
+
+.body_busqueda::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+#title {
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+}
+
+#description {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #000000;
+}
+
+#BusAva{
+  text-align: center;
+  font-size: 1.25rem;
+  color: #ccc;
+}
+
+#title,
+#description {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.Inicial {
+  position: relative;
+}
+
+.BA{
+  margin: auto;
+  position: relative;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  width: 720px;
+  border-radius: 5px;
+  background: rgba(27, 27, 50, 0.8);
+  cursor: pointer;
+}
+
+.formulario{
+  display: none;
+  transition: max-height 0.3s;
+  max-height: 0px;
+  overflow: hidden;
+}
+
+.Inicial:hover .formulario {
+  max-height: max-content;
+  display: block;
+}
+
+#pof-label,
+#autor-label,
+#director-label,
+#año-label {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.formulario #survey-form input,
+.formulario #survey-form button,
+.formulario #survey-form #dropdown,
+.formulario #survey-form textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.formulario #survey-form #submit {
+  border: none;
+}
+
+#survey-form {
+  width: 100%;
+  margin: 3.125rem auto 0 auto;
+}
+
+@media (min-width: 576px) {
+  #survey-form {
+    max-width: 540px;
   }
-
-.search-bar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    width: 100%;
 }
 
-.search-input {
-    width: 70%;
-    padding: 10px;
-    font-size: 15px;
-    border: 3px solid #6b1640;
-    border-radius: 10px ; /* Ajustado para bordes redondeados */
+@media (min-width: 768px) {
+  #survey-form {
+    max-width: 720px;
+  }
 }
 
-.search-button_b {
-    width: 5%; /* Ajustado para que ocupe el 10% del contenedor */
-    border: none;
-    background: #6b1640; /* Color de fondo para hacerlo visible */
+.titulo {
+  padding: 0 0.625rem;
+  margin-bottom: 1.875rem;
+}
+
+.formulario #survey-form {
+  background: rgba(27, 27, 50, 0.8);
+  padding: 2.5rem 0.625rem;
+  border-radius: 0.25rem;
+}
+
+@media (min-width: 480px) {
+  .formulario #survey-form {
+    padding: 2.5rem;
+  }
+}
+
+.formulario #survey-form label {
+  margin: 0 auto 1.25rem auto;
+  padding: 0.25rem;
+}
+
+.formulario #survey-form input {
+  display: block;
+  width: 100%;
+  height: 2.375rem;
+  padding: 0.375rem 0.75rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.formulario #survey-form input:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.formulario #survey-form .caja .etiqueta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.formulario #survey-form .caja .input-radio,
+.forumlario #survey-form .caja .input-checkbox {
+  display: inline-block;
+  min-height: 1.25rem;
+  min-width: 1.25rem;
+}
+
+#survey-form textarea {
+  min-height: 120px;
+  width: 100%;
+  padding: 0.625rem;
+  resize: vertical;
+}
+
+#submit {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background: #37af65;
+  color: inherit;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/*Barra de busqueda*/
+
+.Barra_de_busqueda{
+  position: relative;
+  left: 25%;
+  width: 50%;
+  /*transform: translate(-50%, -50%);*/
+  padding: 10px;
+}
+
+#LaBarrita{
+  outline: none;
+  box-sizing: border-box;
+  height: 40px;
+  width: 0;
+  padding: 0 20px;
+  color: #000000;
+  border-radius: 50px;
+  font-size: 20px;
+  border: 1px solid #D50000;
+  transition: all 0.7s ease;
+  
+}
+
+#LaBarrita::placeholder{
+
+  color: #495057;
+}
+
+.busc4r{
+
+  position: relative;
+  right: 0;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  background: #D50000;
+  line-height: 80px;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+  transition: .5s;
+
+  .busc4r i{
+    font-size: 25px;
     color: white;
-    cursor: pointer;
-    font-size: 24px; /* Ajustado para alinear el tamaño de texto con el input */
-    border-radius: 10px; /* Ajustado para bordes redondeados */
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Centra el ícono en el botón */
-}
-
-/* Estilos adicionales para el ícono en el botón */
-.search-button_b i {
-    color: white;
-}
-
-.contenedor_tabla{
-    display: none;
-}
-
-
-
-.letra_tabla_t{
-    font-family: monospace;
-    font-size: 20px;
+    line-height: 80px;
+    transition: all .7s ease;
   }
 
-  .letra_texto {
-    font-family: sans-serif;
-    color: black;
-    font-size: 18px;
-    text-align: justify;
+  .Barra_de_busqueda:hover input{
+    width: 350px;
   }
 
-  table {
-    width: 100%; /* Usa todo el ancho disponible */
-    overflow-x: auto; /* Permite desplazamiento horizontal si la tabla es demasiado ancha */
-    border-collapse: collapse; /* Elimina el espacio entre las celdas */
-}
-
-th, td {
-    border: 1px solid black;
-    text-align: center;
-    padding: 8px;
-    word-wrap: break-word;
-}
-
-th {
-    background-color: #6b1640;
-    color: #f1f1f1;
-}
-
-td {
-    color: #6b1640;
-}
-
-/* Ajustes responsivos */
-@media (max-width: 768px) {
-    th, td {
-        padding: 4px; /* Reduce el padding en pantallas pequeñas */
-        font-size: 14px; /* Reduce el tamaño de la fuente si es necesario */
-    }
-}
-
-@media (max-width: 480px) {
-    th, td {
-        padding: 2px; /* Padding aún más pequeño para pantallas muy pequeñas */
-        font-size: 12px; /* Tamaño de fuente más pequeño */
-    }
+  .Barra_de_busqueda:hover i{
+    transform: rotate(-360deg);
+  }
+  
+  .busc4r:hover{
+    background: #cc0000;
+  }
 }
