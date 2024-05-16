@@ -191,35 +191,31 @@
 
 /*Barra de busqueda*/
 
-.Barra_de_busqueda{
+.Barra_de_busqueda {
   position: relative;
   left: 25%;
   width: 50%;
-  /*transform: translate(-50%, -50%);*/
   padding: 10px;
 }
 
-#LaBarrita{
+#LaBarrita {
   outline: none;
   box-sizing: border-box;
   height: 40px;
-  width: 0;
+  width: 100px; /* Valor inicial visible */
   padding: 0 20px;
   color: #000000;
   border-radius: 50px;
   font-size: 20px;
   border: 1px solid #D50000;
   transition: all 0.7s ease;
-  
 }
 
-#LaBarrita::placeholder{
-
+#LaBarrita::placeholder {
   color: #495057;
 }
 
-.busc4r{
-
+.busc4r {
   position: relative;
   right: 0;
   top: 0;
@@ -231,23 +227,25 @@
   text-align: center;
   cursor: pointer;
   transition: .5s;
+}
 
-  .busc4r i{
-    font-size: 25px;
-    color: white;
-    line-height: 80px;
-    transition: all .7s ease;
-  }
+.busc4r i {
+  font-size: 25px;
+  color: white;
+  line-height: 80px;
+  transition: all .7s ease;
+}
 
-  .Barra_de_busqueda:hover input{
-    width: 350px;
-  }
+/* directo a la barrita xd*/
+.Barra_de_busqueda:hover #LaBarrita {
+  width: 350px;
+}
 
-  .Barra_de_busqueda:hover i{
-    transform: rotate(-360deg);
-  }
-  
-  .busc4r:hover{
-    background: #cc0000;
-  }
+/* creo no le estabas diciendo a que darle tiempo :v */
+.Barra_de_busqueda:hover .busc4r i {
+  transform: rotate(-360deg);
+}
+
+.busc4r:hover {
+  background: #cc0000;
 }
