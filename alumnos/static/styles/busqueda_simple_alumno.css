@@ -13,7 +13,7 @@
   margin: 20px;
 }
 
-.body_busqueda::before {
+/*.body_busqueda::before {
   content: '';
   position: fixed;
   top: 0;
@@ -21,7 +21,7 @@
   height: 100%;
   width: 100%;
   z-index: -1;
-}
+}*/
 
 #title {
   font-weight: 400;
@@ -58,21 +58,23 @@
   font-size: inherit;
   line-height: inherit;
   width: 720px;
+  height: 50px;
   border-radius: 5px;
   background: rgba(27, 27, 50, 0.8);
   cursor: pointer;
+  
 }
 
 .formulario{
   display: none;
-  transition: max-height 0.3s;
-  max-height: 0px;
-  overflow: hidden;
+  height: 0;
+  transition: all 0.7s ease;
 }
 
-.Inicial:hover .formulario {
-  max-height: max-content;
-  display: block;
+.Inicial:hover .formulario{
+    display: block;
+    height: max-content;
+    transition: all 0.7s ease;
 }
 
 #pof-label,
@@ -196,18 +198,19 @@
   left: 25%;
   width: 50%;
   padding: 10px;
+
 }
 
 #LaBarrita {
   outline: none;
   box-sizing: border-box;
-  height: 40px;
-  width: 100px; /* Valor inicial visible */
+  height: 60px;
+  width: 0px; /* Valor inicial visible */
   padding: 0 20px;
   color: #000000;
   border-radius: 50px;
   font-size: 20px;
-  border: 1px solid #D50000;
+  border: 1px solid transparent;
   transition: all 0.7s ease;
 }
 
@@ -216,12 +219,12 @@
 }
 
 .busc4r {
-  position: relative;
-  right: 0;
+  position: absolute;
+  right: 96%;
   top: 0;
   width: 80px;
   height: 80px;
-  background: #D50000;
+  background: #6b1640;
   line-height: 80px;
   border-radius: 50%;
   text-align: center;
@@ -238,7 +241,8 @@
 
 /* directo a la barrita xd*/
 .Barra_de_busqueda:hover #LaBarrita {
-  width: 350px;
+  width: 640px;
+  border-color: #6b1640;
 }
 
 /* creo no le estabas diciendo a que darle tiempo :v */
