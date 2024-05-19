@@ -1,0 +1,17 @@
+#nueva_convocatoria {
+    background-color: #9A5933;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  #nueva_convocatoria hover {
+    background-color: #A0522D; /* Color café más oscuro al pasar el ratón */
+  }
+
+  #convocatoria_form input[type="text"],
+  #convocatoria_form input[type="date"],
+  #convocatoria_form textarea {
+    width: 100%;
+  }

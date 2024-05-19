@@ -1,29 +1,13 @@
 {% extends "base_generic_Administracion.html" %}
-
+{% load static%}
 {% block content %}
   <div id="fondo">
     <div class="contenedor_principal letra_texto">
-        <h1 class="letra_titulos">Agregar Nueva Convocatoria</h1>
-        <div class="contenedor_formulario">
-            <form action="{% url 'administracion:agregar_convocatoria' %}" method="post">
-                {% csrf_token %}
-                <label for="convocatoria">Convocatoria:</label><br>
-                <input type="text" id="convocatoria" name="convocatoria" required><br>
-                <label for="fecha_inicio">Fecha de Inicio:</label><br>
-                <input type="date" id="fecha_inicio" name="fecha_inicio" required><br>
-                <label for="fecha_limite_entrega">Fecha Límite de Entrega:</label><br>
-                <input type="date" id="fecha_limite_entrega" name="fecha_limite_entrega" required><br>
-                <label for="descripcion">Descripción:</label><br>
-                <textarea id="descripcion" name="descripcion" required></textarea><br>
-                <label for="requisitos">Requisitos:</label><br>
-                <textarea id="requisitos" name="requisitos" required></textarea><br>
-                <label for="documentos_a_entregar">Documentos a Entregar:</label><br>
-                <textarea id="documentos_a_entregar" name="documentos_a_entregar" required></textarea><br>
-                <input type="submit" value="Agregar Convocatoria">
-            </form>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 class="letra_titulos">Convocatorias Registradas</h1>
+            <button id="nueva_convocatoria">Nueva Convocatoria</button>
         </div>
-      <h1>Convocatorias Registradas</h1>
-        <table border="1">
+        <table border="1" id="convocatoriasTabla">
             <thead>
                 <tr>
                     <th>Convocatoria</th>
@@ -32,9 +16,10 @@
                     <th>Descripción</th>
                     <th>Requisitos</th>
                     <th>Documentos a Entregar</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="convocatoriasCuerpo">
                 {% for convocatoria in convocatorias %}
                 <tr>
                     <td>{{ convocatoria.convocatoria }}</td>
@@ -43,13 +28,25 @@
                     <td>{{ convocatoria.descripcion }}</td>
                     <td>{{ convocatoria.requisitos }}</td>
                     <td>{{ convocatoria.documentos_a_entregar }}</td>
+                    <td>
+                      <i class="fas fa-edit" onclick="editarConvocatoria('{{ convocatoria.id }}')"></i>
+                      <i class="fas fa-trash-alt" onclick="eliminarConvocatoria('{{ convocatoria.id }}')"></i>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    
+        <div id="pagination"></div>
     </div>
-
-  
   </div>
+
+  <script>
+    var agregarConvocatoriaUrl = "{% url 'administracion:agregar_convocatoria' %}";
+    var obtenerConvocatoriaUrl = "/administracion/titulacion/convocatorias/obtener/";
+    var editarConvocatoriaUrl = "/administracion/titulacion/convocatorias/editar/";
+    var eliminarConvocatoriaUrl = "/administracion/titulacion/convocatorias/eliminar/";
+    var csrfToken = "{{ csrf_token }}";
+  </script>
+
+  <script src="{% static 'scripts/editar_calendario_titulacion.js' %}"></script>
 {% endblock %}
