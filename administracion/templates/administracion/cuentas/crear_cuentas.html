@@ -1,124 +1,51 @@
 {% extends "base_generic_Administracion.html" %}
 
+{%load static%}
+
 {% block content %}
-  <div id="fondo">
-   <div class="contenedor_principal_cc letra_texto">
-    <h2 class="letra_titulos">Crear cuentas</h2>
-      <div id="crear_c">
-        <form method="post" id="signupForm" novalidate>
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-    
-          {{ form.nombre.label_tag }} {{ form.nombre }}
-          {{ form.apellido.label_tag }} {{ form.apellido }}
-          {{ form.correo_electronico.label_tag }} {{ form.correo_electronico }}
-    
-          {{ form.username.label_tag }} {{ form.username }} {{ form.username.errors }}
-          {{ form.password1.label_tag }} {{ form.password1 }} {{ form.password1.errors }}
-          {{ form.password2.label_tag }} {{ form.password2 }} {{ form.password2.errors }}
-    
-          {{ form.user_type.label_tag }} {{ form.user_type }}
-    
-          <!-- Campos para Alumnos -->
-          <div id="alumnoFields" style="display: none;">
-            {{ form.matricula.label_tag }} {{ form.matricula }}
-            {{ form.programa_academico.label_tag }} {{ form.programa_academico }}
-            {{ form.estatus.label_tag }} {{ form.estatus }}
-          </div>
-    
-          <!-- Campos para Docentes -->
-          <div id="docenteFields" style="display: none;">
-            {{ form.especialidad.label_tag }} {{ form.especialidad }}
-            {{ form.departamento_docente.label_tag }} {{ form.departamento_docente }}
-          </div>
-    
-          <!-- Campos para Administrativos -->
-          <div id="administrativoFields" style="display: none;">
-            {{ form.cargo.label_tag }} {{ form.cargo }}
-            {{ form.departamento_admin.label_tag }} {{ form.departamento_admin }}
-          </div>
-    
-          <button type="submit" class="btncrear">Crear cuenta</button>
-        </form>
-      </div>
-   </div>
-  </div>
-  <script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function () {
-  // Asegurándonos de que el formulario y los campos existan antes de añadir listeners
-  var signupForm = document.getElementById('signupForm');
-  if (signupForm) {
-    signupForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-      var formData = new FormData(this);
-      fetch("{% url 'administracion:create_user' %}", { 
-          method: 'POST',
-          body: formData,
-          headers: {
-              'X-CSRFToken': '{{ csrf_token }}'
-          },
-      })
-      .then(response => response.json())
-      .then(handleResponse)
-      .catch(handleError);
-    });
-  }
+<div id="fondo">
+    <div class="contenedor_principal_cc letra_texto">
+        <h2 class="letra_titulos">Crear cuentas</h2>
+        <div id="crear_c">
+            <form method="post" id="signupForm" data-url="{% url 'administracion:create_user' %}" data-csrf-token="{{ csrf_token }}" novalidate>
+                {% csrf_token %}
+                {{ form.non_field_errors }}
 
-  const userTypeFields = document.querySelectorAll('input[name="user_type"]');
-  userTypeFields.forEach(function(userTypeField) {
-    userTypeField.addEventListener('change', function (e) {
-      const selectedType = e.target.value;
-      toggleUserFields(selectedType);
-    });
-  });
+                {{ form.nombre.label_tag }} {{ form.nombre }}
+                {{ form.apellido.label_tag }} {{ form.apellido }}
+                {{ form.correo_electronico.label_tag }} {{ form.correo_electronico }}
 
-  function toggleUserFields(selectedType) {
-    document.getElementById('alumnoFields').style.display = selectedType === 'is_alumno' ? 'block' : 'none';
-    document.getElementById('docenteFields').style.display = selectedType === 'is_docente' ? 'block' : 'none';
-    document.getElementById('administrativoFields').style.display = selectedType === 'is_administrador' ? 'block' : 'none';
-  }
+                {{ form.username.label_tag }} {{ form.username }} {{ form.username.errors }}
+                {{ form.password1.label_tag }} {{ form.password1 }} {{ form.password1.errors }}
+                {{ form.password2.label_tag }} {{ form.password2 }} {{ form.password2.errors }}
 
-  function handleResponse(data) {
-  if (data.status === 'success') {
-    Swal.fire({
-        title: 'Éxito!',
-        text: data.message,
-        icon: 'success',
-        confirmButtonText: 'OK'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            resetForm();
-        }
-    });
-  } else {
-    let errorMessage = "Error al crear la cuenta. Revise los detalles.";
-    if (data.errors) {
-      errorMessage += "\n" + JSON.stringify(data.errors);
-    }
-    Swal.fire({
-        title: 'Error!',
-        text: errorMessage,
-        icon: 'error',
-        confirmButtonText: 'OK'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            resetForm();
-        }
-    });
-  }
-}
+                {{ form.user_type.label_tag }} {{ form.user_type }}
 
-  function handleError(error) {
-    console.error('Error:', error);
-  }
+                <!-- Campos para Alumnos -->
+                <div id="alumnoFields" style="display: none;">
+                    {{ form.matricula.label_tag }} {{ form.matricula }}
+                    {{ form.programa_academico.label_tag }} {{ form.programa_academico }}
+                    {{ form.estatus.label_tag }} {{ form.estatus }}
+                </div>
 
-  function resetForm() {
-    signupForm.reset(); // Resetea todos los campos del formulario a sus valores iniciales
-    document.getElementById('alumnoFields').style.display = 'none';
-    document.getElementById('docenteFields').style.display = 'none';
-    document.getElementById('administrativoFields').style.display = 'none';
-  }
-});
+                <!-- Campos para Docentes -->
+                <div id="docenteFields" style="display: none;">
+                    {{ form.especialidad.label_tag }} {{ form.especialidad }}
+                    {{ form.departamento_docente.label_tag }} {{ form.departamento_docente }}
+                </div>
 
-  </script>
+                <!-- Campos para Administrativos -->
+                <div id="administrativoFields" style="display: none;">
+                    {{ form.cargo.label_tag }} {{ form.cargo }}
+                    {{ form.departamento_admin.label_tag }} {{ form.departamento_admin }}
+                </div>
+
+                <button type="submit" class="btncrear">Crear cuenta</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script necesario -->
+<script src="{% static 'scripts/crear_cuentas.js' %}"></script>
 {% endblock %}
