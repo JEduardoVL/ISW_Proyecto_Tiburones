@@ -33,6 +33,10 @@ from django.views import View
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
     template_name = 'administracion/titulacion/registrar_formas_titulacion.html'
+
+
+#*****************************************Calendario titulación****************************************************************
+
 class AdministracionTitulacionCalendario(AdminRequiredMixin,TemplateView):
     template_name = 'administracion/titulacion/calendario_titulacion.html'
     def get_context_data(self, **kwargs):
@@ -53,12 +57,45 @@ def agregar_convocatoria(request):
             documentos_a_entregar=request.POST['documentos_a_entregar'],
         )
         nueva_convocatoria.save()  # Guardar la instancia en la base de datos
-        messages.success(request, 'Convocatoria agregada correctamente!')
-        return redirect('administracion:calendario_titulacion')  # Redirigir a una URL específica después de guardar
+
+        # Enviar una respuesta JSON indicando éxito
+        return JsonResponse({'success': True, 'message': 'Convocatoria agregada correctamente!'})
 
     # Si no es una solicitud POST, simplemente renderiza el formulario
     return render(request, 'administracion/titulacion/calendario_titulacion.html')
 
+@require_http_methods(["GET"])
+def obtener_convocatoria(request, convocatoria_id):
+    convocatoria = get_object_or_404(FormaTitulacion, id=convocatoria_id)
+    data = {
+        'convocatoria': convocatoria.convocatoria,
+        'fecha_inicio': convocatoria.fecha_inicio,
+        'fecha_limite_entrega': convocatoria.fecha_limite_entrega,
+        'descripcion': convocatoria.descripcion,
+        'requisitos': convocatoria.requisitos,
+        'documentos_a_entregar': convocatoria.documentos_a_entregar,
+    }
+    return JsonResponse(data)
+
+@require_http_methods(["POST"])
+def editar_convocatoria(request, convocatoria_id):
+    convocatoria = get_object_or_404(FormaTitulacion, id=convocatoria_id)
+    convocatoria.convocatoria = request.POST['convocatoria']
+    convocatoria.fecha_inicio = request.POST['fecha_inicio']
+    convocatoria.fecha_limite_entrega = request.POST['fecha_limite_entrega']
+    convocatoria.descripcion = request.POST['descripcion']
+    convocatoria.requisitos = request.POST['requisitos']
+    convocatoria.documentos_a_entregar = request.POST['documentos_a_entregar']
+    convocatoria.save()
+    return JsonResponse({'success': True, 'message': 'Convocatoria actualizada correctamente!'})
+
+@require_http_methods(["POST"])
+def eliminar_convocatoria(request, convocatoria_id):
+    convocatoria = get_object_or_404(FormaTitulacion, id=convocatoria_id)
+    convocatoria.delete()
+    return JsonResponse({'success': True, 'message': 'Convocatoria eliminada correctamente!'})
+
+#*****************************************Canvocatorias titulación****************************************************************
 class AdministracionTitulacionConvocatorias(AdminRequiredMixin,TemplateView):
     template_name = 'administracion/titulacion/convocatorias_titulacion.html'
     def get_context_data(self, **kwargs):

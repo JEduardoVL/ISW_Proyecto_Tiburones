@@ -26,7 +26,10 @@ from .views import (
     AdministracionDocumentoFormView,  # Asegúrate de crear esta vista
     AdministracionDocumentoSuccessView,  # Vista de confirmación
     AdministracionCambiarContrasena,
-    AdministracionEditarDatosGenerales
+    AdministracionEditarDatosGenerales,
+    obtener_convocatoria,
+    editar_convocatoria,
+    eliminar_convocatoria
 )
 from administracion import views
 from django.views.decorators.http import require_POST
@@ -58,6 +61,10 @@ urlpatterns = [
     path('titulacion/registrar_formas_titulacion/', AdministracionTitulacionRegistrar.as_view(), name='registrar_formas_de_titulacion'),
     path('titulacion/calendario_titulacion/', AdministracionTitulacionCalendario.as_view(), name='calendario_titulacion'),
     path('convocatorias/agregar/', agregar_convocatoria, name='agregar_convocatoria'),
+    path('titulacion/convocatorias/obtener/<int:convocatoria_id>/', obtener_convocatoria, name='obtener_convocatoria'),
+    path('titulacion/convocatorias/editar/<int:convocatoria_id>/', editar_convocatoria, name='editar_convocatoria'),
+    path('titulacion/convocatorias/eliminar/<int:convocatoria_id>/', eliminar_convocatoria, name='eliminar_convocatoria'),
+
 
     path('titulacion/convocatorias_titulacion/', AdministracionTitulacionConvocatorias.as_view(), name='convocatorias_titulacion'),
     

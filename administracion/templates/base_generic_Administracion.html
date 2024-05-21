@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/crear_cuentas.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/administrar_cuentas.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/paginacion.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/calendario_titulacion.css' %}">
     
     <!-- Para los iconos-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -54,7 +55,9 @@
         <div class="dropdown">
             <a class="nav-link">Titulación</a>
             <div class="dropdown-content">
-                <a href="{% url 'administracion:registrar_formas_de_titulacion' %}">Registrar formas de titulación</a>
+                <!-- SUpongo que es mejor que no este
+                <a href="{% url 'administracion:registrar_formas_de_titulacion' %}">Registrar formas de titulación</a> 
+                -->
                 <a href="{% url 'administracion:calendario_titulacion' %}">Calendarios de titulación</a>
                 <a href="{% url 'administracion:convocatorias_titulacion' %}">Convocatorias de titulación</a>
             </div>
