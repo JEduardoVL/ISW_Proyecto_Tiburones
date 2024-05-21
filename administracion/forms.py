@@ -1,5 +1,6 @@
 from django import forms
 from .models import Documento
+from .models import Seminario
 
 class FileUploadForm(forms.Form):
     document = forms.FileField()
@@ -11,3 +12,41 @@ class DocumentoForm(forms.ModelForm):
             'nombre', 'resumen', 'palabras_clave', 'nombre_autor', 'sinodales',
             'tipo', 'fecha_elaboracion', 'convocatoria_titulacion'
         ]
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    format = '%Y-%m-%d'
+
+    def __init__(self, *args, **kwargs):
+        kwargs['format'] = self.format
+        super().__init__(*args, **kwargs)
+
+    def format_value(self, value):
+        if value is None:
+            return ''
+        if isinstance(value, str):
+            try:
+                # Intentar convertir la cadena a un objeto de fecha
+                value = datetime.strptime(value, '%d-%m-%Y').date()
+            except ValueError:
+                return value  # Devolver la cadena sin cambios si no se puede convertir
+        return super().format_value(value)
+
+class SeminarioForm(forms.ModelForm):
+    class Meta:
+        model = Seminario
+        fields = ['titulo', 'fecha', 'hora', 'ubicacion', 'descripcion', 'presentador', 'temas', 'requisitos', 'creditos_academicos']
+        widgets = {
+            'fecha': DateInput(attrs={'placeholder': 'DD-MM-YYYY'}),
+            'hora': forms.TimeInput(attrs={'type': 'time'}),
+        }
+
+    def clean_fecha(self):
+        fecha = self.cleaned_data['fecha']
+        if isinstance(fecha, str):
+            try:
+                fecha = datetime.strptime(fecha, '%d-%m-%Y').date()
+            except ValueError:
+                raise forms.ValidationError("Introduce una fecha válida en formato DD-MM-YYYY")
+        return fecha

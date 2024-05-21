@@ -1,6 +1,6 @@
 # Agrupar importaciones de django
 from django.views.generic import TemplateView, FormView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
@@ -21,6 +21,8 @@ from .mixins import AdminRequiredMixin
 from .models import FormaTitulacion, Documento
 from .forms import DocumentoForm, FileUploadForm
 from .utils import upload_pdf
+from .models import Seminario
+from .forms import SeminarioForm
 
 # Importar excepciones específicas
 from smtplib import SMTPAuthenticationError
@@ -338,3 +340,36 @@ class AdministracionDocumentoFormView(AdminRequiredMixin, FormView):
 
 class AdministracionDocumentoSuccessView(AdminRequiredMixin, TemplateView):
     template_name = 'administracion/documento_success.html'
+
+def seminarios(request):
+    if request.method == 'POST':
+        form = SeminarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('administracion:seminarios')
+        else:
+            print("Errores en el formulario:", form.errors)  # Imprime los errores del formulario si no es válido
+    else:
+        form = SeminarioForm()
+
+    seminarios = Seminario.objects.all()
+    return render(request, 'administracion/seminarios.html', {'form': form, 'seminarios': seminarios})
+
+def eliminar_seminario(request, id):
+    seminario = get_object_or_404(Seminario, id=id)
+    if request.method == 'POST':
+        seminario.delete()
+        return redirect('administracion:seminarios')
+    return render(request, 'administracion/eliminar_seminario.html', {'seminario': seminario})
+
+def editar_seminario(request, id):
+    seminario = get_object_or_404(Seminario, id=id)
+    if request.method == 'POST':
+        form = SeminarioForm(request.POST, instance=seminario)
+        if form.is_valid():
+            form.save()
+            return redirect('administracion:seminarios')
+    else:
+        form = SeminarioForm(instance=seminario)
+    return render(request, 'administracion/editar_seminario.html', {'form': form, 'seminario': seminario})
+

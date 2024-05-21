@@ -31,3 +31,18 @@ class Documento(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+
+class Seminario(models.Model):
+    titulo = models.CharField(max_length=200)
+    fecha = models.DateField()
+    hora = models.TimeField()
+    ubicacion = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    presentador = models.CharField(max_length=100)
+    temas = models.TextField()
+    requisitos = models.TextField()
+    creditos_academicos = models.DecimalField(max_digits=3, decimal_places=1)
+
+    def __str__(self):
+        return self.titulo

@@ -2,6 +2,196 @@
 
 {% block content %}
   <div id="fondo">
-    <h1>Todo para la administracion de seminarios</h1>
+    <div class="contenedor_principal letra_texto">
+      <h1 class="letra_titulos">Seminarios</h1>
+
+      <!-- Botón para mostrar el formulario -->
+      <button id="agregarSeminarioBtn" class="btn btn-success">Agregar Seminario</button>
+
+      <!-- Formulario para agregar seminarios -->
+      <div id="formularioContainer" class="hidden">
+        <h2 class="letra_titulos">Agregar Seminario</h2>
+        <form id="seminarioForm" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-success">Guardar</button>
+          <button type="button" id="cancelarBtn" class="btn btn-secondary">Cancelar</button>
+        </form>
+      </div>
+
+      <!-- Tabla de seminarios -->
+      <h2 class="letra_titulos">Lista de Seminarios</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Ubicación</th>
+            <th>Descripción</th>
+            <th>Presentador</th>
+            <th>Temas</th>
+            <th>Requisitos</th>
+            <th>Créditos Académicos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for seminario in seminarios %}
+          <tr>
+            <td>{{ seminario.titulo }}</td>
+            <td>{{ seminario.fecha }}</td>
+            <td>{{ seminario.hora }}</td>
+            <td>{{ seminario.ubicacion }}</td>
+            <td>{{ seminario.descripcion }}</td>
+            <td>{{ seminario.presentador }}</td>
+            <td>{{ seminario.temas }}</td>
+            <td>{{ seminario.requisitos }}</td>
+            <td>{{ seminario.creditos_academicos }}</td>
+            <td class="acciones">
+              <a href="{% url 'administracion:editar_seminario' seminario.id %}" class="icon-link">
+                <i class="fas fa-edit" onclick="editar_seminario('{{seminario.id}}')"></i>
+              </a>
+
+              <a href="{% url 'administracion:eliminar_seminario' seminario.id %}" class="icon-link">
+                <i class="fas fa-trash-alt" onclick="eliminar_seminario('{{seminario.id}}')"></i>
+              </a>
+
+              <!--<form method="post" action="{% url 'administracion:eliminar_seminario' seminario.id %}" style="display:inline;" class="icon-link">
+                {% csrf_token %}
+                <button type="submit" class="btn-delete">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>-->
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var agregarSeminarioBtn = document.getElementById('agregarSeminarioBtn');
+          var formularioContainer = document.getElementById('formularioContainer');
+          var seminarioForm = document.getElementById('seminarioForm');
+          var cancelarBtn = document.getElementById('cancelarBtn');
+
+          agregarSeminarioBtn.addEventListener('click', function () {
+            formularioContainer.classList.toggle('hidden');
+          });
+
+          cancelarBtn.addEventListener('click', function () {
+            formularioContainer.classList.add('hidden');
+          });
+
+          seminarioForm.addEventListener('submit', function (event) {
+            formularioContainer.classList.add('hidden');
+          });
+        });
+      </script>
+
+      <style>
+        .hidden {
+          display: none;
+        }
+
+        .btn {
+          padding: 10px 20px;
+          margin: 10px 0;
+          border: none;
+          border-radius: 5px;
+          text-decoration: none;
+          color: white;
+          display: inline-block;
+          font-size: 16px;
+        }
+
+        .btn-primary {
+          background-color: #007bff;
+        }
+
+        .btn-danger {
+          background-color: #dc3545;
+        }
+
+        .btn-success {
+          background-color: #9A5933;
+          align-items: center;
+        }
+
+        .btn-secondary {
+          background-color: #6c757d;
+          align-items: center;
+        }
+
+        .btn-sm {
+          padding: 5px 10px;
+          font-size: 0.875rem;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        th, td {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+          vertical-align: middle;
+        }
+
+        th {
+          background-color: #8B4513;
+          color: white;
+        }
+
+        .acciones {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .icon-link {
+          color: inherit;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 5px;
+          background: none;
+          border: none;
+        }
+
+        .icon-link i {
+          font-size: 30px;
+          cursor: pointer;
+        }
+
+        .btn-delete {
+          background: none;
+          border: none;
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .btn-delete i {
+          color: #dc3545;
+        }
+
+        .btn-delete:focus, .icon-link:focus {
+          outline: none;
+        }
+
+        .btn-delete:hover, .icon-link:hover {
+          background: none;
+        }
+      </style>
+    </div>
   </div>
 {% endblock %}

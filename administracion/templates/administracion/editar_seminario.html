@@ -1,0 +1,59 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+  <div id="fondo">
+    <div class="contenedor_principal letra_texto">
+      <h1 class="letra_titulos">Editar Seminario</h1>
+      <div class="contenedor_formulario">
+        <form method="post" class="form-botones">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="botones-container">
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
+            <a href="{% url 'administracion:seminarios' %}" class="btn btn-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .btn {
+      padding: 10px 20px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      display: inline-block;
+      font-size: 16px;
+    }
+
+    .btn-success {
+      background-color: #9A5933;
+      align-items: center;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      align-items: center;
+    }
+
+    .botones-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-botones .btn {
+      flex: 1;
+      text-align: center;
+      margin-right: 10px;
+    }
+
+    .form-botones .btn:last-child {
+      margin-right: 0;
+    }
+  </style>
+{% endblock %}
+
+

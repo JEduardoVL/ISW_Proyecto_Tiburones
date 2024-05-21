@@ -45,12 +45,15 @@ urlpatterns = [
 
     path('subir_documento/', AdministracionSubirDoc.as_view(), name='subir_documento'),
      path('titulacion/', AdministracionTitulacion.as_view(), name='titulacion'),
-    path('seminarios/', AdministracionSeminarios.as_view(), name='seminarios'),
+    #path('seminarios/', AdministracionSeminarios.as_view(), name='seminarios'),
     path('convocatorias/', AdministracionConvocatorias.as_view(), name='convocatorias'),
     
      path('documento_form/', AdministracionDocumentoFormView.as_view(), name='documento_form'),  # Nueva ruta para el formulario de Documento
     path('documento_success/', AdministracionDocumentoSuccessView.as_view(), name='documento_success'),  # Nueva ruta para la vista de éxito
-
+    path('seminarios/', views.seminarios, name='seminarios'),
+    path('seminarios/eliminar/<int:id>/', views.eliminar_seminario, name='eliminar_seminario'),
+    path('seminarios/editar/<int:id>/', views.editar_seminario, name='editar_seminario'),
+    
     # titulacion
     path('titulacion/registrar_formas_titulacion/', AdministracionTitulacionRegistrar.as_view(), name='registrar_formas_de_titulacion'),
     path('titulacion/calendario_titulacion/', AdministracionTitulacionCalendario.as_view(), name='calendario_titulacion'),
@@ -74,4 +77,4 @@ urlpatterns = [
     path('alumnos/<int:id>/update/', views.update_alumno_data, name='update_alumno_data'),
     path('alumnos/<int:id>/delete/', views.delete_alumno, name='delete_alumno'),
 
-]
+] 
