@@ -1,0 +1,105 @@
+.hidden {
+    display: none;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+  }
+
+  .btn-success {
+    background-color: #9A5933;
+    align-items: center;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    align-items: center;
+  }
+
+  .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+  }
+
+.acciones {
+justify-content: center;
+align-items: center;
+height: 100%; /* Asegura que la celda acciones ocupe todo el alto */
+}
+
+.acciones div {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px;
+height: 100%; /* Asegura que el div ocupe todo el alto de la celda */
+}
+
+.icon-link {
+color: inherit;
+text-decoration: none;
+display: flex;
+align-items: center;
+justify-content: center;
+background: none;
+border: none;
+padding: 5px;
+height: 100%; /* Asegura que el enlace ocupe todo el alto del div */
+}
+
+
+.icon-link {
+color: inherit;
+text-decoration: none;
+display: flex;
+align-items: center;
+justify-content: center;
+background: none;
+border: none;
+padding: 5px;
+height: 100%;
+width: 100%;
+}
+
+.icon-link i {
+font-size: 20px; /* Ajusta el tamaño de los íconos */
+cursor: pointer;
+}
+
+.btn-delete {
+background: none;
+border: none;
+padding: 0;
+margin: 0;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.btn-delete i {
+color: #dc3545;
+}
+
+.btn-delete:focus, .icon-link:focus {
+outline: none;
+}
+
+.btn-delete:hover, .icon-link:hover {
+background: none;
+}
