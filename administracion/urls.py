@@ -19,7 +19,6 @@ from .views import (
     AdministracionAdminCuentas,
     
     # alumnos
-    alumnos_view,
     create_user,
     agregar_convocatoria,
     update_user,
@@ -29,7 +28,10 @@ from .views import (
     AdministracionEditarDatosGenerales,
     obtener_convocatoria,
     editar_convocatoria,
-    eliminar_convocatoria
+    eliminar_convocatoria,
+    AdministracionAlumnos,
+    EliminarMaterial,
+    EditarMaterial
 )
 from administracion import views
 from django.views.decorators.http import require_POST
@@ -79,9 +81,7 @@ urlpatterns = [
     path('crear_usuario/', views.create_user, name='create_user'),
     
     # alumnos
-    path('alumnos/', alumnos_view, name='alumnos'),
-    path('alumnos/<int:id>/get_data/', views.get_alumno_data, name='get_alumno_data'),
-    path('alumnos/<int:id>/update/', views.update_alumno_data, name='update_alumno_data'),
-    path('alumnos/<int:id>/delete/', views.delete_alumno, name='delete_alumno'),
-
+    path('alumnos/', AdministracionAlumnos.as_view(), name='alumnos'),
+    path('eliminar_material/<int:material_id>/', EliminarMaterial.as_view(), name='eliminar_material'),
+    path('editar_material/', EditarMaterial.as_view(), name='editar_material'),
 ] 

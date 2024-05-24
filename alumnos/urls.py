@@ -12,7 +12,8 @@ from .views import (
     AlumnosTitulacionForma,
     AlumnosTitulacionEstatus,
     AlumnosInformacion,
-    AlumnosCambiarContrasena
+    AlumnosCambiarContrasena,
+    AlumnosTitulacionMaterial
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -34,6 +35,7 @@ urlpatterns = [
     path('titulacion/convocatorias_titulacion/', AlumnosTitulacionConvocatoria.as_view(), name='convocatorias_titulacion'),
     path('titulacion/formas_titulacion/', AlumnosTitulacionForma.as_view(), name='formas_titulacion'),
     path('titulacion/estatus_titulacion/', AlumnosTitulacionEstatus.as_view(), name='estatus_titulacion'),
+    path('titulacion/material_apoyo/', AlumnosTitulacionMaterial.as_view(), name='material_apoyo'),
     
 ]
 

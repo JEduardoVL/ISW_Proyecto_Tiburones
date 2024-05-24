@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/formas_titulacion.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/calendario_titulacion_alumnos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/informacion_alumno.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/material_apoyo.css' %}">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
@@ -59,6 +59,7 @@
                 <a href="{% url 'alumnos:convocatorias_titulacion' %}">Convocatorias de titulación</a>
                 <a href="{% url 'alumnos:calendario_titulacion' %}">Calendario de titulación</a>
                 <a href="{% url 'alumnos:estatus_titulacion' %}">Estatus de Titulacion</a>
+                <a href="{% url 'alumnos:material_apoyo' %}">Material de apoyo</a>
             </div>
         </div>
         <a class="nav-link" href="{% url 'alumnos:subir_documento' %}">Subir documentos</a>

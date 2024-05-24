@@ -1,42 +1,158 @@
 {% extends "base_generic_Administracion.html" %}
-{% load static%}
+{% load static %}
 {% block content %}
 
 <div id="fondo">
     <div class="contenedor_principal_a letra_texto">
-        <h1 class="letra_titulos">Control de alumnos</h1>
+        <h1 class="letra_titulos">Material de Apoyo</h1>
+        
+        <button id="nuevoMaterialBtn">Nuevo Material</button>
+
         <table>
             <thead>
                 <tr>
-                    <th>Matrícula</th>
                     <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Correo Electrónico</th>
-                    <th>Programa Académico</th>
-                    <th>Estatus</th>
+                    <th>Tipo</th>
+                    <th>URL</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for alumno in alumnos %}
+                {% for material in materiales %}
                 <tr>
-                    <td>{{ alumno.matricula }}</td>
-                    <td>{{ alumno.nombre }}</td>
-                    <td>{{ alumno.apellido }}</td>
-                    <td>{{ alumno.correo_electronico }}</td>
-                    <td>{{ alumno.programa_academico }}</td>
-                    <td>{{ alumno.get_estatus_display }}</td>
+                    <td>{{ material.nombre }}</td>
+                    <td>{{ material.tipo }}</td>
+                    <td><a href="{{ material.url }}" target="_blank">Ver Documento</a></td>
                     <td>
-                        <i class="fas fa-edit" onclick="editAlumno('{{ alumno.id }}')"></i> <!-- Icono editar -->
-                        <i class="fas fa-trash-alt" onclick="deleteAlumno('{{ alumno.id }}')"></i> <!-- Icono eliminar -->
+                        <i class="fas fa-edit" onclick="editMaterial('{{ material.id }}', '{{ material.nombre }}', '{{ material.tipo }}', '{{ material.url }}')"></i>
+                        <i class="fas fa-trash-alt" onclick="confirmDelete('{{ material.id }}')"></i>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
     </div>
 </div>
-<!-- Scrip necesario-->
-<script src="{% static 'scripts/editar_alumnos.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.getElementById('nuevoMaterialBtn').addEventListener('click', function () {
+        Swal.fire({
+            title: 'Nuevo Material',
+            html: `
+                <form id="materialForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            preConfirm: () => {
+                const form = document.getElementById('materialForm');
+                const formData = new FormData(form);
+
+                return fetch("{% url 'administracion:alumnos' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                }).catch(error => {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload(); // Recargar la página para reflejar los cambios
+            }
+        });
+    });
+
+    function confirmDelete(materialId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMaterial(materialId);
+            }
+        });
+    }
+
+    function deleteMaterial(materialId) {
+        fetch(`{% url 'administracion:eliminar_material' material_id=0 %}`.replace('0', materialId), {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        }).then(response => {
+            if (response.ok) {
+                location.reload(); // Recargar la página para reflejar los cambios
+            } else {
+                Swal.fire('Error', 'No se pudo eliminar el material', 'error');
+            }
+        }).catch(error => {
+            Swal.fire('Error', `Request failed: ${error}`, 'error');
+        });
+    }
+
+    function editMaterial(id, nombre, tipo, url) {
+        Swal.fire({
+            title: 'Editar Material',
+            html: `
+                <form id="editMaterialForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="edit_nombre">Nombre:</label>
+                    <input type="text" id="edit_nombre" name="nombre" value="${nombre}" required><br>
+                    <label for="edit_tipo">Tipo:</label>
+                    <select id="edit_tipo" name="tipo">
+                        <option value="Guía" ${tipo === 'Guía' ? 'selected' : ''}>Guía</option>
+                        <option value="Formato" ${tipo === 'Formato' ? 'selected' : ''}>Formato</option>
+                        <option value="Ejemplo" ${tipo === 'Ejemplo' ? 'selected' : ''}>Ejemplo</option>
+                    </select><br>
+                    <label for="edit_archivo">Subir Documento (Opcional):</label>
+                    <input type="file" id="edit_archivo" name="archivo"><br>
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            preConfirm: () => {
+                const form = document.getElementById('editMaterialForm');
+                const formData = new FormData(form);
+                formData.append('id', id);
+
+                return fetch("{% url 'administracion:editar_material' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                }).catch(error => {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload(); // Recargar la página para reflejar los cambios
+            }
+        });
+    }
+</script>
 
 {% endblock %}

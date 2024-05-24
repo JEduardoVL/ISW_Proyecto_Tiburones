@@ -46,3 +46,18 @@ class Seminario(models.Model):
 
     def __str__(self):
         return self.titulo
+
+
+class MaterialApoyo(models.Model):
+    TIPO_CHOICES = [
+        ('Guia', 'Guía'),
+        ('Formato', 'Formato'),
+        ('Ejemplo', 'Ejemplo'),
+    ]
+
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    nombre = models.CharField(max_length=255) 
+    url = models.URLField(max_length=200, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.tipo} - {self.nombre}"

@@ -1,0 +1,36 @@
+{% extends "base_generic_alumnos.html" %}
+
+{% block content %}
+<div id="fondo">
+  <div class="contenedor_principal letra_preguntas">
+    <p class="letra_titulos">Material de apoyo</p>
+
+    <p>Guias</p>
+    {% for guia in guias %}
+      <div class="material-cuadro">
+        <a href="{{ guia.url }}" target="_blank">
+          {{ guia.nombre }}
+        </a>
+      </div>
+    {% endfor %}
+
+    <p>Formularios</p>
+    {% for formulario in formularios %}
+      <div class="material-cuadro">
+        <a href="{{ formulario.url }}" target="_blank">
+          {{ formulario.nombre }}
+        </a>
+      </div>
+    {% endfor %}
+
+    <p>Ejemplos</p>
+    {% for ejemplo in ejemplos %}
+      <div class="material-cuadro">
+        <a href="{{ ejemplo.url }}" target="_blank">
+          {{ ejemplo.nombre }}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

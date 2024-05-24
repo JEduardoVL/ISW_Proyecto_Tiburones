@@ -11,7 +11,7 @@ from django.conf import settings
 from django.urls import reverse
 from django import forms
 from django.template.loader import render_to_string 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 
 # Importar módulos específicos
@@ -29,6 +29,10 @@ from smtplib import SMTPAuthenticationError
 
 # Importar vistas genéricas personalizadas
 from django.views import View
+
+from .forms import MaterialApoyoForm
+from .material_apoyo import upload_pdf
+from .models import MaterialApoyo
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -199,66 +203,60 @@ class AdministracionCambiarContrasena(View):
 
         return JsonResponse({'status': 'ok', 'message': 'Contraseña cambiada con éxito'})
 # Alumnos
-class AdministracionAlumnos(AdminRequiredMixin, TemplateView):
+class AdministracionAlumnos(AdminRequiredMixin, View):
     template_name = 'administracion/alumnos.html'
-    # para ver las cuentas de los alumnos en tablas
-def alumnos_view(request):
-    alumnos = CustomUser.objects.filter(is_alumno=True)
-    return render(request, 'Administracion/alumnos.html', {'alumnos': alumnos})
 
-def get_alumno_data(request, id):
-    """
-    Vista para obtener los datos de un alumno específico.
-    """
-    if request.method == 'GET':
+    def get(self, request):
+        form = MaterialApoyoForm()
+        materiales = MaterialApoyo.objects.all()
+        return render(request, self.template_name, {'form': form, 'materiales': materiales})
+
+    def post(self, request):
+        form = MaterialApoyoForm(request.POST, request.FILES)
+        if form.is_valid():
+            archivo = request.FILES['archivo']
+            try:
+                url = upload_pdf(archivo)
+                material_apoyo = form.save(commit=False)
+                material_apoyo.url = url
+                material_apoyo.save()
+            finally:
+                archivo.close() 
+
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+
+class EliminarMaterial(View):
+    def delete(self, request, material_id):
         try:
-            alumno = CustomUser.objects.get(pk=id, is_alumno=True)
-            data = {
-                'nombre': alumno.nombre,
-                'apellido': alumno.apellido,
-                'correo_electronico': alumno.correo_electronico,
-                'programa_academico': alumno.programa_academico,
-                'estatus': alumno.estatus,
-            }
-            return JsonResponse({'status': 'success', 'data': data})
-        except CustomUser.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Alumno no encontrado'}, status=404)
+            material = MaterialApoyo.objects.get(id=material_id)
+            material.delete()
+            return HttpResponse(status=204)
+        except MaterialApoyo.DoesNotExist:
+            return JsonResponse({'error': 'Material no encontrado'}, status=404)
 
+class EditarMaterial(View):
+    def post(self, request):
+        material_id = request.POST.get('id')
+        nombre = request.POST.get('nombre')
+        tipo = request.POST.get('tipo')
+        archivo = request.FILES.get('archivo')
 
-@csrf_exempt
-@login_required
-@require_http_methods(["POST"])
-def update_alumno_data(request, id):
-    """
-    Vista para actualizar los datos de un alumno específico.
-    """
-    if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            alumno = CustomUser.objects.get(pk=id, is_alumno=True)
-            alumno.nombre = data['nombre']
-            alumno.apellido = data['apellido']
-            alumno.correo_electronico = data['correo_electronico']
-            alumno.programa_academico = data['programa_academico']
-            alumno.estatus = data['estatus']
-            alumno.save()
-            return JsonResponse({'status': 'success', 'message': 'Datos actualizados correctamente'})
-        except CustomUser.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Alumno no encontrado'}, status=404)
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+            material = MaterialApoyo.objects.get(id=material_id)
+            material.nombre = nombre
+            material.tipo = tipo
 
-@require_http_methods(["DELETE"])
-def delete_alumno(request, id):
-    """
-    Vista para eliminar un alumno específico.
-    """
-    try:
-        alumno = CustomUser.objects.get(pk=id, is_alumno=True)
-        alumno.delete()
-        return JsonResponse({'status': 'success', 'message': 'Alumno eliminado correctamente'})
-    except CustomUser.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Alumno no encontrado'}, status=404)
+            if archivo:
+                url = upload_pdf(archivo)
+                material.url = url
+                archivo.close()  
+
+            material.save()
+            return JsonResponse({'success': True})
+        except MaterialApoyo.DoesNotExist:
+            return JsonResponse({'error': 'Material no encontrado'}, status=404)
     
 # para cuentas generales
 def get_user_details(request, user_id):

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Documento
 from .models import Seminario
+from .models import MaterialApoyo
 
 class FileUploadForm(forms.Form):
     document = forms.FileField()
@@ -50,3 +51,17 @@ class SeminarioForm(forms.ModelForm):
             except ValueError:
                 raise forms.ValidationError("Introduce una fecha válida en formato DD-MM-YYYY")
         return fecha
+
+class MaterialApoyoForm(forms.ModelForm):
+    class Meta:
+        model = MaterialApoyo
+        fields = ['tipo', 'nombre']
+        
+    archivo = forms.FileField()
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # La URL será manejada por la vista después de la subida del archivo
+        if commit:
+            instance.save()
+        return instance

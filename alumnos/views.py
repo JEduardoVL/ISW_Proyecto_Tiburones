@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import json
 # Importamos el modelo
 from administracion.models import FormaTitulacion
+from administracion.models import MaterialApoyo
 # Importar vistas genéricas personalizadas
 from django.views import View
 
@@ -38,6 +39,18 @@ class AlumnosTitulacionForma(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/formas_titulacion.html'
 class AlumnosTitulacionEstatus(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/estatus_titulacion.html'
+
+
+class AlumnosTitulacionMaterial(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/titulacion/material_apoyo.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['guias'] = MaterialApoyo.objects.filter(tipo='Guía')
+        context['formularios'] = MaterialApoyo.objects.filter(tipo='Formato')
+        context['ejemplos'] = MaterialApoyo.objects.filter(tipo='Ejemplo')
+        return context
+
 
 class AlumnosInformacion(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/informacion_alumnos.html'
