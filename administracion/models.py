@@ -27,11 +27,10 @@ class Documento(models.Model):
     tipo = models.CharField(max_length=2, choices=TIPO_CHOICES)
     fecha_elaboracion = models.DateField()
     convocatoria_titulacion = models.CharField(max_length=100)
-    url = models.URLField()
+    url = models.URLField(blank=True, null=True)  # Hacer el campo opcional
 
     def __str__(self):
         return self.nombre
-    
 
 class Seminario(models.Model):
     titulo = models.CharField(max_length=200)

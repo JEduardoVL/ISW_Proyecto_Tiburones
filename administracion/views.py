@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django import forms
 from django.template.loader import render_to_string 
 from django.http import JsonResponse, HttpResponse
@@ -20,9 +20,14 @@ from usuarios.forms import CustomUserCreationForm
 from .mixins import AdminRequiredMixin
 from .models import FormaTitulacion, Documento
 from .forms import DocumentoForm, FileUploadForm
-from .utils import upload_pdf
+from .utils import upload_pdf_admin
 from .models import Seminario
 from .forms import SeminarioForm
+
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
+from .forms import DocumentoForm
+from .models import Documento
 
 # Importar excepciones específicas
 from smtplib import SMTPAuthenticationError
@@ -335,47 +340,35 @@ class FileUploadForm(forms.Form):
 
 class AdministracionSubirDoc(AdminRequiredMixin, FormView):
     template_name = 'administracion/subir_documento.html'
-    form_class = FileUploadForm
-
-    def form_valid(self, form):
-        file = self.request.FILES['document']
-        file_url = upload_pdf(file)
-
-        # Guardar la URL en la sesión para su uso posterior
-        self.request.session['uploaded_file_url'] = file_url
-
-        return HttpResponseRedirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse('administracion:documento_form')
-
-class DocumentoFormView(AdminRequiredMixin, FormView):
-    template_name = 'administracion/documento_form.html'
     form_class = DocumentoForm
+    success_url = reverse_lazy('administracion:subir_documento')
 
     def form_valid(self, form):
-        documento = form.save(commit=False)
-        documento.url = self.request.session.get('uploaded_file_url')
-        documento.save()
+        documento = self.request.FILES.get('documento')
+        tipo = form.cleaned_data.get('tipo')
 
-        # Limpiar la URL de la sesión
-        del self.request.session['uploaded_file_url']
+        # Definir la carpeta basada en el tipo
+        folder_id = {
+            'TT': '1PqOYnnBDJu_Jn0u2AMStKJPv4ZXZKnVy',
+            'AR': '1UMp51OaLpqQKfhiBRIivF3pDTYZ5NIgk',
+            'TS': '1SU5erynjS4MDMguKeWik_faHNzYM90CB',
+            'OT': '1KJ1VLUd1dqCcS-zOUM_fZKLD5Ld_oipX'
+        }.get(tipo, '1SU5erynjS4MDMguKeWik_faHNzYM90CB')
 
-        return HttpResponseRedirect(reverse('administracion:home'))
+        if documento:
+            file_url = upload_pdf_admin(documento, folder_id)  # Pasar el ID de la carpeta
+            form.instance.url = file_url
+            form.save()
+            
+            # Crear un mensaje de éxito para mostrar en la alerta de SweetAlert
+            success_message = "Archivo subido correctamente."
 
-class AdministracionDocumentoFormView(AdminRequiredMixin, FormView):
-    template_name = 'administracion/documento_form.html'
-    form_class = DocumentoForm
+            # Devolver una respuesta JSON con el mensaje de éxito
+            return JsonResponse({'success': True, 'message': success_message})
 
-    def form_valid(self, form):
-        documento = form.save(commit=False)
-        documento.url = self.request.session.get('uploaded_file_url')
-        documento.save()
-        return HttpResponseRedirect(reverse('administracion:subir_documento'))
-
-class AdministracionDocumentoSuccessView(AdminRequiredMixin, TemplateView):
-    template_name = 'administracion/documento_success.html'
-
+        # En caso de error, devolver una respuesta JSON con el mensaje de error
+        return JsonResponse({'success': False, 'message': "Ocurrió un error al subir el archivo."})
+    
 def seminarios(request):
     if request.method == 'POST':
         form = SeminarioForm(request.POST)

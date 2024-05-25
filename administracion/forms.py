@@ -6,6 +6,7 @@ from .models import MaterialApoyo
 class FileUploadForm(forms.Form):
     document = forms.FileField()
 
+'''
 class DocumentoForm(forms.ModelForm):
     class Meta:
         model = Documento
@@ -13,8 +14,19 @@ class DocumentoForm(forms.ModelForm):
             'nombre', 'resumen', 'palabras_clave', 'nombre_autor', 'sinodales',
             'tipo', 'fecha_elaboracion', 'convocatoria_titulacion'
         ]
-
-
+'''
+class DocumentoForm(forms.ModelForm):
+    class Meta:
+        model = Documento
+        fields = [
+            'nombre', 'resumen', 'palabras_clave', 'nombre_autor', 'sinodales',
+            'tipo', 'fecha_elaboracion', 'convocatoria_titulacion'
+        ]
+        widgets = {
+            'fecha_elaboracion': forms.DateInput(attrs={'type': 'date'}),
+        }
+    url = forms.URLField(required=False, widget=forms.HiddenInput())
+    
 class DateInput(forms.DateInput):
     input_type = 'date'
     format = '%Y-%m-%d'

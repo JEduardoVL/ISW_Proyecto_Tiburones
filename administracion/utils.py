@@ -14,12 +14,12 @@ def authenticate():
     creds = service_account.Credentials.from_service_account_info(creds_json, scopes=['https://www.googleapis.com/auth/drive'])
     return creds
 
-def upload_pdf(file):
+def upload_pdf_admin(file, folder_id):
     creds = authenticate()
     service = build('drive', 'v3', credentials=creds)
     file_metadata = {
-        'name': file.name, 
-        'parents': ['1SU5erynjS4MDMguKeWik_faHNzYM90CB']  # Modifica con tu carpeta específica
+        'name': file.name,
+        'parents': [folder_id]  # Usar la carpeta específica
     }
 
     try:
@@ -52,4 +52,3 @@ def upload_pdf(file):
     ).execute()
 
     return file_resource['webViewLink']
-

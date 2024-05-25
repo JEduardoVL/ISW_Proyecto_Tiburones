@@ -4,20 +4,51 @@
 <div id="fondo">
     <div class="contenedor_principal letra_texto">
         <h1 class="letra_titulos">Subir documentos</h1>
-        <p>Para subir un documento al repositorio es necesario llenar el siguiente formulario.</p>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Subir Archivo</button>
+            <div class="form-group">
+                <label for="documento">Seleccionar documento</label>
+                <input type="file" name="documento" id="documento" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Subir</button>
         </form>
-        <div id="output"></div>
     </div>
 </div>
-<script type="text/javascript">
-    const fileInput = document.getElementById('id_document');
-    fileInput.addEventListener('change', () => {
-        const fileName = fileInput.files[0].name;
-        document.getElementById('output').textContent = `Archivo seleccionado: ${fileName}`;
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: "¡Éxito!",
+                            text: response.message,
+                            icon: "success",
+                        }).then((value) => {
+                            window.location.href = "{{ success_url }}";
+                        });
+                    } else {
+                        Swal.fire("Error", response.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Ocurrió un error al subir el archivo.", "error");
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
