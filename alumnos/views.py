@@ -7,6 +7,7 @@ import json
 # Importamos el modelo
 from administracion.models import FormaTitulacion
 from administracion.models import MaterialApoyo
+from administracion.models import Documento
 # Importar vistas genéricas personalizadas
 from django.views import View
 
@@ -15,6 +16,10 @@ class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
 
 class AlumnosBuscar(AlumnoRequiredMixin,TemplateView):
     template_name = 'alumnos/buscar.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trabajos'] = Documento.objects.all()
+        return context
 
 class AlumnosPreguntas(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/preguntas_frecuentes.html'

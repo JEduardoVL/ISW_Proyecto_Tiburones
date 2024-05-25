@@ -2,6 +2,36 @@
 
 {% block content %}
   <div id="fondo">
-    <h1>Mistrabajos como docente</h1>
+    <div class="contenedor_principal letra_texto">
+      <h1 class="letra_titulos">Mis trabajos como docente</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Nombre Autor</th>
+            <th>Sinodales</th>
+            <th>Tipo</th>
+            <th>Fecha Elaboración</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for documento in documentos %}
+          <tr>
+            <td>{{ documento.nombre }}</td>
+            <td>{{ documento.nombre_autor }}</td>
+            <td>{{ documento.sinodales }}</td>
+            <td>{{ documento.get_tipo_display }}</td>
+            <td>{{ documento.fecha_elaboracion }}</td>
+            <td><a href="{{ documento.url }}" target="_blank">{{ documento.url }}</a></td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="9">No se encontraron documentos.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 {% endblock %}

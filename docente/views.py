@@ -2,8 +2,10 @@ from django.views.generic import TemplateView
 from .mixins import DocenteRequiredMixin
 from django.http import JsonResponse
 import json
+from django.db.models import Q
 # Importar vistas genéricas personalizadas
 from django.views import View
+from administracion.models import Documento
 
 class DocenteHomeView(DocenteRequiredMixin, TemplateView):
     template_name = 'docente/home.html'
@@ -13,6 +15,22 @@ class DocenteBuscar(DocenteRequiredMixin, TemplateView):
 
 class DocenteTrabajos(DocenteRequiredMixin, TemplateView):
     template_name = 'docente/mis_trabajos.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        docente_nombre = self.request.user.nombre
+        docente_apellido = self.request.user.apellido
+        
+        # Filtrar documentos donde el docente aparece en sinodales o como autor
+        documentos = Documento.objects.filter(
+            Q(sinodales__icontains=docente_nombre) | 
+            Q(sinodales__icontains=docente_apellido) |
+            Q(nombre_autor__icontains=docente_nombre) |
+            Q(nombre_autor__icontains=docente_apellido)
+        ).distinct()
+        
+        context['documentos'] = documentos
+        return context
 
 class DocentePreguntas(DocenteRequiredMixin, TemplateView):
     template_name = 'docente/preguntas_frecuentes.html'
