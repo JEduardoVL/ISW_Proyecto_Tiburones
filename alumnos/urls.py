@@ -13,7 +13,8 @@ from .views import (
     AlumnosTitulacionEstatus,
     AlumnosInformacion,
     AlumnosCambiarContrasena,
-    AlumnosTitulacionMaterial
+    AlumnosTitulacionMaterial,
+    AlumnosVerTrabajo
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -24,6 +25,7 @@ urlpatterns = [
     path('home/', AlumnosHomeView.as_view(), name='home'),
     path('logout/', require_POST(LogoutView.as_view()), name='alumno-logout'),
     path('buscar/', AlumnosBuscar.as_view(), name='buscar'),
+     path('ver_trabajo/<int:pk>/', AlumnosVerTrabajo.as_view(), name='ver_trabajo'),
     path('subir_documento/', AlumnosSubirDocumentos.as_view(), name='subir_documento'),
     path('preguntas_frecuentes/', AlumnosPreguntas.as_view(), name='preguntas_frecuentes'),
     path('titulacion/', AlumnosTitulacion.as_view(), name='titulacion'),

@@ -14,12 +14,31 @@ from django.views import View
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
 
+'''
 class AlumnosBuscar(AlumnoRequiredMixin,TemplateView):
     template_name = 'alumnos/buscar.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trabajos'] = Documento.objects.all()
         return context
+'''
+class AlumnosBuscar(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/buscar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trabajos'] = Documento.objects.all()
+        return context
+
+class AlumnosVerTrabajo(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/ver_trabajo.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        documento_id = self.kwargs['pk']
+        context['documento'] = Documento.objects.get(id=documento_id)
+        return context
+
 
 class AlumnosPreguntas(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/preguntas_frecuentes.html'

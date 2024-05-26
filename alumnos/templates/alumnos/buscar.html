@@ -66,27 +66,24 @@
 
       <table>
         <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Nombre Autor</th>
-                <th>Fecha</th>
-                <th>Enlace</th>
-                <th>Ver información</th>
-            </tr>
+          <tr>
+            <th>Nombre</th>
+            <th>Nombre Autor</th>
+            <th>Fecha</th>
+            <th>Ver información</th>
+          </tr>
         </thead>
         <tbody>
-
-            {% for trabajo in trabajos %}
-            <tr>
-                <td>{{ trabajo.nombre}}</td>
-                <td>{{ trabajo.nombre_autor }}</td>
-                <td>{{ trabajo.fecha_elaboracion }}</td>
-                <td>{{ trabajo.url }}</td>
-                <td><i class="fas fa-edit"></i></td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+          {% for trabajo in trabajos %}
+          <tr>
+            <td>{{ trabajo.nombre }}</td>
+            <td>{{ trabajo.nombre_autor }}</td>
+            <td>{{ trabajo.fecha_elaboracion }}</td>
+            <td><a href="{% url 'alumnos:ver_trabajo' trabajo.id %}"><i class="gg-arrow-top-right-o"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
