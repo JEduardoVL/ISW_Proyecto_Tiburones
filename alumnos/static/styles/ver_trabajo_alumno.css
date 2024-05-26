@@ -1,0 +1,16 @@
+.contenedor_principal {
+    padding: 20px;
+    }
+
+    .letra_titulos {
+    margin-bottom: 20px;
+    }
+
+    .contenedor_principal p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    }
+
+    .contenedor_principal iframe {
+    margin-top: 20px;
+    }

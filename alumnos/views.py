@@ -14,14 +14,6 @@ from django.views import View
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
 
-'''
-class AlumnosBuscar(AlumnoRequiredMixin,TemplateView):
-    template_name = 'alumnos/buscar.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['trabajos'] = Documento.objects.all()
-        return context
-'''
 class AlumnosBuscar(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/buscar.html'
 
