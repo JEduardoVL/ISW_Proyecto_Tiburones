@@ -1,24 +1,106 @@
 {% extends "base_generic_Administracion.html" %}
 
 {% block content %}
+<style>
+.revisar_pr, .evaluacion {
+    float: left;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.revisar_pr {
+    width: 60%;
+    border-right: 1px solid #ddd;
+}
+
+.evaluacion {
+    width: 40%;
+}
+
+.evaluacion h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.evaluacion form {
+    display: flex;
+    flex-direction: column;
+}
+
+.evaluacion table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.evaluacion th, .evaluacion td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.evaluacion th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.evaluacion input[type="submit"] {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.evaluacion input[type="submit"]:hover {
+    background-color: #45a049;
+}
+</style>
 <div id="fondo">
-    <div class="contenedor_principal">
-        <h1>Revisión</h1>
-        <div>
-            <h2>{{ documento.nombre_documento }}</h2>
+    <div class="contenedor_principal letra_texto">
+        <h1 class="letra_titulos">Regresar</h1>
+        <div class="revisar_pr">
+            <h1 class="letra_titulos">{{ documento.nombre_documento }}</h2>
             <p><strong>Resumen:</strong> {{ documento.resumen }}</p>
             <p><strong>Autor:</strong> {{ documento.nombre_autor }}</p>
             <p><strong>Sinodales:</strong> {{ documento.sinodales }}</p>
             <p><strong>Tipo:</strong> {{ documento.get_tipo_display }}</p>
             <p><strong>Fecha de elaboración:</strong> {{ documento.fecha_elaboracion }}</p>
             <p><strong>Convocatoria:</strong> {{ documento.convocatoria }}</p>
-            <p><a href="{{ documento.documento_url }}" target="_blank">Ver documento</a></p>
+            {% if documento.documento_url %}
+                {% with documento.documento_url|cut:"https://drive.google.com/file/d/"|cut:"/view?usp=drivesdk" as file_id %}
+                <iframe src="https://drive.google.com/file/d/{{ file_id }}/preview" width="100%" height="600px"></iframe>
+                {% endwith %}
+            {% endif %}
         </div>
-        <div>
+
+        <div class="evaluacion">
             <h2>Formulario de Revisión</h2>
             <form method="post" action="">
                 {% csrf_token %}
-                {{ revisado_form.as_p }}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Si / No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in revisado_form %}
+                        {% if field.name != 'comentarios' %}
+                        <tr>
+                            <td>{{ field.label_tag }}</td>
+                            <td>{{ field.as_widget }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="comentarios-section">
+                    <label for="id_comentarios">Comentarios:</label>
+                    {{ revisado_form.comentarios }}
+                </div>
                 <label for="aceptado">Aceptar Documento:</label>
                 <input type="checkbox" id="aceptado" name="aceptado" {% if revisado and revisado.aceptado %}checked{% endif %}>
                 <input type="submit" value="Enviar">

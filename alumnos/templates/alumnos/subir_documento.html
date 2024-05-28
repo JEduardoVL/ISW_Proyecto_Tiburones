@@ -1,7 +1,28 @@
 {% extends "base_generic_alumnos.html" %}
 
 {% block content %}
-<div id="fondo">
+<style>
+    #formularioCorregirDocumento label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+#formularioCorregirDocumento input[type="text"],
+#formularioCorregirDocumento input[type="date"],
+#formularioCorregirDocumento input[type="file"],
+#formularioCorregirDocumento textarea,
+#formularioCorregirDocumento select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+</style>
+<div id="fondo" class="letra_texto">
     <div class="contenedor_principal letra_texto">
         <h1 class="letra_titulos">Subir documentos</h1>
         <!-- Bloque para mostrar mensajes -->
@@ -55,26 +76,79 @@
             <p class="letra_preguntas">Ya has subido un documento. Esperando Revisión.</p>
             {% if revisado %}
             <h2>Retroalimentación de Revisión</h2>
-            <ul>
-                <li>Título adecuado: {{ revisado.titulo_adecuado }}</li>
-                <li>Objetivos cumplidos: {{ revisado.objetivos_cumplidos }}</li>
-                <li>Referencias correctas: {{ revisado.referencias_correctas }}</li>
-                <li>Errores ortograficos: {{ revisado.errores_ortograficos }}</li>
-                <li>Tiene estructura_clara: {{ revisado.estructura_clara }}</li>
-                <li>El contenido es coherente: {{ revisado.contenido_coherente }}</li>
-                <li>¿Cumple las normas del formato?: {{ revisado.normas_formato }}</li>
-                <li>La metodologia descrita es aplicada: {{ revisado.metodologia_descrita }}</li>
-                <li>Resultados presentados: {{ revisado.resultados_presentados }}</li>
-                <li>Discusion adecuada: {{ revisado.discusion_adecuada }}</li>
-                <li>Conclusiones pertinentes: {{ revisado.conclusiones_pertinentes }}</li>
-                <li>Suficientes referencias: {{ revisado.suficientes_referencias }}</li>
-                <li>Introduccion contextualiza: {{ revisado.introduccion_contextualiza }}</li>
-                <li>Graficos de tablas adecuados: {{ revisado.graficos_tablas_adecuados }}</li>
-                <li>El resumen es claro y conciso: {{ revisado.resumen_claro_conciso }}</li>
-            </ul>
+            <table class="tabla-revision">
+                <thead>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Título adecuado</td>
+                        <td>{{ revisado.titulo_adecuado|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Objetivos cumplidos</td>
+                        <td>{{ revisado.objetivos_cumplidos|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Referencias correctas</td>
+                        <td>{{ revisado.referencias_correctas|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Errores ortográficos</td>
+                        <td>{{ revisado.errores_ortograficos|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Estructura clara</td>
+                        <td>{{ revisado.estructura_clara|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Contenido coherente</td>
+                        <td>{{ revisado.contenido_coherente|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Normas de formato</td>
+                        <td>{{ revisado.normas_formato|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Metodología descrita</td>
+                        <td>{{ revisado.metodologia_descrita|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Resultados presentados</td>
+                        <td>{{ revisado.resultados_presentados|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Discusión adecuada</td>
+                        <td>{{ revisado.discusion_adecuada|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Conclusiones pertinentes</td>
+                        <td>{{ revisado.conclusiones_pertinentes|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Suficientes referencias</td>
+                        <td>{{ revisado.suficientes_referencias|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Introducción contextualiza</td>
+                        <td>{{ revisado.introduccion_contextualiza|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Gráficos y tablas adecuados</td>
+                        <td>{{ revisado.graficos_tablas_adecuados|yesno:"Sí,No" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Resumen claro y conciso</td>
+                        <td>{{ revisado.resumen_claro_conciso|yesno:"Sí,No" }}</td>
+                    </tr>
+                </tbody>
+            </table>
             <p>Comentarios: {{ revisado.comentarios }}</p>
             {% if not revisado.aceptado %}
-            <button id="corregirDocumento">Corregir Documento</button>
+            <button id="corregirDocumento" class="dropbtn_base">Corregir Documento</button>
             
             <!-- Formulario de corrección (oculto por defecto) -->
             <form id="formularioCorregirDocumento" method="post" action="" enctype="multipart/form-data" style="display: none;">

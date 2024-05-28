@@ -410,52 +410,6 @@ class AdministracionDocumentosAlumnos(TemplateView):
         documentos = Documento_alumno.objects.filter(aceptado=False)
         return render(request, self.template_name, {'documentos': documentos})
 
-''' 
-class AdministracionDocumentosAlumnosRevision(TemplateView):
-    template_name = 'administracion/titulacion/revision.html'
-
-    def get(self, request, documento_id, *args, **kwargs):
-        documento = get_object_or_404(Documento_alumno, id=documento_id)
-        revisado_form = RevisadoForm()
-        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
-
-    def post(self, request, documento_id, *args, **kwargs):
-        documento = get_object_or_404(Documento_alumno, id=documento_id)
-        revisado_form = RevisadoForm(request.POST)
-        if revisado_form.is_valid():
-            revisado = revisado_form.save(commit=False)
-            revisado.documento_alumno = documento
-            revisado.save()
-            # Cambiar el estado de archivo_subido a True
-            documento.archivo_subido = True
-            documento.save()
-            return redirect('administracion:documentos_revision')  # Redirigir a la página de lista de documentos
-
-        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
-        
-        
-class AdministracionDocumentosAlumnosRevision(TemplateView):
-    template_name = 'administracion/titulacion/revision.html'
-
-    def get(self, request, documento_id, *args, **kwargs):
-        documento = get_object_or_404(Documento_alumno, id=documento_id)
-        revisado_form = RevisadoForm()
-        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
-
-    def post(self, request, documento_id, *args, **kwargs):
-        documento = get_object_or_404(Documento_alumno, id=documento_id)
-        revisado_form = RevisadoForm(request.POST)
-        if revisado_form.is_valid():
-            revisado = revisado_form.save(commit=False)
-            revisado.documento_alumno = documento
-            revisado.save()
-            # Cambiar el estado de archivo_subido a True
-            documento.archivo_subido = True
-            documento.save()
-            return redirect('administracion:documentos_revision')  # Redirigir a la página de lista de documentos
-
-        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
-''' 
 class AdministracionDocumentosAlumnosRevision(TemplateView):
     template_name = 'administracion/titulacion/revision.html'
 
