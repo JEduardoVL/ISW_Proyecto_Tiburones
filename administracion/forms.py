@@ -2,6 +2,7 @@ from django import forms
 from .models import Documento
 from .models import Seminario
 from .models import MaterialApoyo
+from .models import Revisado
 
 class FileUploadForm(forms.Form):
     document = forms.FileField()
@@ -77,3 +78,25 @@ class MaterialApoyoForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+class RevisadoForm(forms.ModelForm):
+    class Meta:
+        model = Revisado
+        fields = [
+            'titulo_adecuado',
+            'objetivos_cumplidos',
+            'referencias_correctas',
+            'errores_ortograficos',
+            'estructura_clara',
+            'contenido_coherente',
+            'normas_formato',
+            'metodologia_descrita',
+            'resultados_presentados',
+            'discusion_adecuada',
+            'conclusiones_pertinentes',
+            'suficientes_referencias',
+            'introduccion_contextualiza',
+            'graficos_tablas_adecuados',
+            'resumen_claro_conciso',
+            'comentarios'
+        ]

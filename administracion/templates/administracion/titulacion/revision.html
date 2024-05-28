@@ -1,0 +1,29 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+<div id="fondo">
+    <div class="contenedor_principal">
+        <h1>Revisión</h1>
+        <div>
+            <h2>{{ documento.nombre_documento }}</h2>
+            <p><strong>Resumen:</strong> {{ documento.resumen }}</p>
+            <p><strong>Autor:</strong> {{ documento.nombre_autor }}</p>
+            <p><strong>Sinodales:</strong> {{ documento.sinodales }}</p>
+            <p><strong>Tipo:</strong> {{ documento.get_tipo_display }}</p>
+            <p><strong>Fecha de elaboración:</strong> {{ documento.fecha_elaboracion }}</p>
+            <p><strong>Convocatoria:</strong> {{ documento.convocatoria }}</p>
+            <p><a href="{{ documento.documento_url }}" target="_blank">Ver documento</a></p>
+        </div>
+        <div>
+            <h2>Formulario de Revisión</h2>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ revisado_form.as_p }}
+                <label for="aceptado">Aceptar Documento:</label>
+                <input type="checkbox" id="aceptado" name="aceptado" {% if revisado and revisado.aceptado %}checked{% endif %}>
+                <input type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

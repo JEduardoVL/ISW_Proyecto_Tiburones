@@ -2,55 +2,123 @@
 
 {% block content %}
 <div id="fondo">
-    <div class="contenedor_principal letra_texto" >
-        <h1 class="letra_titulos"> Subir documentos</h1>
-        <p>Para subir un documento al repositorio es necesario llenar el siguiente formulario. </p>
-        
-         <!-- Bloque para mostrar mensajes -->
-         {% if messages %}
-         <div class="messages">
-             {% for message in messages %}
-                 <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
-             {% endfor %}
-         </div>
-         {% endif %}
+    <div class="contenedor_principal letra_texto">
+        <h1 class="letra_titulos">Subir documentos</h1>
+        <!-- Bloque para mostrar mensajes -->
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <div class="contenedor_formulario">
+            {% if not documento %}
+            <p>Para subir un documento al repositorio es necesario llenar el siguiente formulario.</p>
             <form id="formularioDocumento" method="post" action="" enctype="multipart/form-data">
-
                 {% csrf_token %}
                 <label for="nombreDocumento">Nombre del documento:</label>
-                <input type="text" id="nombreDocumento" name="nombreDocumento" required>
+                <input type="text" id="nombreDocumento" name="nombre_documento" required>
             
                 <label for="resumen">Resumen:</label>
                 <textarea id="resumen" name="resumen" required></textarea>
             
                 <label for="nombreAutor">Nombre del autor:</label>
-                <input type="text" id="nombreAutor" name="nombreAutor" required>
+                <input type="text" id="nombreAutor" name="nombre_autor" required>
             
                 <label for="sinodales">Sinodales:</label>
                 <input type="text" id="sinodales" name="sinodales" required>
             
                 <label for="tipo">Tipo:</label>
                 <select id="tipo" name="tipo" required>
-                    <option value="tesis">Tesis</option>
-                    <option value="trabajo terminal">Trabajo Terminal</option>
-                    <option value="otro">Otro</option>
+                    <option value="TE">Tesis</option>
+                    <option value="TT">Trabajo Terminal</option>
+                    <option value="OT">Otro</option>
                 </select>
             
                 <label for="fechaElaboracion">Fecha de elaboración:</label>
-                <input type="date" id="fechaElaboracion" name="fechaElaboracion" required>
+                <input type="date" id="fechaElaboracion" name="fecha_elaboracion" required>
             
                 <label for="convocatoriaTitulacion">Convocatoria de titulación:</label>
-                <input type="text" id="convocatoriaTitulacion" name="convocatoriaTitulacion" required>
+                <input type="text" id="convocatoriaTitulacion" name="convocatoria" required>
             
                 <label for="documento">Subir documento:</label>
                 <input type="file" id="documento" name="documento" accept=".pdf" required>
             
                 <input type="submit" value="Enviar">
             </form>
+            {% elif documento.aceptado %}
+            <p class="letra_preguntas">Tu documento ha sido aceptado. No es necesario subir otro documento.</p>
+            
+            {% else %}
+            <p class="letra_preguntas">Ya has subido un documento. Esperando Revisión.</p>
+            {% if revisado %}
+            <h2>Retroalimentación de Revisión</h2>
+            <ul>
+                <li>Título adecuado: {{ revisado.titulo_adecuado }}</li>
+                <li>Objetivos cumplidos: {{ revisado.objetivos_cumplidos }}</li>
+                <li>Referencias correctas: {{ revisado.referencias_correctas }}</li>
+                <li>Errores ortograficos: {{ revisado.errores_ortograficos }}</li>
+                <li>Tiene estructura_clara: {{ revisado.estructura_clara }}</li>
+                <li>El contenido es coherente: {{ revisado.contenido_coherente }}</li>
+                <li>¿Cumple las normas del formato?: {{ revisado.normas_formato }}</li>
+                <li>La metodologia descrita es aplicada: {{ revisado.metodologia_descrita }}</li>
+                <li>Resultados presentados: {{ revisado.resultados_presentados }}</li>
+                <li>Discusion adecuada: {{ revisado.discusion_adecuada }}</li>
+                <li>Conclusiones pertinentes: {{ revisado.conclusiones_pertinentes }}</li>
+                <li>Suficientes referencias: {{ revisado.suficientes_referencias }}</li>
+                <li>Introduccion contextualiza: {{ revisado.introduccion_contextualiza }}</li>
+                <li>Graficos de tablas adecuados: {{ revisado.graficos_tablas_adecuados }}</li>
+                <li>El resumen es claro y conciso: {{ revisado.resumen_claro_conciso }}</li>
+            </ul>
+            <p>Comentarios: {{ revisado.comentarios }}</p>
+            {% if not revisado.aceptado %}
+            <button id="corregirDocumento">Corregir Documento</button>
+            
+            <!-- Formulario de corrección (oculto por defecto) -->
+            <form id="formularioCorregirDocumento" method="post" action="" enctype="multipart/form-data" style="display: none;">
+                {% csrf_token %}
+                <label for="nombreDocumento">Nombre del documento:</label>
+                <input type="text" id="nombreDocumento" name="nombre_documento" value="{{ documento.nombre_documento }}" required>
+            
+                <label for="resumen">Resumen:</label>
+                <textarea id="resumen" name="resumen" required>{{ documento.resumen }}</textarea>
+            
+                <label for="nombreAutor">Nombre del autor:</label>
+                <input type="text" id="nombreAutor" name="nombre_autor" value="{{ documento.nombre_autor }}" required>
+            
+                <label for="sinodales">Sinodales:</label>
+                <input type="text" id="sinodales" name="sinodales" value="{{ documento.sinodales }}" required>
+            
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="TE" {% if documento.tipo == "TE" %}selected{% endif %}>Tesis</option>
+                    <option value="TT" {% if documento.tipo == "TT" %}selected{% endif %}>Trabajo Terminal</option>
+                    <option value="OT" {% if documento.tipo == "OT" %}selected{% endif %}>Otro</option>
+                </select>
+            
+                <label for="fechaElaboracion">Fecha de elaboración:</label>
+                <input type="date" id="fechaElaboracion" name="fecha_elaboracion" value="{{ documento.fecha_elaboracion }}" required>
+            
+                <label for="convocatoriaTitulacion">Convocatoria de titulación:</label>
+                <input type="text" id="convocatoriaTitulacion" name="convocatoria" value="{{ documento.convocatoria }}" required>
+            
+                <label for="documento">Subir nuevo documento:</label>
+                <input type="file" id="documento" name="documento" accept=".pdf" required>
+            
+                <input type="submit" value="Enviar Corrección">
+            </form>
+            {% endif %}
+            {% endif %}
+            {% endif %}
         </div>
     </div>
 </div>
 
+<script>
+    document.getElementById('corregirDocumento').addEventListener('click', function() {
+        document.getElementById('formularioCorregirDocumento').style.display = 'block';
+    });
+</script>
 {% endblock %}

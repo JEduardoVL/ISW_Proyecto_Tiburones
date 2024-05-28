@@ -1,0 +1,35 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+<div id="fondo">
+    <div class="contenedor_principal letra_texto">
+        <h1 class="letra_titulos">Revisión de documentos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del documento</th>
+                    <th>Nombre del autor</th>
+                    <th>Sinodales</th>
+                    <th>Tipo</th>
+                    <th>Fecha de elaboración</th>
+                    <th>Convocatoria</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for documento in documentos %}
+                <tr>
+                    <td>{{ documento.nombre_documento }}</td>
+                    <td>{{ documento.nombre_autor }}</td>
+                    <td>{{ documento.sinodales }}</td>
+                    <td>{{ documento.get_tipo_display }}</td>
+                    <td>{{ documento.fecha_elaboracion }}</td>
+                    <td>{{ documento.convocatoria }}</td>
+                    <td><a href="{% url 'administracion:revision' documento.id %}">Revisar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

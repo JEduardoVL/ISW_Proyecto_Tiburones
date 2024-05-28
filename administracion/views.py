@@ -22,7 +22,7 @@ from .models import FormaTitulacion, Documento
 from .forms import DocumentoForm, FileUploadForm
 from .utils import upload_pdf_admin
 from .models import Seminario
-from .forms import SeminarioForm
+from .forms import SeminarioForm, RevisadoForm
 
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
@@ -37,7 +37,9 @@ from django.views import View
 
 from .forms import MaterialApoyoForm
 from .material_apoyo import upload_pdf
-from .models import MaterialApoyo
+from .models import MaterialApoyo, Revisado
+from alumnos.models import Documento_alumno
+
 
 # Todo lo necesario para la administracion de titulación
 class AdministracionTitulacionRegistrar(AdminRequiredMixin,TemplateView):
@@ -401,3 +403,87 @@ def editar_seminario(request, id):
         form = SeminarioForm(instance=seminario)
     return render(request, 'administracion/editar_seminario.html', {'form': form, 'seminario': seminario})
 
+class AdministracionDocumentosAlumnos(TemplateView):
+    template_name = 'administracion/titulacion/documentos_revision.html'
+
+    def get(self, request, *args, **kwargs):
+        documentos = Documento_alumno.objects.filter(aceptado=False)
+        return render(request, self.template_name, {'documentos': documentos})
+
+''' 
+class AdministracionDocumentosAlumnosRevision(TemplateView):
+    template_name = 'administracion/titulacion/revision.html'
+
+    def get(self, request, documento_id, *args, **kwargs):
+        documento = get_object_or_404(Documento_alumno, id=documento_id)
+        revisado_form = RevisadoForm()
+        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
+
+    def post(self, request, documento_id, *args, **kwargs):
+        documento = get_object_or_404(Documento_alumno, id=documento_id)
+        revisado_form = RevisadoForm(request.POST)
+        if revisado_form.is_valid():
+            revisado = revisado_form.save(commit=False)
+            revisado.documento_alumno = documento
+            revisado.save()
+            # Cambiar el estado de archivo_subido a True
+            documento.archivo_subido = True
+            documento.save()
+            return redirect('administracion:documentos_revision')  # Redirigir a la página de lista de documentos
+
+        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
+        
+        
+class AdministracionDocumentosAlumnosRevision(TemplateView):
+    template_name = 'administracion/titulacion/revision.html'
+
+    def get(self, request, documento_id, *args, **kwargs):
+        documento = get_object_or_404(Documento_alumno, id=documento_id)
+        revisado_form = RevisadoForm()
+        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
+
+    def post(self, request, documento_id, *args, **kwargs):
+        documento = get_object_or_404(Documento_alumno, id=documento_id)
+        revisado_form = RevisadoForm(request.POST)
+        if revisado_form.is_valid():
+            revisado = revisado_form.save(commit=False)
+            revisado.documento_alumno = documento
+            revisado.save()
+            # Cambiar el estado de archivo_subido a True
+            documento.archivo_subido = True
+            documento.save()
+            return redirect('administracion:documentos_revision')  # Redirigir a la página de lista de documentos
+
+        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
+''' 
+class AdministracionDocumentosAlumnosRevision(TemplateView):
+    template_name = 'administracion/titulacion/revision.html'
+
+    def get(self, request, documento_id, *args, **kwargs):
+        documento = get_object_or_404(Documento_alumno, id=documento_id)
+        try:
+            revisado = Revisado.objects.get(documento_alumno=documento)
+        except Revisado.DoesNotExist:
+            revisado = None
+        revisado_form = RevisadoForm(instance=revisado)
+        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
+
+    def post(self, request, documento_id, *args, **kwargs):
+        documento = get_object_or_404(Documento_alumno, id=documento_id)
+        try:
+            revisado = Revisado.objects.get(documento_alumno=documento)
+        except Revisado.DoesNotExist:
+            revisado = None
+
+        revisado_form = RevisadoForm(request.POST, instance=revisado)
+        if revisado_form.is_valid():
+            revisado = revisado_form.save(commit=False)
+            revisado.documento_alumno = documento
+            revisado.aceptado = 'aceptado' in request.POST  # Check if the "aceptado" checkbox was checked
+            revisado.save()
+            documento.aceptado = revisado.aceptado
+            documento.en_correccion = not revisado.aceptado
+            documento.save()
+            return redirect('administracion:documentos_revision')
+
+        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
