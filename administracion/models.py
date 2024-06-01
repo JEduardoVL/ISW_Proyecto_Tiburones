@@ -102,7 +102,7 @@ class RevisarPropuesta(models.Model):
 
     def __str__(self):
         return f"Revisado: {self.revisado} - Documento: {self.documento_alumno.titulo}"
-    
+
     def get_titulo_adecuado_display(self):
         return "Sí" if self.titulo_adecuado else "No"
 

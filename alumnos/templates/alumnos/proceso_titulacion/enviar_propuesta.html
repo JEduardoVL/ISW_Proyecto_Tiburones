@@ -7,6 +7,7 @@
     {% if documento %}
       {% if revisar_propuesta and revisar_propuesta.aceptado %}
         <p class="letra_titulos">Propuesta aceptada</p>
+        <p>En espera de asignacion de sinodales.</p>
       {% elif documento.enviado %}
         {% if revisar_propuesta %}
           {% if revisar_propuesta.revisado %}

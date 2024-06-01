@@ -433,7 +433,7 @@ class AdministracionDocumentosAlumnosRevision(TemplateView):
         if revisado_form.is_valid():
             revisado = revisado_form.save(commit=False)
             revisado.documento_alumno = documento
-            revisado.aceptado = 'aceptado' in request.POST  # Check if the "aceptado" checkbox was checked
+            revisado.aceptado = 'aceptado' in request.POST
             revisado.save()
             documento.aceptado = revisado.aceptado
             documento.en_correccion = not revisado.aceptado
@@ -448,8 +448,18 @@ class AdministracionDocumentosPrupuestaAlumnos(TemplateView):
     template_name = 'administracion/alumnos/revisar_propuestas_titulacion.html'
 
     def get(self, request, *args, **kwargs):
-        propuestas = DocumentoPropuestaAlumno.objects.filter(enviado=True)
-        return self.render_to_response({'propuestas': propuestas})
+        propuestas_pendientes_revision = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__revisado=False, enviado=True)
+        propuestas_correcciones = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__revisado=True, revisarpropuesta__aceptado=False)
+        propuestas_pendientes_sinodales = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__aceptado=True, directores=None)
+        propuestas_aprobadas = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__aceptado=True).exclude(directores=None)
+
+        context = {
+            'propuestas_pendientes_revision': propuestas_pendientes_revision,
+            'propuestas_correcciones': propuestas_correcciones,
+            'propuestas_pendientes_sinodales': propuestas_pendientes_sinodales,
+            'propuestas_aprobadas': propuestas_aprobadas,
+        }
+        return self.render_to_response(context)
 
 class AdministracionDocumentosIndividualAlumnos(TemplateView):
     template_name = 'administracion/alumnos/individual_revisar_p.html'
@@ -470,3 +480,6 @@ class AdministracionDocumentosIndividualAlumnos(TemplateView):
             revisar.save()
             return redirect('administracion:revisar_propuestas_titulacion')
         return self.render_to_response({'propuesta': propuesta, 'form': form})
+    
+class AdministracionAsignarSinodalesAlumnos(TemplateView):
+    template_name = 'administracion/alumnos/asignar_sinodales.html'
