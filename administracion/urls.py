@@ -31,7 +31,9 @@ from .views import (
     EliminarMaterial,
     EditarMaterial,
     AdministracionDocumentosAlumnos,
-    AdministracionDocumentosAlumnosRevision
+    AdministracionDocumentosAlumnosRevision,
+    AdministracionDocumentosPrupuestaAlumnos,
+    AdministracionDocumentosIndividualAlumnos
 )
 from administracion import views
 from django.views.decorators.http import require_POST
@@ -87,4 +89,8 @@ urlpatterns = [
     path('alumnos/', AdministracionAlumnos.as_view(), name='alumnos'),
     path('eliminar_material/<int:material_id>/', EliminarMaterial.as_view(), name='eliminar_material'),
     path('editar_material/', EditarMaterial.as_view(), name='editar_material'),
+
+    # proceso de titulacion
+    path('alumnos/revisar_propuestas_titulacion/', AdministracionDocumentosPrupuestaAlumnos.as_view(), name='revisar_propuestas_titulacion'),
+    path('alumnos/individual_revisar_p/<int:pk>/', AdministracionDocumentosIndividualAlumnos.as_view(), name='individual_revisar_p'),
 ] 

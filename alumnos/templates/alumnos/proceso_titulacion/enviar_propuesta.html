@@ -1,0 +1,88 @@
+{% extends "base_generic_alumnos.html" %}
+
+{% block content %}
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+    <h1 class="letra_titulos">Toda la Información Necesaria para Enviar la Propuesta</h1>
+    {% if documento %}
+      {% if revisar_propuesta and revisar_propuesta.aceptado %}
+        <p class="letra_titulos">Propuesta aceptada</p>
+      {% elif documento.enviado %}
+        {% if revisar_propuesta %}
+          {% if revisar_propuesta.revisado %}
+            <p>Trabajo revisado</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Aspecto</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Título Adecuado</td>
+                  <td>{{ revisar_propuesta.get_titulo_adecuado_display }}</td>
+                </tr>
+                <tr>
+                  <td>Objetivos Planteados</td>
+                  <td>{{ revisar_propuesta.get_objetivos_planteados_display }}</td>
+                </tr>
+                <tr>
+                  <td>Referencias Correctas</td>
+                  <td>{{ revisar_propuesta.get_referencias_correctas_display }}</td>
+                </tr>
+                <tr>
+                  <td>Errores Ortográficos</td>
+                  <td>{{ revisar_propuesta.get_errores_ortograficos_display }}</td>
+                </tr>
+                <tr>
+                  <td>Normas de Formato</td>
+                  <td>{{ revisar_propuesta.get_normas_formato_display }}</td>
+                </tr>
+                <tr>
+                  <td>Metodología Descrita</td>
+                  <td>{{ revisar_propuesta.get_metodologia_descrita_display }}</td>
+                </tr>
+                <tr>
+                  <td>Suficientes Referencias</td>
+                  <td>{{ revisar_propuesta.get_suficientes_referencias_display }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Comentarios:</strong> {{ revisar_propuesta.comentarios }}</p>
+            <button id="editar-btn" class="dropbtn_base">Editar Propuesta</button>
+            <form method="post" id="editar-form" style="display: none;">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="dropbtn_base">Enviar Propuesta</button>
+            </form>
+          {% else %}
+            <p>Propuesta enviada esperando verificación.</p>
+          {% endif %}
+        {% else %}
+          <p>Propuesta enviada esperando verificación.</p>
+        {% endif %}
+      {% else %}
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="dropbtn_base">Enviar Propuesta</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="dropbtn_base">Enviar Propuesta</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.getElementById('editar-btn').addEventListener('click', function() {
+    document.getElementById('editar-form').style.display = 'block';
+    this.style.display = 'none';
+  });
+</script>
+{% endblock %}

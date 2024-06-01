@@ -1,0 +1,102 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+<style>
+.revisar_pr, .evaluacion {
+    float: left;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.revisar_pr {
+    width: 60%;
+    border-right: 1px solid #ddd;
+}
+
+.evaluacion {
+    width: 40%;
+}
+</style>
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+    <div class="revisar_pr">
+      <h1 class="letra_titulos">Revisar Propuesta</h1>
+    <p><strong>Título:</strong> {{ propuesta.titulo }}</p>
+    <p><strong>Nombre Estudiante:</strong> {{ propuesta.nombre_estudiante }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ propuesta.correo_electronico }}</p>
+    <p><strong>Nombre Directores:</strong> {{ propuesta.nombre_directores }}</p>
+    <p><strong>Resumen:</strong> {{ propuesta.resumen }}</p>
+    <p><strong>Objetivos:</strong> {{ propuesta.objetivos }}</p>
+    <p><strong>Metodología:</strong> {{ propuesta.metodologia }}</p>
+    <p><strong>Palabras Clave:</strong> {{ propuesta.palabras_clave }}</p>
+    <p><strong>Referencias:</strong> {{ propuesta.referencias }}</p>
+    <p><strong>Convocatoria:</strong> {{ propuesta.convocatoria }}</p>
+    </div>
+    
+    <div class="evaluacion">
+      <h2 class="letra_titulos">Formulario de Revisión</h2>
+    <form method="post">
+      {% csrf_token %}
+      <table>
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>Sí</th>
+            <th>No</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Título Adecuado</td>
+            <td>{{ form.titulo_adecuado.0 }}</td>
+            <td>{{ form.titulo_adecuado.1 }}</td>
+          </tr>
+          <tr>
+            <td>Objetivos Planteados</td>
+            <td>{{ form.objetivos_planteados.0 }}</td>
+            <td>{{ form.objetivos_planteados.1 }}</td>
+          </tr>
+          <tr>
+            <td>Referencias Correctas</td>
+            <td>{{ form.referencias_correctas.0 }}</td>
+            <td>{{ form.referencias_correctas.1 }}</td>
+          </tr>
+          <tr>
+            <td>Errores Ortográficos</td>
+            <td>{{ form.errores_ortograficos.0 }}</td>
+            <td>{{ form.errores_ortograficos.1 }}</td>
+          </tr>
+          <tr>
+            <td>Normas de Formato</td>
+            <td>{{ form.normas_formato.0 }}</td>
+            <td>{{ form.normas_formato.1 }}</td>
+          </tr>
+          <tr>
+            <td>Metodología Descrita</td>
+            <td>{{ form.metodologia_descrita.0 }}</td>
+            <td>{{ form.metodologia_descrita.1 }}</td>
+          </tr>
+          <tr>
+            <td>Suficientes Referencias</td>
+            <td>{{ form.suficientes_referencias.0 }}</td>
+            <td>{{ form.suficientes_referencias.1 }}</td>
+          </tr>
+          <tr>
+            <td>Aceptado</td>
+            <td>{{ form.aceptado.0 }}</td>
+            <td>{{ form.aceptado.1 }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <label for="comentarios">Comentarios</label>
+        {{ form.comentarios }}
+      </div>
+      <button type="submit">Guardar Revisión</button>
+    </form>
+    </div>
+
+
+  </div>
+</div>
+{% endblock %}

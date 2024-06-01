@@ -84,3 +84,42 @@ class Revisado(models.Model):
 
     def __str__(self):
         return f"Revisado: {self.revisado} - Documento: {self.documento_alumno.nombre_documento}"
+
+#Proceso de titulacion
+
+class RevisarPropuesta(models.Model):
+    documento_alumno = models.OneToOneField('alumnos.DocumentoPropuestaAlumno', on_delete=models.CASCADE)
+    revisado = models.BooleanField(default=False)
+    titulo_adecuado = models.BooleanField(null=True, blank=True)
+    objetivos_planteados = models.BooleanField(null=True, blank=True)
+    referencias_correctas = models.BooleanField(null=True, blank=True)
+    errores_ortograficos = models.BooleanField(null=True, blank=True)
+    normas_formato = models.BooleanField(null=True, blank=True)
+    metodologia_descrita = models.BooleanField(null=True, blank=True)
+    suficientes_referencias = models.BooleanField(null=True, blank=True)
+    comentarios = models.TextField(null=True, blank=True)
+    aceptado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Revisado: {self.revisado} - Documento: {self.documento_alumno.titulo}"
+    
+    def get_titulo_adecuado_display(self):
+        return "Sí" if self.titulo_adecuado else "No"
+
+    def get_objetivos_planteados_display(self):
+        return "Sí" if self.objetivos_planteados else "No"
+
+    def get_referencias_correctas_display(self):
+        return "Sí" if self.referencias_correctas else "No"
+
+    def get_errores_ortograficos_display(self):
+        return "Sí" if self.errores_ortograficos else "No"
+
+    def get_normas_formato_display(self):
+        return "Sí" if self.normas_formato else "No"
+
+    def get_metodologia_descrita_display(self):
+        return "Sí" if self.metodologia_descrita else "No"
+
+    def get_suficientes_referencias_display(self):
+        return "Sí" if self.suficientes_referencias else "No"

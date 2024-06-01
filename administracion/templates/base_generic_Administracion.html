@@ -65,7 +65,15 @@
         </div>
 
         <!-- Menú desplegable para Alumnos -->
-        <a class="nav-link" href="{% url 'administracion:alumnos' %}">Alumnos</a>
+        <div class="dropdown">
+            <a class="nav-link" href="{% url 'administracion:alumnos' %}">Alumnos</a>
+            <div class="dropdown-content">
+                <!-- SUpongo que es mejor que no este
+                <a href="{% url 'administracion:registrar_formas_de_titulacion' %}">Registrar formas de titulación</a> 
+                -->
+                <a href="{% url 'administracion:revisar_propuestas_titulacion' %}">Revisar propuesta de titulación.</a>
+            </div>
+        </div>
         
         <!-- Menú desplegable para Titulación -->
         <div class="dropdown">

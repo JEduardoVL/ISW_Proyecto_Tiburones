@@ -1,0 +1,33 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+    <h1 class="letra_titulos">Ver Propuestas</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Nombre Estudiante</th>
+          <th>Correo Electrónico</th>
+          <th>Nombre Directores</th>
+          <th>Convocatoria</th>
+          <th>Ver</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for propuesta in propuestas %}
+          <tr>
+            <td>{{ propuesta.titulo }}</td>
+            <td>{{ propuesta.nombre_estudiante }}</td>
+            <td>{{ propuesta.correo_electronico }}</td>
+            <td>{{ propuesta.nombre_directores }}</td>
+            <td>{{ propuesta.convocatoria }}</td>
+            <td><a href="{% url 'administracion:individual_revisar_p' pk=propuesta.pk %}">Ver</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

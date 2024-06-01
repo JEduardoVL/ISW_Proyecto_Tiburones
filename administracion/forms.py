@@ -2,7 +2,7 @@ from django import forms
 from .models import Documento
 from .models import Seminario
 from .models import MaterialApoyo
-from .models import Revisado
+from .models import Revisado, RevisarPropuesta
 
 class FileUploadForm(forms.Form):
     document = forms.FileField()
@@ -117,4 +117,25 @@ class RevisadoForm(forms.ModelForm):
             'graficos_tablas_adecuados': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
             'resumen_claro_conciso': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
             'comentarios': forms.Textarea(attrs={'rows': 4}),
+        }
+
+#Proceso de titulacion
+
+class RevisarPropuestaForm(forms.ModelForm):
+    class Meta:
+        model = RevisarPropuesta
+        fields = [
+            'titulo_adecuado', 'objetivos_planteados', 'referencias_correctas',
+            'errores_ortograficos', 'normas_formato', 'metodologia_descrita',
+            'suficientes_referencias', 'comentarios', 'aceptado'
+        ]
+        widgets = {
+            'titulo_adecuado': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'objetivos_planteados': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'referencias_correctas': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'errores_ortograficos': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'normas_formato': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'metodologia_descrita': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'suficientes_referencias': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
+            'aceptado': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
         }

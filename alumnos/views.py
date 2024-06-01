@@ -9,11 +9,18 @@ import json
 from administracion.models import FormaTitulacion
 from administracion.models import MaterialApoyo
 from administracion.models import Documento
+from administracion.models import RevisarPropuesta
 # Importar vistas genéricas personalizadas
 from django.views import View
 from .models import Documento_alumno
 from .subir_pre_alumno import upload_pdf
 from administracion.models import Revisado
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import ProcesoTitulacion, DocumentoPropuestaAlumno
+from .forms import DocumentoPropuestaAlumnoForm
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
@@ -115,8 +122,28 @@ class AlumnosTitulacionConvocatoria(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/convocatorias_titulacion.html'
 class AlumnosTitulacionForma(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/formas_titulacion.html'
+
+
 class AlumnosTitulacionEstatus(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/titulacion/estatus_titulacion.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Obtener o crear el proceso de titulación del usuario autenticado
+        proceso, created = ProcesoTitulacion.objects.get_or_create(user=self.request.user)
+        
+        # Obtener el documento de propuesta del alumno
+        documento = DocumentoPropuestaAlumno.objects.filter(alumno=self.request.user).first()
+        
+        # Verificar el estado de 'enviado' y 'aceptado'
+        if documento:
+            if documento.enviado:
+                proceso.enviar_propuesta = True
+            if hasattr(documento, 'revisarpropuesta') and documento.revisarpropuesta.aceptado:
+                proceso.resultado_propuesta = True
+        
+        context['proceso'] = proceso
+        return context
 
 
 class AlumnosTitulacionMaterial(AlumnoRequiredMixin, TemplateView):
@@ -149,3 +176,50 @@ class AlumnosCambiarContrasena(View):
         user.save()
 
         return JsonResponse({'status': 'ok', 'message': 'Contraseña cambiada con éxito'})
+    
+
+# -------------------Proceso de titulación-----------------------------------------
+
+class AlumnosProcesoTitulacionInfo(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/proceso_titulacion/informacion.html'
+
+class ActualizarVerInfo(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        # Obtener o crear el proceso de titulación del usuario autenticado
+        proceso, created = ProcesoTitulacion.objects.get_or_create(user=request.user)
+        proceso.ver_info = 1
+        proceso.save()
+        return redirect('alumnos:informacion')
+
+class AlumnosProcesoTitulacionEnvPropuesta(TemplateView):
+    template_name = 'alumnos/proceso_titulacion/enviar_propuesta.html'
+
+    def get(self, request, *args, **kwargs):
+        documento = DocumentoPropuestaAlumno.objects.filter(alumno=request.user).first()
+        form = DocumentoPropuestaAlumnoForm(instance=documento) if documento else DocumentoPropuestaAlumnoForm()
+        revisar_propuesta = RevisarPropuesta.objects.filter(documento_alumno=documento).first() if documento else None
+        return self.render_to_response({
+            'form': form, 
+            'documento': documento, 
+            'revisar_propuesta': revisar_propuesta
+        })
+
+    def post(self, request, *args, **kwargs):
+        documento = DocumentoPropuestaAlumno.objects.filter(alumno=request.user).first()
+        form = DocumentoPropuestaAlumnoForm(request.POST, instance=documento) if documento else DocumentoPropuestaAlumnoForm(request.POST)
+        if form.is_valid():
+            documento = form.save(commit=False)
+            documento.alumno = request.user
+            documento.enviado = True  # Actualizamos el campo 'enviado' a True
+            documento.save()
+            return redirect('alumnos:estatus_titulacion')
+        revisar_propuesta = RevisarPropuesta.objects.filter(documento_alumno=documento).first() if documento else None
+        return self.render_to_response({
+            'form': form, 
+            'documento': documento, 
+            'revisar_propuesta': revisar_propuesta
+        })
+
+def documento_detalle(request, pk):
+    documento = get_object_or_404(DocumentoPropuestaAlumno, pk=pk)
+    return HttpResponse(f"Documento {documento.titulo} enviado con éxito.")

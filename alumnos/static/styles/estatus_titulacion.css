@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"); 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap");
 
 *,
 *::before,
@@ -21,13 +21,11 @@
   background: var(--bgColor);
 }
 
-.h1_class 
-{
+.h1_class {
   text-align: center;
 }
 
-.ul_class 
-{
+.ul_class {
   --col-gap: 2rem;
   --row-gap: 2rem;
   --line-w: 0.25rem;
@@ -40,10 +38,7 @@
   margin-inline: auto;
 }
 
-/* line */
-
-.ul_class::before 
-{
+.ul_class::before {
   content: "";
   grid-column: 1;
   grid-row: 1 / span 20;
@@ -51,16 +46,9 @@
   border-radius: calc(var(--line-w) / 2);
 }
 
-/* columns*/
-
-/* row gaps */
-
-.ul_class .li_class:not(:last-child) 
-{
+.ul_class .li_class:not(:last-child) {
   margin-bottom: var(--row-gap);
 }
-
-/* card */
 
 .ul_class .li_class {
   grid-column: 2;
@@ -71,28 +59,25 @@
   grid-template-rows: min-content min-content min-content;
 }
 
-/* date */
-
 .ul_class .li_class .date {
   --dateH: 3rem;
   height: var(--dateH);
   margin-inline: calc(var(--inlineP) * -1);
-
   text-align: center;
   background-color: var(--accent-color);
-
   color: white;
   font-size: 1.25rem;
   font-weight: 700;
-
   display: grid;
   place-content: center;
   position: relative;
-
   border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2);
 }
 
-/* date flap */
+.ul_class .li_class.active .date::after {
+  background-color: var(--accent-color); /* Color del círculo cuando está activo */
+  border-color: var(--accent-color); /* Borde del círculo cuando está activo */
+}
 
 .ul_class .li_class .date::before {
   content: "";
@@ -102,12 +87,9 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.2) 100%, transparent);
   position: absolute;
   top: 100%;
-
   clip-path: polygon(0 0, 100% 0, 0 100%);
   right: 0;
 }
-
-/* circle */
 
 .ul_class .li_class .date::after {
   content: "";
@@ -118,12 +100,9 @@
   border: 0.3rem solid var(--accent-color);
   border-radius: 50%;
   top: 50%;
-
   transform: translate(50%, -50%);
   right: calc(100% + var(--col-gap) + var(--line-w) / 2);
 }
-
-/* title descr */
 
 .ul_class .li_class .title,
 .ul_class .li_class .descr {
@@ -131,18 +110,18 @@
   position: relative;
   padding-inline: 1.5rem;
 }
+
 .ul_class .li_class .title {
   overflow: hidden;
   padding-block-start: 1.5rem;
   padding-block-end: 1rem;
   font-weight: 500;
 }
+
 .ul_class .li_class .descr {
   padding-block-end: 1.5rem;
   font-weight: 300;
 }
-
-/* shadows */
 
 .ul_class .li_class .title::before,
 .ul_class .li_class .descr::before {
@@ -156,6 +135,7 @@
   filter: blur(4px);
   transform: translate(-50%, 50%);
 }
+
 .ul_class .li_class .title::before {
   bottom: calc(100% + 0.125rem);
 }
@@ -179,7 +159,6 @@
     grid-column: 3;
   }
 
-  /* start second card */
   .ul_class .li_class:nth-child(2) {
     grid-row: 2/4;
   }
@@ -193,8 +172,8 @@
     transform: translate(-50%, -50%);
     left: calc(100% + var(--col-gap) + var(--line-w) / 2);
   }
+
   .ul_class .li_class:nth-child(odd) .date {
     border-radius: 0 calc(var(--dateH) / 2) calc(var(--dateH) / 2) 0;
   }
 }
-

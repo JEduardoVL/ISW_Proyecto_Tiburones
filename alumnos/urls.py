@@ -1,4 +1,5 @@
 # alumnos/urls.py
+from django import views
 from django.urls import path
 from .views import (
     AlumnosHomeView, 
@@ -14,7 +15,12 @@ from .views import (
     AlumnosInformacion,
     AlumnosCambiarContrasena,
     AlumnosTitulacionMaterial,
-    AlumnosVerTrabajo
+    AlumnosVerTrabajo,
+
+    AlumnosProcesoTitulacionInfo,
+    ActualizarVerInfo,
+    AlumnosProcesoTitulacionEnvPropuesta,
+    documento_detalle
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -38,6 +44,12 @@ urlpatterns = [
     path('titulacion/formas_titulacion/', AlumnosTitulacionForma.as_view(), name='formas_titulacion'),
     path('titulacion/estatus_titulacion/', AlumnosTitulacionEstatus.as_view(), name='estatus_titulacion'),
     path('titulacion/material_apoyo/', AlumnosTitulacionMaterial.as_view(), name='material_apoyo'),
+
+    # Porceso de titulacion
+    path('proceso_titulacion/informacion/', AlumnosProcesoTitulacionInfo.as_view(), name='informacion'),
+    path('proceso_titulacion/actualizar_ver_info/', ActualizarVerInfo.as_view(), name='actualizar_ver_info'),
+    path('proceso_titulacion/enviar_propuesta/', AlumnosProcesoTitulacionEnvPropuesta.as_view(), name='enviar_propuesta'),
+    path('documento/<int:pk>/', documento_detalle, name='documento_detalle'),
     
 ]
 

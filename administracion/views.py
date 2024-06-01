@@ -26,8 +26,8 @@ from .forms import SeminarioForm, RevisadoForm
 
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import DocumentoForm
-from .models import Documento
+from .forms import DocumentoForm, RevisarPropuestaForm
+from .models import Documento, RevisarPropuesta
 
 # Importar excepciones específicas
 from smtplib import SMTPAuthenticationError
@@ -38,7 +38,7 @@ from django.views import View
 from .forms import MaterialApoyoForm
 from .material_apoyo import upload_pdf
 from .models import MaterialApoyo, Revisado
-from alumnos.models import Documento_alumno
+from alumnos.models import Documento_alumno, DocumentoPropuestaAlumno
 
 
 # Todo lo necesario para la administracion de titulación
@@ -441,3 +441,32 @@ class AdministracionDocumentosAlumnosRevision(TemplateView):
             return redirect('administracion:documentos_revision')
 
         return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
+
+# Proceso de titulacion
+
+class AdministracionDocumentosPrupuestaAlumnos(TemplateView):
+    template_name = 'administracion/alumnos/revisar_propuestas_titulacion.html'
+
+    def get(self, request, *args, **kwargs):
+        propuestas = DocumentoPropuestaAlumno.objects.filter(enviado=True)
+        return self.render_to_response({'propuestas': propuestas})
+
+class AdministracionDocumentosIndividualAlumnos(TemplateView):
+    template_name = 'administracion/alumnos/individual_revisar_p.html'
+
+    def get(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        revisar_propuesta, created = RevisarPropuesta.objects.get_or_create(documento_alumno=propuesta)
+        form = RevisarPropuestaForm(instance=revisar_propuesta)
+        return self.render_to_response({'propuesta': propuesta, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        revisar_propuesta, created = RevisarPropuesta.objects.get_or_create(documento_alumno=propuesta)
+        form = RevisarPropuestaForm(request.POST, instance=revisar_propuesta)
+        if form.is_valid():
+            revisar = form.save(commit=False)
+            revisar.revisado = True
+            revisar.save()
+            return redirect('administracion:revisar_propuestas_titulacion')
+        return self.render_to_response({'propuesta': propuesta, 'form': form})
