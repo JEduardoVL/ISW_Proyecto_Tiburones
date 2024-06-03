@@ -94,5 +94,5 @@ urlpatterns = [
     # proceso de titulacion
     path('alumnos/revisar_propuestas_titulacion/', AdministracionDocumentosPrupuestaAlumnos.as_view(), name='revisar_propuestas_titulacion'),
     path('alumnos/individual_revisar_p/<int:pk>/', AdministracionDocumentosIndividualAlumnos.as_view(), name='individual_revisar_p'),
-    path('alumnos/asignar_sinodales/', AdministracionAsignarSinodalesAlumnos.as_view(), name='asignar_sinodales'),
+    path('alumnos/asignar_sinodales/<int:pk>/', AdministracionAsignarSinodalesAlumnos.as_view(), name='asignar_sinodales'),
 ] 

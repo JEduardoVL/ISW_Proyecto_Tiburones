@@ -20,7 +20,8 @@ from .views import (
     AlumnosProcesoTitulacionInfo,
     ActualizarVerInfo,
     AlumnosProcesoTitulacionEnvPropuesta,
-    documento_detalle
+    documento_detalle,
+    AlumnosProcesoTitulacionDesarrollo
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -50,6 +51,7 @@ urlpatterns = [
     path('proceso_titulacion/actualizar_ver_info/', ActualizarVerInfo.as_view(), name='actualizar_ver_info'),
     path('proceso_titulacion/enviar_propuesta/', AlumnosProcesoTitulacionEnvPropuesta.as_view(), name='enviar_propuesta'),
     path('documento/<int:pk>/', documento_detalle, name='documento_detalle'),
-    
+    path('proceso_titulacion/desarrollo/', AlumnosProcesoTitulacionDesarrollo.as_view(), name='desarrollo'),
+
 ]
 

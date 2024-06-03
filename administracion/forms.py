@@ -3,6 +3,7 @@ from .models import Documento
 from .models import Seminario
 from .models import MaterialApoyo
 from .models import Revisado, RevisarPropuesta
+from usuarios.models import CustomUser
 
 class FileUploadForm(forms.Form):
     document = forms.FileField()
@@ -139,3 +140,8 @@ class RevisarPropuestaForm(forms.ModelForm):
             'suficientes_referencias': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
             'aceptado': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
         }
+
+class AsignarSinodalesForm(forms.Form):
+    sinodal_1 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(is_docente=True), label="Sinodal 1")
+    sinodal_2 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(is_docente=True), label="Sinodal 2")
+    sinodal_3 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(is_docente=True), label="Sinodal 3")

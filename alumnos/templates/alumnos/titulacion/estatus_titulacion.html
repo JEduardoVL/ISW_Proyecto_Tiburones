@@ -1,7 +1,6 @@
 {% extends "base_generic_alumnos.html" %}
 
 {% block content %}
-
 <div id="fondo">
     <div class="body_es">
         <h1 class="h1_class">Estatus del proceso de Titulación</h1>
@@ -30,7 +29,9 @@
             <li class="li_class {% if proceso.desarrollo_proyecto %}active{% endif %}" style="--accent-color:#1B5F8C">
                 <div class="date">Desarrollar trabajo académico</div>
                 <div class="title">Cuarto Paso</div>
-                <div class="descr">Una vez aceptada la propuesta de titulación, el estudiante debe comenzar a desarrollar su proyecto durante el periodo de tiempo establecido.</div>
+                <div class="descr">Una vez aceptada la propuesta de titulación, el estudiante debe comenzar a desarrollar su proyecto durante el periodo de tiempo establecido.
+                    <a href="{% url 'alumnos:desarrollo' %}">Ver progreso.</a>
+                </div>
             </li>
             <li class="li_class {% if proceso.enviar_trabajo %}active{% endif %}" style="--accent-color:#4CADAD">
                 <div class="date">Enviar trabajo académico</div>
@@ -40,6 +41,4 @@
         </ul>
     </div>
 </div>
-
 {% endblock %}
-

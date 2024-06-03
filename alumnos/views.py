@@ -17,7 +17,7 @@ from .subir_pre_alumno import upload_pdf
 from administracion.models import Revisado
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import ProcesoTitulacion, DocumentoPropuestaAlumno
+from .models import ProcesoTitulacion, DocumentoPropuestaAlumno, SinodalAsignado
 from .forms import DocumentoPropuestaAlumnoForm
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
@@ -135,12 +135,14 @@ class AlumnosTitulacionEstatus(AlumnoRequiredMixin, TemplateView):
         # Obtener el documento de propuesta del alumno
         documento = DocumentoPropuestaAlumno.objects.filter(alumno=self.request.user).first()
         
-        # Verificar el estado de 'enviado' y 'aceptado'
+        # Verificar el estado de 'enviado', 'aceptado' y 'sinodales'
         if documento:
             if documento.enviado:
                 proceso.enviar_propuesta = True
             if hasattr(documento, 'revisarpropuesta') and documento.revisarpropuesta.aceptado:
                 proceso.resultado_propuesta = True
+            if documento.sinodales:
+                proceso.desarrollo_proyecto = True
         
         context['proceso'] = proceso
         return context
@@ -198,10 +200,12 @@ class AlumnosProcesoTitulacionEnvPropuesta(TemplateView):
         documento = DocumentoPropuestaAlumno.objects.filter(alumno=request.user).first()
         form = DocumentoPropuestaAlumnoForm(instance=documento) if documento else DocumentoPropuestaAlumnoForm()
         revisar_propuesta = RevisarPropuesta.objects.filter(documento_alumno=documento).first() if documento else None
+        sinodales = SinodalAsignado.objects.filter(propuesta=documento) if documento and documento.sinodales else []
         return self.render_to_response({
-            'form': form, 
-            'documento': documento, 
-            'revisar_propuesta': revisar_propuesta
+            'form': form,
+            'documento': documento,
+            'revisar_propuesta': revisar_propuesta,
+            'sinodales': sinodales
         })
 
     def post(self, request, *args, **kwargs):
@@ -214,12 +218,17 @@ class AlumnosProcesoTitulacionEnvPropuesta(TemplateView):
             documento.save()
             return redirect('alumnos:estatus_titulacion')
         revisar_propuesta = RevisarPropuesta.objects.filter(documento_alumno=documento).first() if documento else None
+        sinodales = SinodalAsignado.objects.filter(propuesta=documento) if documento and documento.sinodales else []
         return self.render_to_response({
-            'form': form, 
-            'documento': documento, 
-            'revisar_propuesta': revisar_propuesta
+            'form': form,
+            'documento': documento,
+            'revisar_propuesta': revisar_propuesta,
+            'sinodales': sinodales
         })
 
 def documento_detalle(request, pk):
     documento = get_object_or_404(DocumentoPropuestaAlumno, pk=pk)
     return HttpResponse(f"Documento {documento.titulo} enviado con éxito.")
+
+class AlumnosProcesoTitulacionDesarrollo(TemplateView):
+    template_name = 'alumnos/proceso_titulacion/desarrollo.html'

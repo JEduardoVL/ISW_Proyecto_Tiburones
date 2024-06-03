@@ -22,7 +22,7 @@ from .models import FormaTitulacion, Documento
 from .forms import DocumentoForm, FileUploadForm
 from .utils import upload_pdf_admin
 from .models import Seminario
-from .forms import SeminarioForm, RevisadoForm
+from .forms import SeminarioForm, RevisadoForm, AsignarSinodalesForm
 
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
@@ -38,7 +38,7 @@ from django.views import View
 from .forms import MaterialApoyoForm
 from .material_apoyo import upload_pdf
 from .models import MaterialApoyo, Revisado
-from alumnos.models import Documento_alumno, DocumentoPropuestaAlumno
+from alumnos.models import Documento_alumno, DocumentoPropuestaAlumno, SinodalAsignado, ProcesoTitulacion
 
 
 # Todo lo necesario para la administracion de titulación
@@ -450,14 +450,14 @@ class AdministracionDocumentosPrupuestaAlumnos(TemplateView):
     def get(self, request, *args, **kwargs):
         propuestas_pendientes_revision = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__revisado=False, enviado=True)
         propuestas_correcciones = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__revisado=True, revisarpropuesta__aceptado=False)
-        propuestas_pendientes_sinodales = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__aceptado=True, directores=None)
-        propuestas_aprobadas = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__aceptado=True).exclude(directores=None)
-
+        propuestas_pendientes_sinodales = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__aceptado=True, sinodales=False)
+        propuestas_aprobadas = DocumentoPropuestaAlumno.objects.filter(revisarpropuesta__aceptado=True, sinodales=True)
+        
         context = {
             'propuestas_pendientes_revision': propuestas_pendientes_revision,
             'propuestas_correcciones': propuestas_correcciones,
             'propuestas_pendientes_sinodales': propuestas_pendientes_sinodales,
-            'propuestas_aprobadas': propuestas_aprobadas,
+            'propuestas_aprobadas': propuestas_aprobadas
         }
         return self.render_to_response(context)
 
@@ -483,3 +483,23 @@ class AdministracionDocumentosIndividualAlumnos(TemplateView):
     
 class AdministracionAsignarSinodalesAlumnos(TemplateView):
     template_name = 'administracion/alumnos/asignar_sinodales.html'
+
+    def get(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        revisar_propuesta, created = RevisarPropuesta.objects.get_or_create(documento_alumno=propuesta)
+        form = AsignarSinodalesForm()
+        return self.render_to_response({'propuesta': propuesta, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        proceso = get_object_or_404(ProcesoTitulacion, pk=kwargs['pk'])
+        form = AsignarSinodalesForm(request.POST)
+        if form.is_valid():
+            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=form.cleaned_data['sinodal_1'], rol='Sinodal 1')
+            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=form.cleaned_data['sinodal_2'], rol='Sinodal 2')
+            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=form.cleaned_data['sinodal_3'], rol='Sinodal 3')
+            propuesta.sinodales = True
+            proceso.desarrollo_proyecto = '1'
+            propuesta.save()
+            return redirect('administracion:revisar_propuestas_titulacion')
+        return self.render_to_response({'propuesta': propuesta, 'form': form})

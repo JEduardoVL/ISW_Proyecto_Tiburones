@@ -6,8 +6,28 @@
     <h1 class="letra_titulos">Toda la Información Necesaria para Enviar la Propuesta</h1>
     {% if documento %}
       {% if revisar_propuesta and revisar_propuesta.aceptado %}
-        <p class="letra_titulos">Propuesta aceptada</p>
-        <p>En espera de asignacion de sinodales.</p>
+        {% if documento.sinodales %}
+          <p class="letra_titulos">Propuesta aceptada, sinodales asignados:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for sinodal in sinodales %}
+                <tr>
+                  <td>{{ sinodal.sinodal.nombre }}</td>
+                  <td>{{ sinodal.sinodal.correo_electronico }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>Propuesta aceptada</p>
+          <p>En espera de asignación de sinodales.</p>
+        {% endif %}
       {% elif documento.enviado %}
         {% if revisar_propuesta %}
           {% if revisar_propuesta.revisado %}
@@ -87,3 +107,4 @@
   });
 </script>
 {% endblock %}
+

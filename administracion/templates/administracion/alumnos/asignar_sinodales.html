@@ -2,10 +2,25 @@
 
 {% block content %}
 <div id="fondo">
- <div class="contenedor_principal">
-  <h1>Asignar sinodales</h1>
-  
- </div>
+ <div class="contenedor_principal letra_texto">
+  <h1 class="letra_titulos">Asignar sinodales</h1>
+    <div class="revisar_pr">
+        <p><strong>Título:</strong> {{ propuesta.titulo }}</p>
+        <p><strong>Nombre Estudiante:</strong> {{ propuesta.nombre_estudiante }}</p>
+        <p><strong>Correo Electrónico:</strong> {{ propuesta.correo_electronico }}</p>
+        <p><strong>Nombre Directores:</strong> {{ propuesta.nombre_directores }}</p>
+        <p><strong>Resumen:</strong> {{ propuesta.resumen }}</p>
+        <p><strong>Objetivos:</strong> {{ propuesta.objetivos }}</p>
+        <p><strong>Metodología:</strong> {{ propuesta.metodologia }}</p>
+        <p><strong>Palabras Clave:</strong> {{ propuesta.palabras_clave }}</p>
+        <p><strong>Referencias:</strong> {{ propuesta.referencias }}</p>
+        <p><strong>Convocatoria:</strong> {{ propuesta.convocatoria }}</p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="dropbtn_base">Asignar Sinodales</button>
+    </form>
 </div>
-
+</div>
 {% endblock %}

@@ -82,7 +82,7 @@
               <td>{{ propuesta.correo_electronico }}</td>
               <td>{{ propuesta.nombre_directores }}</td>
               <td>{{ propuesta.convocatoria }}</td>
-              <td><a href="{% url 'administracion:asignar_sinodales'%}">Ver</a></td>
+              <td><a href="{% url 'administracion:asignar_sinodales' pk=propuesta.pk %}">Ver</a></td>
             </tr>
           {% endfor %}
         </tbody>
@@ -99,7 +99,7 @@
             <th>Correo Electrónico</th>
             <th>Nombre Directores</th>
             <th>Convocatoria</th>
-            <th>Ver</th>
+            <th>Ver detalles</th>
           </tr>
         </thead>
         <tbody>
@@ -110,7 +110,6 @@
               <td>{{ propuesta.correo_electronico }}</td>
               <td>{{ propuesta.nombre_directores }}</td>
               <td>{{ propuesta.convocatoria }}</td>
-              <td><a href="{% url 'administracion:individual_revisar_p' pk=propuesta.pk %}">Ver</a></td>
             </tr>
           {% endfor %}
         </tbody>

@@ -55,8 +55,8 @@ class DocumentoPropuestaAlumno(models.Model):
     convocatoria = models.CharField(max_length=4, default="2024")
     enviado = models.BooleanField(default=False)
     aceptado = models.BooleanField(default=False)
+    sinodales = models.BooleanField(default=False)
     alumno = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    directores = models.ManyToManyField('Directores', blank=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:  # Si el objeto se está creando por primera vez
@@ -67,8 +67,10 @@ class DocumentoPropuestaAlumno(models.Model):
     def __str__(self):
         return self.titulo
 
-class Directores(models.Model):
-    nombre = models.CharField(max_length=100)
+class SinodalAsignado(models.Model):
+    propuesta = models.ForeignKey('DocumentoPropuestaAlumno', on_delete=models.CASCADE)
+    sinodal = models.ForeignKey('usuarios.CustomUser', on_delete=models.CASCADE)
+    rol = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return f"{self.sinodal.nombre} - {self.rol}"
