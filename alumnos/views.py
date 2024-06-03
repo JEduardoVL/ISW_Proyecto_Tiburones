@@ -12,9 +12,7 @@ from administracion.models import Documento
 from administracion.models import RevisarPropuesta
 # Importar vistas genéricas personalizadas
 from django.views import View
-from .models import Documento_alumno
 from .subir_pre_alumno import upload_pdf
-from administracion.models import Revisado
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import ProcesoTitulacion, DocumentoPropuestaAlumno, SinodalAsignado
@@ -48,63 +46,6 @@ class AlumnosPreguntas(AlumnoRequiredMixin, TemplateView):
 
 class AlumnosSubirDocumentos(TemplateView):
     template_name = 'alumnos/subir_documento.html'
-
-    def get(self, request, *args, **kwargs):
-        documentos = Documento_alumno.objects.filter(usuario=request.user)
-        if documentos.exists():
-            documento = documentos.first()
-            try:
-                revisado = Revisado.objects.get(documento_alumno=documento)
-            except Revisado.DoesNotExist:
-                revisado = None
-            return render(request, self.template_name, {'documento': documento, 'revisado': revisado})
-        return render(request, self.template_name, {'documentos': None})
-
-    def post(self, request, *args, **kwargs):
-        if request.method == 'POST':
-            nombre_documento = request.POST['nombre_documento']
-            resumen = request.POST['resumen']
-            nombre_autor = request.POST['nombre_autor']
-            sinodales = request.POST['sinodales']
-            tipo = request.POST['tipo']
-            fecha_elaboracion = request.POST['fecha_elaboracion']
-            convocatoria = request.POST['convocatoria']
-            documento = request.FILES['documento']
-            
-            # Subir el documento a Google Drive y obtener la URL
-            documento_url = upload_pdf(documento)
-            
-            documentos = Documento_alumno.objects.filter(usuario=request.user)
-            if documentos.exists():
-                # Actualizar el documento existente
-                documento_alumno = documentos.first()
-                documento_alumno.nombre_documento = nombre_documento
-                documento_alumno.resumen = resumen
-                documento_alumno.nombre_autor = nombre_autor
-                documento_alumno.sinodales = sinodales
-                documento_alumno.tipo = tipo
-                documento_alumno.fecha_elaboracion = fecha_elaboracion
-                documento_alumno.convocatoria = convocatoria
-                documento_alumno.documento_url = documento_url
-                documento_alumno.en_correccion = False
-                documento_alumno.save()
-            else:
-                # Crear un nuevo documento
-                nuevo_documento = Documento_alumno.objects.create(
-                    usuario=request.user,
-                    nombre_documento=nombre_documento,
-                    resumen=resumen,
-                    nombre_autor=nombre_autor,
-                    sinodales=sinodales,
-                    tipo=tipo,
-                    fecha_elaboracion=fecha_elaboracion,
-                    convocatoria=convocatoria,
-                    documento_url=documento_url,
-                    archivo_subido=True
-                )
-            return redirect('alumnos:subir_documento')
-
-        return render(request, self.template_name)
 
     
 class AlumnosTitulacion(AlumnoRequiredMixin,TemplateView):

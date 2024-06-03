@@ -61,30 +61,6 @@ class MaterialApoyo(models.Model):
     def __str__(self):
         return f"{self.tipo} - {self.nombre}"
 
-class Revisado(models.Model):
-    documento_alumno = models.OneToOneField('alumnos.Documento_alumno', on_delete=models.CASCADE)
-    revisado = models.BooleanField(default=False)
-    titulo_adecuado = models.BooleanField(null=True, blank=True)
-    objetivos_cumplidos = models.BooleanField(null=True, blank=True)
-    referencias_correctas = models.BooleanField(null=True, blank=True)
-    errores_ortograficos = models.BooleanField(null=True, blank=True)
-    estructura_clara = models.BooleanField(null=True, blank=True)
-    contenido_coherente = models.BooleanField(null=True, blank=True)
-    normas_formato = models.BooleanField(null=True, blank=True)
-    metodologia_descrita = models.BooleanField(null=True, blank=True)
-    resultados_presentados = models.BooleanField(null=True, blank=True)
-    discusion_adecuada = models.BooleanField(null=True, blank=True)
-    conclusiones_pertinentes = models.BooleanField(null=True, blank=True)
-    suficientes_referencias = models.BooleanField(null=True, blank=True)
-    introduccion_contextualiza = models.BooleanField(null=True, blank=True)
-    graficos_tablas_adecuados = models.BooleanField(null=True, blank=True)
-    resumen_claro_conciso = models.BooleanField(null=True, blank=True)
-    comentarios = models.TextField(null=True, blank=True)
-    aceptado = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Revisado: {self.revisado} - Documento: {self.documento_alumno.nombre_documento}"
-
 #Proceso de titulacion
 
 class RevisarPropuesta(models.Model):
@@ -123,3 +99,4 @@ class RevisarPropuesta(models.Model):
 
     def get_suficientes_referencias_display(self):
         return "Sí" if self.suficientes_referencias else "No"
+    

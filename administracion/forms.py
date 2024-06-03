@@ -2,7 +2,7 @@ from django import forms
 from .models import Documento
 from .models import Seminario
 from .models import MaterialApoyo
-from .models import Revisado, RevisarPropuesta
+from .models import RevisarPropuesta
 from usuarios.models import CustomUser
 
 class FileUploadForm(forms.Form):
@@ -79,46 +79,6 @@ class MaterialApoyoForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
-    
-class RevisadoForm(forms.ModelForm):
-    class Meta:
-        model = Revisado
-        fields = [
-            'titulo_adecuado',
-            'objetivos_cumplidos',
-            'referencias_correctas',
-            'errores_ortograficos',
-            'estructura_clara',
-            'contenido_coherente',
-            'normas_formato',
-            'metodologia_descrita',
-            'resultados_presentados',
-            'discusion_adecuada',
-            'conclusiones_pertinentes',
-            'suficientes_referencias',
-            'introduccion_contextualiza',
-            'graficos_tablas_adecuados',
-            'resumen_claro_conciso',
-            'comentarios'
-        ]
-        widgets = {
-            'titulo_adecuado': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'objetivos_cumplidos': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'referencias_correctas': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'errores_ortograficos': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'estructura_clara': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'contenido_coherente': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'normas_formato': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'metodologia_descrita': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'resultados_presentados': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'discusion_adecuada': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'conclusiones_pertinentes': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'suficientes_referencias': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'introduccion_contextualiza': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'graficos_tablas_adecuados': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'resumen_claro_conciso': forms.RadioSelect(choices=[(True, 'Sí'), (False, 'No')]),
-            'comentarios': forms.Textarea(attrs={'rows': 4}),
-        }
 
 #Proceso de titulacion
 

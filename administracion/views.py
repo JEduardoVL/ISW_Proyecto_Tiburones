@@ -18,16 +18,16 @@ import json
 from usuarios.models import CustomUser
 from usuarios.forms import CustomUserCreationForm
 from .mixins import AdminRequiredMixin
-from .models import FormaTitulacion, Documento
-from .forms import DocumentoForm, FileUploadForm
+from .models import FormaTitulacion
+from .forms import DocumentoForm
 from .utils import upload_pdf_admin
 from .models import Seminario
-from .forms import SeminarioForm, RevisadoForm, AsignarSinodalesForm
+from .forms import SeminarioForm, AsignarSinodalesForm
 
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from .forms import DocumentoForm, RevisarPropuestaForm
-from .models import Documento, RevisarPropuesta
+from .models import RevisarPropuesta
 
 # Importar excepciones específicas
 from smtplib import SMTPAuthenticationError
@@ -37,8 +37,8 @@ from django.views import View
 
 from .forms import MaterialApoyoForm
 from .material_apoyo import upload_pdf
-from .models import MaterialApoyo, Revisado
-from alumnos.models import Documento_alumno, DocumentoPropuestaAlumno, SinodalAsignado, ProcesoTitulacion
+from .models import MaterialApoyo
+from alumnos.models import DocumentoPropuestaAlumno, SinodalAsignado, ProcesoTitulacion
 
 
 # Todo lo necesario para la administracion de titulación
@@ -406,41 +406,6 @@ def editar_seminario(request, id):
 class AdministracionDocumentosAlumnos(TemplateView):
     template_name = 'administracion/titulacion/documentos_revision.html'
 
-    def get(self, request, *args, **kwargs):
-        documentos = Documento_alumno.objects.filter(aceptado=False)
-        return render(request, self.template_name, {'documentos': documentos})
-
-class AdministracionDocumentosAlumnosRevision(TemplateView):
-    template_name = 'administracion/titulacion/revision.html'
-
-    def get(self, request, documento_id, *args, **kwargs):
-        documento = get_object_or_404(Documento_alumno, id=documento_id)
-        try:
-            revisado = Revisado.objects.get(documento_alumno=documento)
-        except Revisado.DoesNotExist:
-            revisado = None
-        revisado_form = RevisadoForm(instance=revisado)
-        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
-
-    def post(self, request, documento_id, *args, **kwargs):
-        documento = get_object_or_404(Documento_alumno, id=documento_id)
-        try:
-            revisado = Revisado.objects.get(documento_alumno=documento)
-        except Revisado.DoesNotExist:
-            revisado = None
-
-        revisado_form = RevisadoForm(request.POST, instance=revisado)
-        if revisado_form.is_valid():
-            revisado = revisado_form.save(commit=False)
-            revisado.documento_alumno = documento
-            revisado.aceptado = 'aceptado' in request.POST
-            revisado.save()
-            documento.aceptado = revisado.aceptado
-            documento.en_correccion = not revisado.aceptado
-            documento.save()
-            return redirect('administracion:documentos_revision')
-
-        return render(request, self.template_name, {'documento': documento, 'revisado_form': revisado_form})
 
 # Proceso de titulacion
 

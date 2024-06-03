@@ -31,7 +31,6 @@ from .views import (
     EliminarMaterial,
     EditarMaterial,
     AdministracionDocumentosAlumnos,
-    AdministracionDocumentosAlumnosRevision,
     AdministracionDocumentosPrupuestaAlumnos,
     AdministracionDocumentosIndividualAlumnos,
     AdministracionAsignarSinodalesAlumnos,
@@ -72,7 +71,6 @@ urlpatterns = [
     path('titulacion/convocatorias/editar/<int:convocatoria_id>/', editar_convocatoria, name='editar_convocatoria'),
     path('titulacion/convocatorias/eliminar/<int:convocatoria_id>/', eliminar_convocatoria, name='eliminar_convocatoria'),
     path('titulacion/documentos_revision/', AdministracionDocumentosAlumnos.as_view(), name='documentos_revision'),
-    path('titulacion/revision/<int:documento_id>/', AdministracionDocumentosAlumnosRevision.as_view(), name='revision'),
 
 
     path('titulacion/convocatorias_titulacion/', AdministracionTitulacionConvocatorias.as_view(), name='convocatorias_titulacion'),
