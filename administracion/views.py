@@ -501,5 +501,21 @@ class AdministracionAsignarSinodalesAlumnos(TemplateView):
             propuesta.sinodales = True
             proceso.desarrollo_proyecto = '1'
             propuesta.save()
+            proceso.save()
             return redirect('administracion:revisar_propuestas_titulacion')
         return self.render_to_response({'propuesta': propuesta, 'form': form})
+    
+class AdministracionVerDetallesPropuestaACS(TemplateView):
+    template_name = 'administracion/alumnos/ver_detalles.html'
+
+    def get(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        revisar_propuesta, created = RevisarPropuesta.objects.get_or_create(documento_alumno=propuesta)
+        sinodales = SinodalAsignado.objects.filter(propuesta=propuesta)
+        context = {
+            'propuesta': propuesta,
+            'sinodales': sinodales
+            }
+        return self.render_to_response(context)
+    
+    

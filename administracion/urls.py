@@ -34,7 +34,8 @@ from .views import (
     AdministracionDocumentosAlumnosRevision,
     AdministracionDocumentosPrupuestaAlumnos,
     AdministracionDocumentosIndividualAlumnos,
-    AdministracionAsignarSinodalesAlumnos
+    AdministracionAsignarSinodalesAlumnos,
+    AdministracionVerDetallesPropuestaACS
 )
 from administracion import views
 from django.views.decorators.http import require_POST
@@ -95,4 +96,5 @@ urlpatterns = [
     path('alumnos/revisar_propuestas_titulacion/', AdministracionDocumentosPrupuestaAlumnos.as_view(), name='revisar_propuestas_titulacion'),
     path('alumnos/individual_revisar_p/<int:pk>/', AdministracionDocumentosIndividualAlumnos.as_view(), name='individual_revisar_p'),
     path('alumnos/asignar_sinodales/<int:pk>/', AdministracionAsignarSinodalesAlumnos.as_view(), name='asignar_sinodales'),
+    path('alumnos/ver_detalles/<int:pk>/', AdministracionVerDetallesPropuestaACS.as_view(), name='ver_detalles'),
 ] 

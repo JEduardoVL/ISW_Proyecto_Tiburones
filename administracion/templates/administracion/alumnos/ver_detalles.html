@@ -1,0 +1,59 @@
+{% extends "base_generic_Administracion.html" %}
+
+{% block content %}
+<style>
+  .revisar_pr, .evaluacion {
+      float: left;
+      padding: 20px;
+      box-sizing: border-box;
+  }
+  
+  .revisar_pr {
+      width: 60%;
+      border-right: 1px solid #ddd;
+  }
+  
+  .evaluacion {
+      width: 40%;
+  }
+  </style>
+<div id="fondo">
+    <div class="contenedor_principal letra_texto">
+      <div class="revisar_pr">
+        <h1 class="letra_titulos">Revisar Propuesta</h1>
+      <p><strong>Título:</strong> {{ propuesta.titulo }}</p>
+      <p><strong>Nombre Estudiante:</strong> {{ propuesta.nombre_estudiante }}</p>
+      <p><strong>Correo Electrónico:</strong> {{ propuesta.correo_electronico }}</p>
+      <p><strong>Nombre Directores:</strong> {{ propuesta.nombre_directores }}</p>
+      <p><strong>Resumen:</strong> {{ propuesta.resumen }}</p>
+      <p><strong>Objetivos:</strong> {{ propuesta.objetivos }}</p>
+      <p><strong>Metodología:</strong> {{ propuesta.metodologia }}</p>
+      <p><strong>Palabras Clave:</strong> {{ propuesta.palabras_clave }}</p>
+      <p><strong>Referencias:</strong> {{ propuesta.referencias }}</p>
+      <p><strong>Convocatoria:</strong> {{ propuesta.convocatoria }}</p>
+      </div>
+
+      <div class="evaluacion">
+        <h1 class="letra_titulos">Sinodales asignados</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo Electrónico</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sinodal in sinodales %}
+              <tr>
+                <td>{{ sinodal.sinodal.nombre }}</td>
+                <td>{{ sinodal.sinodal.correo_electronico }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+ </div>
+</div>
+
+{% endblock %}

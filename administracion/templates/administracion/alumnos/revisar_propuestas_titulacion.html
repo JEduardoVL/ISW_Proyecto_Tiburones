@@ -110,6 +110,7 @@
               <td>{{ propuesta.correo_electronico }}</td>
               <td>{{ propuesta.nombre_directores }}</td>
               <td>{{ propuesta.convocatoria }}</td>
+              <td><a href="{% url 'administracion:ver_detalles' pk=propuesta.pk %}">Ver</a></td>
             </tr>
           {% endfor %}
         </tbody>
