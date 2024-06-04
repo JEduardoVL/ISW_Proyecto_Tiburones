@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings 
 from django.contrib.auth import get_user_model
+from administracion.models import RevisarPropuesta
 
     
 # Proceso de titulacion
@@ -20,8 +21,8 @@ class ProcesoTitulacion(models.Model):
 
 class DocumentoPropuestaAlumno(models.Model):
     titulo = models.CharField(max_length=255)
-    nombre_estudiante = models.CharField(max_length=100)  # Se llenará automáticamente
-    correo_electronico = models.EmailField()  # Se llenará automáticamente
+    nombre_estudiante = models.CharField(max_length=100)
+    correo_electronico = models.EmailField()
     nombre_directores = models.CharField(max_length=255)
     resumen = models.TextField()
     objetivos = models.TextField()
@@ -39,6 +40,10 @@ class DocumentoPropuestaAlumno(models.Model):
             self.nombre_estudiante = self.alumno.nombre
             self.correo_electronico = self.alumno.correo_electronico
         super().save(*args, **kwargs)
+
+        # Crear la instancia de RevisarPropuesta si no existe
+        if not hasattr(self, 'revisarpropuesta'):
+            RevisarPropuesta.objects.create(documento_alumno=self)
 
     def __str__(self):
         return self.titulo
