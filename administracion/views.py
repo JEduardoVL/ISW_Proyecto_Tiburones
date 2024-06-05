@@ -443,9 +443,27 @@ class AdministracionDocumentosIndividualAlumnos(TemplateView):
             revisar = form.save(commit=False)
             revisar.revisado = True
             revisar.save()
+
+            # Enviar correo electrónico al alumno
+            correo_alumno = propuesta.alumno.correo_electronico
+            asunto = "Propuesta revisada"
+            mensaje = render_to_string('correo_propuesta_revisada.html', {
+                'nombre_alumno': propuesta.alumno.nombre,
+                'apellido_alumno': propuesta.alumno.apellido,
+            })
+            send_mail(
+                asunto,
+                mensaje,
+                settings.EMAIL_HOST_USER,
+                [correo_alumno],
+                fail_silently=False,
+                html_message=mensaje
+            )
+
             return redirect('administracion:revisar_propuestas_titulacion')
         return self.render_to_response({'propuesta': propuesta, 'form': form})
-    
+
+''' 
 class AdministracionAsignarSinodalesAlumnos(TemplateView):
     template_name = 'administracion/alumnos/asignar_sinodales.html'
 
@@ -470,7 +488,71 @@ class AdministracionAsignarSinodalesAlumnos(TemplateView):
             proceso.save()
             return redirect('administracion:revisar_propuestas_titulacion')
         return self.render_to_response({'propuesta': propuesta, 'form': form})
-    
+'''    
+class AdministracionAsignarSinodalesAlumnos(TemplateView):
+    template_name = 'administracion/alumnos/asignar_sinodales.html'
+
+    def get(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        revisar_propuesta, created = RevisarPropuesta.objects.get_or_create(documento_alumno=propuesta)
+        form = AsignarSinodalesForm()
+        return self.render_to_response({'propuesta': propuesta, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
+        proceso = get_object_or_404(ProcesoTitulacion, user=propuesta.alumno)
+        form = AsignarSinodalesForm(request.POST)
+        if form.is_valid():
+            sinodal_1 = form.cleaned_data['sinodal_1']
+            sinodal_2 = form.cleaned_data['sinodal_2']
+            sinodal_3 = form.cleaned_data['sinodal_3']
+            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=sinodal_1, rol='Sinodal 1')
+            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=sinodal_2, rol='Sinodal 2')
+            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=sinodal_3, rol='Sinodal 3')
+            propuesta.sinodales = True
+            proceso.desarrollo_proyecto = 1
+            propuesta.save()
+            proceso.save()
+
+            # Enviar correo al alumno
+            correo_alumno = propuesta.alumno.correo_electronico
+            asunto_alumno = "Sinodales asignados"
+            mensaje_alumno = render_to_string('correo_sinodales_asignados_alumno.html', {
+                'nombre_alumno': propuesta.alumno.nombre,
+                'apellido_alumno': propuesta.alumno.apellido,
+                'sinodal_1': sinodal_1,
+                'sinodal_2': sinodal_2,
+                'sinodal_3': sinodal_3
+            })
+            send_mail(
+                asunto_alumno,
+                mensaje_alumno,
+                settings.EMAIL_HOST_USER,
+                [correo_alumno],
+                fail_silently=False,
+                html_message=mensaje_alumno
+            )
+
+            # Enviar correo a los sinodales
+            for sinodal in [sinodal_1, sinodal_2, sinodal_3]:
+                correo_sinodal = sinodal.correo_electronico
+                asunto_sinodal = "Propuesta asignada"
+                mensaje_sinodal = render_to_string('correo_propuesta_asignada_sinodal.html', {
+                    'nombre_sinodal': sinodal.nombre,
+                    'propuesta': propuesta
+                })
+                send_mail(
+                    asunto_sinodal,
+                    mensaje_sinodal,
+                    settings.EMAIL_HOST_USER,
+                    [correo_sinodal],
+                    fail_silently=False,
+                    html_message=mensaje_sinodal
+                )
+
+            return redirect('administracion:revisar_propuestas_titulacion')
+        return self.render_to_response({'propuesta': propuesta, 'form': form})
+
 class AdministracionVerDetallesPropuestaACS(TemplateView):
     template_name = 'administracion/alumnos/ver_detalles.html'
 

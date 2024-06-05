@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Asignada</title>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+        <h2 style="color: #333;">Propuesta Asignada</h2>
+        <p>Hola {{ nombre_sinodal }},</p>
+        <p>Haz sido asignado a la siguiente propuesta:</p>
+        <p><strong>Título:</strong> {{ propuesta.titulo }}</p>
+        <p><strong>Alumno:</strong> {{ propuesta.alumno.nombre }} {{ propuesta.alumno.apellido }}</p>
+        <p>Por favor, revisa los detalles en el sistema.</p>
+        <p>Saludos cordiales,</p>
+        <p>Repositorio Aeneta</p>
+    </div>
+</body>
+</html>

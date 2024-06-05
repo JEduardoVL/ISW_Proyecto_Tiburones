@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinodales Asignados</title>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+        <h2 style="color: #333;">Sinodales Asignados</h2>
+        <p>Estimado/a {{ nombre_alumno }} {{ apellido_alumno }},</p>
+        <p>Nos complace informarte que los sinodales asignados a tu propuesta son:</p>
+        <ul>
+            <li>{{ sinodal_1.nombre }} {{ sinodal_1.apellido }}</li>
+            <li>{{ sinodal_2.nombre }} {{ sinodal_2.apellido }}</li>
+            <li>{{ sinodal_3.nombre }} {{ sinodal_3.apellido }}</li>
+        </ul>
+        <p>Saludos cordiales,</p>
+        <p>Repositorio Aeneta</p>
+    </div>
+</body>
+</html>

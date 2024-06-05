@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Envío de Propuesta</title>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+        <h2 style="color: #333;">Confirmación de Envío de Propuesta</h2>
+        <p>Estimado/a {{ nombre_alumno }} {{ apellido_alumno }},</p>
+        <p>Nos complace informarte que hemos recibido tu propuesta de titulación.</p>
+        <p>Detalles de tu propuesta:</p>
+        <ul>
+            <li><strong>Título:</strong> {{ documento.titulo }}</li>
+            <li><strong>Estado:</strong> Enviado</li>
+        </ul>
+        <p>Nos pondremos en contacto contigo en cuanto tengamos más información sobre la revisión de tu propuesta.</p>
+        <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
+        <p>Saludos cordiales,</p>
+        <p>Repositorio Aeneta</p>
+    </div>
+</body>
+</html>

@@ -1,6 +1,43 @@
 {% extends "base_generic_alumnos.html" %}
 
 {% block content %}
+<style>
+  #formulario-propuesta {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#formulario-propuesta label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#formulario-propuesta input,
+#formulario-propuesta textarea,
+#formulario-propuesta select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#formulario-propuesta button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#formulario-propuesta button:hover {
+  background-color: #0056b3;
+}
+</style>
 <div id="fondo">
   <div class="contenedor_principal letra_texto">
     <h1 class="letra_titulos">Toda la Información Necesaria para Enviar la Propuesta</h1>
@@ -72,7 +109,7 @@
             </table>
             <p><strong>Comentarios:</strong> {{ revisar_propuesta.comentarios }}</p>
             <button id="editar-btn" class="dropbtn_base">Editar Propuesta</button>
-            <form method="post" id="editar-form" style="display: none;">
+            <form method="post" id="editar-form" style="display: none;" id="formulario-propuesta">
               {% csrf_token %}
               {{ form.as_p }}
               <button type="submit" class="dropbtn_base">Enviar Propuesta</button>
@@ -84,14 +121,14 @@
           <p>Propuesta enviada esperando verificación.</p>
         {% endif %}
       {% else %}
-        <form method="post">
+        <form method="post" id="formulario-propuesta">
           {% csrf_token %}
           {{ form.as_p }}
           <button type="submit" class="dropbtn_base">Enviar Propuesta</button>
         </form>
       {% endif %}
     {% else %}
-      <form method="post">
+      <form method="post" id="formulario-propuesta">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="dropbtn_base">Enviar Propuesta</button>

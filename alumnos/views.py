@@ -19,6 +19,9 @@ from .models import ProcesoTitulacion, DocumentoPropuestaAlumno, SinodalAsignado
 from .forms import DocumentoPropuestaAlumnoForm
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
@@ -157,7 +160,26 @@ class AlumnosProcesoTitulacionEnvPropuesta(TemplateView):
             documento.alumno = request.user
             documento.enviado = True  # Actualizamos el campo 'enviado' a True
             documento.save()
+
+            # Enviar correo electrónico de confirmación
+            correo_alumno = request.user.correo_electronico
+            asunto = "Confirmación de envío de propuesta"
+            mensaje = render_to_string('confirmacion_env_propuesta.html', {
+                'nombre_alumno': request.user.nombre,
+                'apellido_alumno': request.user.apellido,
+                'documento': documento,
+            })
+            send_mail(
+                asunto,
+                mensaje,
+                settings.EMAIL_HOST_USER,
+                [correo_alumno],
+                fail_silently=False,
+                html_message=mensaje
+            )
+
             return redirect('alumnos:estatus_titulacion')
+        
         revisar_propuesta = RevisarPropuesta.objects.filter(documento_alumno=documento).first() if documento else None
         sinodales = SinodalAsignado.objects.filter(propuesta=documento) if documento and documento.sinodales else []
         return self.render_to_response({
@@ -166,7 +188,7 @@ class AlumnosProcesoTitulacionEnvPropuesta(TemplateView):
             'revisar_propuesta': revisar_propuesta,
             'sinodales': sinodales
         })
-
+    
 def documento_detalle(request, pk):
     documento = get_object_or_404(DocumentoPropuestaAlumno, pk=pk)
     return HttpResponse(f"Documento {documento.titulo} enviado con éxito.")
