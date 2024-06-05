@@ -462,33 +462,7 @@ class AdministracionDocumentosIndividualAlumnos(TemplateView):
 
             return redirect('administracion:revisar_propuestas_titulacion')
         return self.render_to_response({'propuesta': propuesta, 'form': form})
-
-''' 
-class AdministracionAsignarSinodalesAlumnos(TemplateView):
-    template_name = 'administracion/alumnos/asignar_sinodales.html'
-
-    def get(self, request, *args, **kwargs):
-        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
-        revisar_propuesta, created = RevisarPropuesta.objects.get_or_create(documento_alumno=propuesta)
-        form = AsignarSinodalesForm()
-        return self.render_to_response({'propuesta': propuesta, 'form': form})
-
-    def post(self, request, *args, **kwargs):
-        propuesta = get_object_or_404(DocumentoPropuestaAlumno, pk=kwargs['pk'])
-        # Obtener el proceso de titulación asociado al usuario de la propuesta
-        proceso = get_object_or_404(ProcesoTitulacion, user=propuesta.alumno)
-        form = AsignarSinodalesForm(request.POST)
-        if form.is_valid():
-            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=form.cleaned_data['sinodal_1'], rol='Sinodal 1')
-            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=form.cleaned_data['sinodal_2'], rol='Sinodal 2')
-            SinodalAsignado.objects.create(propuesta=propuesta, sinodal=form.cleaned_data['sinodal_3'], rol='Sinodal 3')
-            propuesta.sinodales = True
-            proceso.desarrollo_proyecto = 1
-            propuesta.save()
-            proceso.save()
-            return redirect('administracion:revisar_propuestas_titulacion')
-        return self.render_to_response({'propuesta': propuesta, 'form': form})
-'''    
+ 
 class AdministracionAsignarSinodalesAlumnos(TemplateView):
     template_name = 'administracion/alumnos/asignar_sinodales.html'
 
