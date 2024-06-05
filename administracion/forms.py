@@ -102,6 +102,31 @@ class RevisarPropuestaForm(forms.ModelForm):
         }
 
 class AsignarSinodalesForm(forms.Form):
-    sinodal_1 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(is_docente=True), label="Sinodal 1")
-    sinodal_2 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(is_docente=True), label="Sinodal 2")
-    sinodal_3 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(is_docente=True), label="Sinodal 3")
+    sinodal_1 = forms.ModelChoiceField(
+        queryset=CustomUser.objects.filter(is_docente=True),
+        label="Sinodal 1",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    sinodal_2 = forms.ModelChoiceField(
+        queryset=CustomUser.objects.filter(is_docente=True),
+        label="Sinodal 2",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    sinodal_3 = forms.ModelChoiceField(
+        queryset=CustomUser.objects.filter(is_docente=True),
+        label="Sinodal 3",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(AsignarSinodalesForm, self).__init__(*args, **kwargs)
+        self.fields['sinodal_1'].queryset = CustomUser.objects.filter(is_docente=True)
+        self.fields['sinodal_2'].queryset = CustomUser.objects.filter(is_docente=True)
+        self.fields['sinodal_3'].queryset = CustomUser.objects.filter(is_docente=True)
+
+        for field in self.fields.values():
+            field.label_from_instance = self.label_from_instance
+
+    @staticmethod
+    def label_from_instance(obj):
+        return f"{obj.nombre} {obj.apellido}"

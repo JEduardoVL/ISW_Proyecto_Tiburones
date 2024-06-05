@@ -520,9 +520,9 @@ class AdministracionAsignarSinodalesAlumnos(TemplateView):
             mensaje_alumno = render_to_string('correo_sinodales_asignados_alumno.html', {
                 'nombre_alumno': propuesta.alumno.nombre,
                 'apellido_alumno': propuesta.alumno.apellido,
-                'sinodal_1': sinodal_1,
-                'sinodal_2': sinodal_2,
-                'sinodal_3': sinodal_3
+                'sinodal_1': f'{sinodal_1.nombre} {sinodal_1.apellido}',
+                'sinodal_2': f'{sinodal_2.nombre} {sinodal_2.apellido}',
+                'sinodal_3': f'{sinodal_3.nombre} {sinodal_3.apellido}'
             })
             send_mail(
                 asunto_alumno,
@@ -538,20 +538,21 @@ class AdministracionAsignarSinodalesAlumnos(TemplateView):
                 correo_sinodal = sinodal.correo_electronico
                 asunto_sinodal = "Propuesta asignada"
                 mensaje_sinodal = render_to_string('correo_propuesta_asignada_sinodal.html', {
-                    'nombre_sinodal': sinodal.nombre,
+                    'nombre_sinodal': f'{sinodal.nombre} {sinodal.apellido}',
                     'propuesta': propuesta
                 })
                 send_mail(
                     asunto_sinodal,
                     mensaje_sinodal,
                     settings.EMAIL_HOST_USER,
-                    [correo_sinodal],
+                    [correo_sinodal], 
                     fail_silently=False,
                     html_message=mensaje_sinodal
                 )
 
             return redirect('administracion:revisar_propuestas_titulacion')
         return self.render_to_response({'propuesta': propuesta, 'form': form})
+
 
 class AdministracionVerDetallesPropuestaACS(TemplateView):
     template_name = 'administracion/alumnos/ver_detalles.html'
