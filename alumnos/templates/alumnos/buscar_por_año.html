@@ -1,0 +1,79 @@
+{% extends "base_generic_alumnos.html" %}
+
+{% block content %}
+<style>
+  .btn {
+    padding: 10px;
+    text-align: center;
+    background-color: #6b1640;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.transparent-form {
+  background: transparent;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.transparent-form label,
+.transparent-form input,
+.transparent-form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.transparent-form .btn {
+  width: 100px;
+  margin: 0 auto;
+  display: block;
+}
+
+.transparent-form input {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.transparent-form .btn {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+</style>
+<div id="fondo">
+    <div class="contenedor_principal letra_texto">
+      <a href="{% url 'alumnos:buscar' %}" class="letra_titulos">Regresar</a>
+        <h1>Buscar por Año</h1>
+        <form method="get" action="{% url 'alumnos:buscar_por_año' %}" class="transparent-form">
+          <label for="inputAño">Seleccione un año:</label>
+          <input type="date" id="inputAño" name="año" placeholder="YYYY">
+          <button type="submit" class="btn">Buscar</button>
+        </form>
+        
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Nombre Autor</th>
+              <th>Fecha</th>
+              <th>Ver información</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for trabajo in trabajos %}
+            <tr>
+              <td>{{ trabajo.nombre }}</td>
+              <td>{{ trabajo.nombre_autor }}</td>
+              <td>{{ trabajo.fecha_elaboracion }}</td>
+              <td><a href="{% url 'alumnos:ver_trabajo' trabajo.id %}"><i class="gg-arrow-top-right-o"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+</div>
+{% endblock %}

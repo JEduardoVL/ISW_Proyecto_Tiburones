@@ -1,69 +1,64 @@
 {% extends "base_generic_alumnos.html" %}
 
 {% block content %}
+<style>
+  /* Ocultar la tabla al inicio */
+.tabla-oculta {
+    display: none;
+}
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+/* Estilos básicos para los botones de opciones de búsqueda */
+.Opciones_de_busqueda {
+    display: flex;
+    justify-content: center; /* Alinear los botones al centro */
+    gap: 30px; /* Espaciado entre los botones */
+    margin-top: 20px;
+}
 
+.Opciones_de_busqueda .btn {
+    display: flex; /* Para centrar el contenido del botón */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    width: 200px;
+    padding: 10px;
+    text-align: center;
+    background-color: #6b1640;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.Opciones_de_busqueda .btn:hover {
+    background-color: white;
+    color: #6b1640;
+    border: none;
+}
+
+/* Transformar a mayúsculas */
+.uppercase {
+    text-transform: uppercase;
+}
+
+table {
+    margin-top: 50px;
+}
+
+</style>
 <div id="fondo">
   <div class="contenedor_principal letra_texto">
-    <div class="body_busqueda">
-      <div class="titulo">
-        <h1 id="title">Busqueda de Trabajos terminales</h1>
-        <p id="description"> Llene las casillas para poder realizar la busqueda </p>
-      </div>
-      <div class="Barra_de_busqueda">
-        <input type="text" id="LaBarrita" placeholder="Palabras Clave">
-        <div class="busc4r">
-          <i class="fa fa-search"></i>
-        </div>
-      </div>
-      <div class="Inicial">
-        <div class="BA">
-        <p id="BusAva"> Busqueda Avanzada </p>
-        </div>
-        <div class="formulario">
-          <form id="survey-form">
-            <!-- Tus campos de formulario aquí -->
-            <label for="inputNombre" id="pof-label">Palabra o frase</label>
-            <input type="text" name="PalabraFrase" placeholder="Ingrese la palabra o frase a bucar" id="palabra_b">
-            <label for="inputMail" id="autor-label">Nombre del autor</label>
-            <input type="text" name="AuT0r" placeholder="Ingrese el nombre del Autor" id="autor_b">
-            <label for="inputND" id="document-label">Nombre del documento</label>
-            <input type="text" name="Docu" placeholder="Ingrese el nombre del Documento" id="docu_b">
-            <label for="inputDocente" id="director-label">Nombre del Docente</label>
-            <input type="text" name="D0cente" placeholder="Ingrese el nombre del Docente" id="docente_b">
-            <label for="inputSinodal" id="sinodal-label">Sinodal</label>
-            <input type="text" name="Sin0" placeholder="Ingrese el nombre del sinodal" id="sinodal_b">
-            <label for="inputConv0" id="convo-label">trabajo</label>
-            <input type="text" name="Conv0" placeholder="Ingrese la conovocatoria" id="convo_b">
-            <label for="selectUno" class="etiqueta">Tipo</label>
-            <div class="seleccion">
-              <select id="dropdown" name="Tipoo">
-                <option value="" disabled selected>Seleccione una opción</option>
-                <option value="PI">Proyecto de investigacion</option>
-                <option value="Tesis">Tesis</option>
-                <option value="MEP">Memoria de experiencia profesional</option>
-                <option value="ECA">Examen de conocimiento por areas</option>
-                <option value="CDP">Creditos de posgrado</option>
-                <option value="Seminario">Seminario</option>
-                <option value="Escolaridad">Escolaridad</option>
-                <option value="Curricular">Curricular</option>
-                <option value="PP">Practica profesional</option>
-              </select>
-            </div>
-            <label for="inputEdad" id="año-label">Fecha de realizacion</label>
-            <input type="date" name="AñoR" placeholder="AA/MM/DD" id="year">
-            <br>
-            <button type="submit" name="button" id="submit">Buscar</button>
-          </form>
-        </div>
-      </div>
-      <br>
+    <h1 >Buscar trabajos.</h1>
+    <p class="letra_preguntas">Seleccione una opción para realizar la búsqueda:</p>
+  
+    <div class="Opciones_de_busqueda">
+      <a href="{% url 'alumnos:buscar_por_tipo' %}" class="btn btn-primary">Buscar por Tipo</a>
+      <a href="{% url 'alumnos:buscar_por_palabra' %}" class="btn btn-primary">Buscar por Palabra</a>
+      <a href="{% url 'alumnos:buscar_por_año' %}" class="btn btn-primary">Buscar por Año</a>
+      <a href="{% url 'alumnos:busqueda_avanzada' %}" class="btn btn-primary">Búsqueda Avanzada</a>
+      <button onclick="mostrarTodo()" class="btn btn-primary">Ver Todo</button>
     </div>
-    <div>
-      <p class="letra_texto"> LETRA</p>
-
-
+  
+    <div id="tabla-resultados" class="tabla-oculta">
       <table>
         <thead>
           <tr>
@@ -73,10 +68,10 @@
             <th>Ver información</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="resultadosBusqueda">
           {% for trabajo in trabajos %}
           <tr>
-            <td>{{ trabajo.nombre }}</td>
+            <td class="uppercase">{{ trabajo.nombre }}</td>
             <td>{{ trabajo.nombre_autor }}</td>
             <td>{{ trabajo.fecha_elaboracion }}</td>
             <td><a href="{% url 'alumnos:ver_trabajo' trabajo.id %}"><i class="gg-arrow-top-right-o"></i></a></td>
@@ -87,8 +82,20 @@
     </div>
   </div>
 </div>
-  
+
+<script>
+  function mostrarTodo() {
+    window.location.href = "{% url 'alumnos:buscar' %}?ver_todo=1";
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const verTodo = urlParams.get('ver_todo');
+
+    if (verTodo === '1') {
+      document.getElementById('tabla-resultados').classList.remove('tabla-oculta');
+    }
+  });
+</script>
+
 {% endblock %}
-
-
-
