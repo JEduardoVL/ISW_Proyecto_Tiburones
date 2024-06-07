@@ -23,6 +23,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+import spacy
 
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
@@ -113,6 +114,34 @@ class BusquedaAvanzada(AlumnoRequiredMixin, TemplateView):
         context['trabajos'] = Documento.objects.filter(query)
         return context
 
+# Cargar el modelo de spaCy
+pln = spacy.load('es_core_news_sm')
+
+def procesar_texto(texto):
+    doc = pln(texto)
+    noun_chunks = [chunk.text for chunk in doc.noun_chunks]
+    return noun_chunks
+
+class BuscarLenguajeNatural(AlumnoRequiredMixin, TemplateView):
+    template_name = 'alumnos/busqueda_lenguaje_natural.html'
+
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q')
+        trabajos = []
+        if query:
+            # Procesar el texto de búsqueda
+            noun_chunks = procesar_texto(query)
+            print(f"Noun chunks: {noun_chunks}")
+            # Buscar en los documentos
+            documentos = Documento.objects.all()
+            for doc in documentos:
+                for chunk in noun_chunks:
+                    if chunk in doc.palabras_clave:
+                        trabajos.append(doc)
+                        break
+            print(f"Documentos encontrados: {trabajos}")
+        return render(request, self.template_name, {'trabajos': trabajos})
+    
 class AlumnosBuscar(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/buscar.html'
 

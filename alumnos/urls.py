@@ -25,7 +25,8 @@ from .views import (
     BuscarPorAño,
     BuscarPorPalabra,
     BuscarPorTipo,
-    BusquedaAvanzada
+    BusquedaAvanzada,
+    BuscarLenguajeNatural
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -61,5 +62,6 @@ urlpatterns = [
     path('buscar_por_palabra/', BuscarPorPalabra.as_view(), name='buscar_por_palabra'),
     path('buscar_por_año/', BuscarPorAño.as_view(), name='buscar_por_año'),
     path('busqueda_avanzada/', BusquedaAvanzada.as_view(), name='busqueda_avanzada'),
+    path('buscar-lenguaje-natural/', BuscarLenguajeNatural.as_view(), name='buscar_lenguaje_natural'),
 ]
 

@@ -1,18 +1,16 @@
 {% extends "base_generic_alumnos.html" %}
-
+{% load static %}
 {% block content %}
 <div id="fondo">
-  <div class="contenedor_principal">
-    <h1>Bienvenido a la página de Alumnos :D</h1>
-    <p>Datos del alumno:</p>
-    <p>Nombre:{{ nombre_alumno }}</p>
-    <p>Apelldio:{{ apellido_alumno }}</p>
-    <p>Boleta:{{ boleta_alumno }}</p>
-    <p>Programa academido:{{ programa_academico }}</p>
-    <p>Estatus (Activo/Egresado):{{ estatus_alumno }}</p>
-    <p>Correo:{{ correo_alumno }}</p>
-    <hr>
-    <p>Todo lo visible para un alumno.</p>
+  <div class="contenedor_principal letra_texto">
+    <div style="text-align: center;">
+      <h1>Bienvenido al Repositorio de Trabajos Académicos - Alumnos</h1>
+      <h2 class="letra_titulos">Accede, busca y comparte conocimiento</h2>
+    </div>  
+    <div>
+      <h2>Bienvenido {{ nombre_alumno }} {{ apellido_alumno }}, accede a la búsqueda todos los trabajos registrados en el repositorio </p>
+    <a href="{% url 'alumnos:buscar' %}">Buscar trabajos.</a>
+    </div>
   </div>
 </div>
 {% endblock %}

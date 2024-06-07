@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/busqueda_simple.css' %}">
      <!-- Importación del script JavaScript -->
      <script src="{% static 'scripts/formulario_busqueda_avanzada.js' %}"></script>
+     <link rel="stylesheet" href='https://unpkg.com/css.gg@2.0.0/icons/css/arrow-top-right-o.css'>
 
     <!--Icono de busqueda, es mejor ponerlos asi para que no sea tan pesado el proyecto-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -22,20 +23,10 @@
         <a href="{% url 'visitante:home' %}">
             <span>Repositorio Aeneta</span>
         </a>
-        <form action="{% url 'visitante:buscar' %}"method="get" class="search-form">
-            <div class="search" >
-                <input type="text" name="busqueda" placeholder="Buscar..." />
-                <button onclick="showTable()" class="search-button_n">
-                    <i class="fas fa-search"></i>
-                  </button>
-            </div>
-        </form>
-
         <a id="iniciar" href="{% url 'usuarios:login' %}">Iniciar sesión</a>
       </div>
       <nav class="nav_bar" aria-label="Navegación principal">
         <a class="nav-link" href="{% url 'visitante:buscar' %}">Realizar búsqueda</a>
-        <a class="nav-link" href="{% url 'visitante:como_buscar' %}" >¿Cómo buscar?</a>
         <a class="nav-link" href="{% url 'visitante:preguntas_frecuentes' %}" >Preguntas frecuentes</a>
         <a class="nav-link" href="{% url 'visitante:contactanos' %}" >Contáctanos</a>
       </nav>
