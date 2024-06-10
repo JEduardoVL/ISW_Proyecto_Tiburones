@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="{%  static 'styles/barra_busqueda_docente.css' %}">
     <link rel="stylesheet" type="text/css" href="{%  static 'styles/informacion_docente.css' %}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href='https://unpkg.com/css.gg@2.0.0/icons/css/arrow-top-right-o.css'>
     <script src="{% static 'scrips/Busqueda_avanzada.js' %}"></script>
     <!-- Para las alertas de SweetAlert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -25,14 +27,6 @@
         <a href="{% url 'docente:home' %}">
             <span>Aeneta - Docentes</span>
         </a>
-         <form action="{% url 'docente:buscar' %}"method="get" class="search-form">
-            <div class="search" >
-                <input type="text" name="busqueda" placeholder="Buscar..." />
-                <button onclick="showTable()" class="search-button_n">
-                    <i class="fas fa-search"></i>
-                  </button>
-            </div>
-        </form>
         <div class="docente-info">
             {% if nombre_docente %}
                 <!-- Menú desplegable para el administrador -->

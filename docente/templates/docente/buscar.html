@@ -1,120 +1,103 @@
 {% extends "base_generic_docente.html" %}
 {%  load static %}
+
 {% block content %}
+<style>
+  /* Ocultar la tabla al inicio */
+.tabla-oculta {
+    display: none;
+}
 
-  <div id="fondo">
-    <div class="contenedor_principal_busqueda letra_texto">
-      <p class="letra_titulos">Realiza una busqueda</p>
-      <p class="letra_texto descripcion"> Ingresa en el cuadro de busqueda alguna frase o palabra clave</p>
-      <!-- Barra de busqueda por si aun no buscas nada -->
-      <div class="search-bar-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Buscar...">
-        <button onclick="showTable()" class="search-button_b ">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
+/* Estilos básicos para los botones de opciones de búsqueda */
+.Opciones_de_busqueda {
+    display: flex;
+    justify-content: center; /* Alinear los botones al centro */
+    gap: 30px; /* Espaciado entre los botones */
+    margin-top: 20px;
+}
 
-    <!-- Resultados de busqueda al precionar el boton-->
-    <div class="contenedor_tabla">
-      <h1 class="letra_titulos">Resultados: </h1>
-      <table>
-      <tr class="letra_tabla_t">
-          <th>Titulo: //Titulo Caminos de las personas que comen</th>
-          <th>Titulo: //Titulo Caminos de las personas que comen</th>
-          <th>Titulo: //Titulo Caminos de las personas que comen</th>
-          <th>Titulo: //Titulo Caminos de las personas que comen</th>
-          <th>Titulo: //Titulo Caminos de las personas que comen</th>
-          <th>Titulo: //Titulo Caminos de las personas que comen Caminos de las personas que comen Caminos de las personas que comen</th>
-      </tr>
-      <tr>
-          <td>
-            <a href=""><img src="{% static 'image/busqueda/pngtree-vector-documents-icon-png-image_3876677.jpg' %}" alt=""></a>
-          </td>
-          <td>
-            <a href=""><img src="{% static 'image/busqueda/depositphotos_62706797-stock-illustration-document-flat-circle-icon-with.jpg' %}"></a>
-          </td>
-          <td>
-            <a href=""><img src="{% static 'image/busqueda/istockphoto-1359932120-612x612.jpg' %}"></a>
-          </td>
-          <td>
-            <a href=""><img src="{% static 'image/busqueda/istockphoto-1359932120-612x612.jpg' %}"></a>
-          </td>
-          <td>
-            <a href=""><img src="{% static 'image/busqueda/pngtree-vector-documents-icon-png-image_3876677.jpg' %}"></a>
-          </td>
-          <td>
-            <a href=""><img src="{% static 'image/busqueda/depositphotos_62706797-stock-illustration-document-flat-circle-icon-with.jpg' %}"></a>
-          </td>
-      </tr>
-      <tr>
-          <td>Descripcion: Caminos de las personas que comen</td>
-          <td>Descripcion: Caminos de las personas que comen</td>
-          <td>Descripcion: Caminos de las personas que comen</td>
-          <td>Descripcion: Caminos de las personas que comen</td>
-          <td>Descripcion: Caminos de las personas que comen</td>
-          <td>Descripcion: Caminos de las personas que comen Caminos de las personas que comen</td>
-      </tr>
-  </table>
+.Opciones_de_busqueda .btn_d {
+    display: flex; /* Para centrar el contenido del botón */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    width: 200px;
+    padding: 10px;
+    text-align: center;
+    background-color: #3d0b60;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.Opciones_de_busqueda .btn_d:hover {
+    background-color: white;
+    color: #3d0b60;
+    border: none;
+}
+
+/* Transformar a mayúsculas */
+.uppercase {
+    text-transform: uppercase;
+}
+
+table {
+    margin-top: 50px;
+}
+
+</style>
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+    <h1 >Buscar trabajos.</h1>
+    <p class="letra_preguntas">Seleccione una opción para realizar la búsqueda:</p>
+  
+    <div class="Opciones_de_busqueda">
+      <a href="{% url 'docente:buscar_por_tipo_d' %}" class="btn_d btn-primary">Buscar por Tipo</a>
+      <a href="{% url 'docente:buscar_por_palabra_d' %}" class="btn_d btn-primary">Buscar por Palabra</a>
+      <a href="{% url 'docente:buscar_por_año_d' %}" class="btn_d btn-primary">Buscar por Año</a>
+      <a href="{% url 'docente:busqueda_avanzada_d' %}" class="btn_d btn-primary">Búsqueda Avanzada</a>
+      <a href="{% url 'docente:buscar_lenguaje_natural_d' %}" class="btn_d btn-primary">Lenguaje natural</a>
+      <button onclick="mostrarTodo()" class="btn_d btn-primary">Ver Todo</button>
     </div>
-
-
-<p class="search-2"> Busqueda avanzada</p>
-
-<div class="Avanzada">
-   <div id="Contenedor_formulario" class="flex-container">
-   <div class="contact-container">
-     <h2 id="Avanzada">Busqueda avanzada</h2>
-     <form action="{% url 'visitante:contact' %}" method="post">
-       {% csrf_token %}
-         {% if messages %}
-           {% for message in messages %}
-           <div class="alert alert-success" role="alert" style="border: 1px solid #c3e6cb; background-color: #d4edda;">
-             {{ message }}
-         </div>
-           {% endfor %}
-         {% endif %}
-         <div class="input-group">
-             <label for="titulo"></label><input type="text" id="titulo" name="title" placeholder="Titulo de la obra" required>
-       </div>
-       <div class="input-group">
-           <label for="autor"></label><input type="text" id="autor" name="autor" placeholder="Autor" required>
-       </div>
-       <div class="input-group">
-           <label for="tema"></label><input type="text" id="tema" name="tema" placeholder="Tema" required>
-       </div>
-       <div class="input-group">
-           <label class="text"> Fecha de publicacion:</label>
-           <label for="fecha"></label><input type="date" id="fecha" name="fecha_publicado" placeholder="Fecha de publicacion" required>
-       </div>
-         <div class="input-group" >
-             <form action="#">
-                 <label for="lang">Idioma</label>
-                     <select name="idioma" id="lang">
-                         <option value="Español">Español</option>
-                         <option value="Ingles">Ingles</option>
-                     </select>
-             </form>
-       </div>
-     <div class="input-group" >
-             <form action="#">
-                 <label for="lang">Region</label>
-                     <select name="region" id="lang">
-                         <option value="Mexico">Mexico</option>
-                         <option value="Canada">Canada</option>
-                     </select>
-             </form>
-       </div>
-     <div class="input-group">
-           <label class="text">Sinodal:</label>
-         <label for="sinodal"></label><input type="text" id="sinodal" name="sinodal" placeholder="Sinodales" required>
-       </div>
-
-       <button type="submit">Busqueda avanzada</button>
-     </form>
-   </div>
- </div>
-</div>
+  
+    <div id="tabla-resultados" class="tabla-oculta">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Nombre Autor</th>
+            <th>Fecha</th>
+            <th>Ver información</th>
+          </tr>
+        </thead>
+        <tbody id="resultadosBusqueda">
+          {% for trabajo in trabajos %}
+          <tr>
+            <td class="uppercase">{{ trabajo.nombre }}</td>
+            <td>{{ trabajo.nombre_autor }}</td>
+            <td>{{ trabajo.fecha_elaboracion }}</td>
+            <td><a href="{% url 'docente:ver_trabajo_d' trabajo.id %}"><i class="gg-arrow-top-right-o"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
-{% endblock %}
+</div>
 
+<script>
+  function mostrarTodo() {
+    window.location.href = "{% url 'docente:buscar' %}?ver_todo=1";
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const verTodo = urlParams.get('ver_todo');
+
+    if (verTodo === '1') {
+      document.getElementById('tabla-resultados').classList.remove('tabla-oculta');
+    }
+  });
+</script>
+
+{% endblock %}

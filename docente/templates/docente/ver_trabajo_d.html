@@ -1,0 +1,23 @@
+{% extends "base_generic_docente.html" %}
+{% block content %}
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+   <div>
+    <a href="{% url 'docente:buscar' %}" class="letra_titulos">Regresar</a>
+    <h1 class="letra_titulos">{{ documento.nombre }}</h1>
+    <p><strong>Resumen:</strong> {{ documento.resumen }}</p>
+    <p><strong>Palabras Clave:</strong> {{ documento.palabras_clave }}</p>
+    <p><strong>Nombre del Autor:</strong> {{ documento.nombre_autor }}</p>
+    <p><strong>Sinodales:</strong> {{ documento.sinodales }}</p>
+    <p><strong>Tipo:</strong> {{ documento.get_tipo_display }}</p>
+    <p><strong>Fecha de Elaboración:</strong> {{ documento.fecha_elaboracion }}</p>
+    <p><strong>Convocatoria de Titulación:</strong> {{ documento.convocatoria_titulacion }}</p>
+    {% if documento.url %}
+        {% with documento.url|cut:"https://drive.google.com/file/d/"|cut:"/view?usp=drivesdk" as file_id %}
+        <iframe src="https://drive.google.com/file/d/{{ file_id }}/preview" width="100%" height="600px"></iframe>
+        {% endwith %}
+    {% endif %}
+   </div>
+  </div>
+</div>
+{% endblock %}

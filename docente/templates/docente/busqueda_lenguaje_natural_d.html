@@ -1,0 +1,82 @@
+{% extends "base_generic_docente.html" %}
+{% block content %}
+<style>
+    .btn {
+      padding: 10px;
+      text-align: center;
+      background-color: #3d0b60;
+      color: white;
+      font-size: 1.2rem;
+  }
+  
+  .transparent-form {
+    background: transparent;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .transparent-form label,
+  .transparent-form input,
+  .transparent-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .transparent-form .btn {
+    width: 100px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .transparent-form input {
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  .transparent-form .btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  
+  </style>
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+    <a href="{% url 'docente:buscar' %}" class="letra_titulos">Regresar</a>
+    <h1>Procesamiento de Lenguaje Natural</h1>
+    <form method="GET" action="{% url 'docente:buscar_lenguaje_natural_d' %}"  class="transparent-form">
+      <input type="text" name="q" placeholder="Introduce texto">
+      <button type="submit" class="btn">Buscar</button>
+    </form>
+{% if trabajos %}
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Nombre Autor</th>
+        <th>Fecha</th>
+        <th>Ver información</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trabajo in trabajos %}
+      <tr>
+        <td>{{ trabajo.nombre }}</td>
+        <td>{{ trabajo.nombre_autor }}</td>
+        <td>{{ trabajo.fecha_elaboracion }}</td>
+        <td><a href="{% url 'docente:ver_trabajo_d' trabajo.id %}"><i class="gg-arrow-top-right-o"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No se encontraron resultados.</p>
+{% endif %}
+
+</div>
+</div>
+{% endblock %}
