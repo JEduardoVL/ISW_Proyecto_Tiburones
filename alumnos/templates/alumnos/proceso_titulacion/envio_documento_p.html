@@ -1,0 +1,91 @@
+{% extends "base_generic_alumnos.html" %}
+{% load static %}
+{% block content %}
+<style>
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form p {
+  text-align: left;
+}
+
+form button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div id="fondo">
+  <div class="contenedor_principal letra_texto">
+    {% if proceso_titulacion.enviar_trabajo == 1 %}
+      <p class="letra_titulos">Documento enviado. No es necesario enviar otro.</p>
+    {% elif proceso_titulacion.desarrollo_proyecto == 0 %}
+      <p class="letra_titulos">En espera de desarrollo del proyecto</p>
+    {% elif proceso_titulacion.desarrollo_proyecto == 1 %}
+      <p class="letra_titulos">Sube tu documento</p>
+      <form id="document-upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+            <label for="documento">Seleccionar documento</label>
+            <input type="file" name="documento" id="documento" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Subir</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+document.getElementById('document-upload-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var form = event.target;
+    var formData = new FormData(form);
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: data.message
+            }).then(() => {
+                window.location.href = "{{ success_url }}";  // Redirigir al URL de éxito
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message
+            });
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error inesperado.'
+        });
+    });
+});
+</script>
+{% endblock %}

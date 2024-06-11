@@ -36,7 +36,9 @@
             <li class="li_class {% if proceso.enviar_trabajo %}active{% endif %}" style="--accent-color:#4CADAD">
                 <div class="date">Enviar trabajo académico</div>
                 <div class="title">Último Paso</div>
-                <div class="descr">El estudiante debe mandar en tiempo y forma el trabajo de titulación finalizado por medio de la plataforma.</div>
+                <div class="descr">El estudiante debe mandar en tiempo y forma el trabajo de titulación finalizado por medio de la plataforma.
+                    <a href="{% url 'alumnos:envio_documento_p' %}">Enviar archivo.</a>
+                </div>
             </li>
         </ul>
     </div>

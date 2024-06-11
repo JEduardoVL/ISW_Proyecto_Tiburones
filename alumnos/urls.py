@@ -26,7 +26,8 @@ from .views import (
     BuscarPorPalabra,
     BuscarPorTipo,
     BusquedaAvanzada,
-    BuscarLenguajeNatural
+    BuscarLenguajeNatural,
+    AlumnosProcesoTitulacionEnvDoc
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.views import LogoutView
@@ -57,6 +58,7 @@ urlpatterns = [
     path('proceso_titulacion/enviar_propuesta/', AlumnosProcesoTitulacionEnvPropuesta.as_view(), name='enviar_propuesta'),
     path('documento/<int:pk>/', documento_detalle, name='documento_detalle'),
     path('proceso_titulacion/desarrollo/', AlumnosProcesoTitulacionDesarrollo.as_view(), name='desarrollo'),
+    path('proceso_titulacion/envio_documento_p',AlumnosProcesoTitulacionEnvDoc.as_view(), name='envio_documento_p'),
 
     path('buscar_por_tipo/', BuscarPorTipo.as_view(), name='buscar_por_tipo'),
     path('buscar_por_palabra/', BuscarPorPalabra.as_view(), name='buscar_por_palabra'),

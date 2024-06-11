@@ -14,7 +14,7 @@ from administracion.models import RevisarPropuesta
 from django.views import View
 from .subir_pre_alumno import upload_pdf
 from django.db.models import Q
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import ProcesoTitulacion, DocumentoPropuestaAlumno, SinodalAsignado
 from .forms import DocumentoPropuestaAlumnoForm
@@ -24,6 +24,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 import spacy
+from administracion.utils import upload_pdf_admin
+from administracion.forms import DocumentoForm
+from django.urls import reverse_lazy
 
 class AlumnosHomeView(AlumnoRequiredMixin, TemplateView):
     template_name = 'alumnos/home.html'
@@ -317,3 +320,48 @@ def documento_detalle(request, pk):
 
 class AlumnosProcesoTitulacionDesarrollo(TemplateView):
     template_name = 'alumnos/proceso_titulacion/desarrollo.html'
+
+class AlumnosProcesoTitulacionEnvDoc(FormView):
+    template_name = 'alumnos/proceso_titulacion/envio_documento_p.html'
+    form_class = DocumentoForm
+    success_url = reverse_lazy('alumnos:proceso_titulacion_env_doc')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['proceso_titulacion'] = ProcesoTitulacion.objects.get(user=user)
+        return context
+
+    def form_valid(self, form):
+        user = self.request.user
+        proceso_titulacion = ProcesoTitulacion.objects.get(user=user)
+        
+        if proceso_titulacion.enviar_trabajo == 1:
+            return JsonResponse({'success': False, 'message': 'Documento ya enviado. No es necesario enviar otro.'})
+
+        documento = self.request.FILES.get('documento')
+        tipo = form.cleaned_data.get('tipo')
+
+        folder_id = {
+            'TT': '1PqOYnnBDJu_Jn0u2AMStKJPv4ZXZKnVy',
+            'AR': '1UMp51OaLpqQKfhiBRIivF3pDTYZ5NIgk',
+            'TS': '1SU5erynjS4MDMguKeWik_fZKLD5Ld_oipX',
+            'OT': '1KJ1VLUd1dqCcS-zOUM_fZKLD5Ld_oipX'
+        }.get(tipo, '1SU5erynjS4MDMguKeWik_faHNzYM90CB')
+
+        if documento:
+            try:
+                file_url = upload_pdf_admin(documento, folder_id)
+                form.instance.url = file_url
+                form.save()
+
+                # Actualizar el estado del proceso de titulación
+                proceso_titulacion.enviar_trabajo = 1
+                proceso_titulacion.save()
+                
+                success_message = "Archivo subido correctamente."
+                return JsonResponse({'success': True, 'message': success_message})
+            except Exception as e:
+                return JsonResponse({'success': False, 'message': str(e)})
+
+        return JsonResponse({'success': False, 'message': "Ocurrió un error al subir el archivo."})
